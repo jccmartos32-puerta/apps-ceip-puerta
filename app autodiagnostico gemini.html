@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análisis de Indicadores de Autoevaluación - C.E.I.P. Puerta de Martos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5;
+        }
+        .tab-active {
+            border-color: #3B82F6;
+            color: #3B82F6;
+            font-weight: 600;
+            background-color: #EFF6FF;
+        }
+        .card {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        .icon-strength { color: #10B981; }
+        .icon-weakness { color: #EF4444; }
+        .trend-up { color: #10B981; }
+        .trend-down { color: #EF4444; }
+        .trend-stable { color: #F59E0B; }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="max-w-7xl mx-auto">
+        <!-- Encabezado -->
+        <header class="mb-8 text-center">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800">Análisis de Autoevaluación</h1>
+            <p class="text-lg text-gray-600 mt-2">C.E.I.P. Puerta de Martos - Curso 2024/2025</p>
+        </header>
+
+        <!-- Resumen General -->
+        <section class="mb-10">
+            <h2 class="text-2xl font-semibold text-gray-700 mb-4">Resumen General</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Card Tendencia -->
+                <div class="card p-6 flex flex-col items-center justify-center">
+                    <h3 class="text-lg font-semibold text-gray-600 mb-2">Tendencia General Positiva</h3>
+                    <div class="relative w-32 h-32">
+                        <canvas id="tendenciaChart"></canvas>
+                        <div id="tendenciaText" class="absolute inset-0 flex items-center justify-center text-3xl font-bold text-gray-700"></div>
+                    </div>
+                    <p class="text-sm text-gray-500 mt-3 text-center">Porcentaje de indicadores con mejora en los últimos 3 años.</p>
+                </div>
+                <!-- Card Relevancia -->
+                <div class="card p-6 flex flex-col items-center justify-center">
+                    <h3 class="text-lg font-semibold text-gray-600 mb-2">Relevancia Positiva</h3>
+                    <div class="relative w-32 h-32">
+                        <canvas id="relevanciaChart"></canvas>
+                        <div id="relevanciaText" class="absolute inset-0 flex items-center justify-center text-3xl font-bold text-gray-700"></div>
+                    </div>
+                    <p class="text-sm text-gray-500 mt-3 text-center">Porcentaje de indicadores que superan a centros con ISEC similar.</p>
+                </div>
+                <!-- Card Fortalezas -->
+                <div class="card p-6">
+                    <h3 class="text-lg font-semibold text-gray-600 mb-4 flex items-center">
+                        <svg class="w-6 h-6 mr-2 icon-strength" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+                        Fortalezas Clave
+                    </h3>
+                    <ul id="strengthsList" class="space-y-3 list-disc list-inside text-gray-700"></ul>
+                </div>
+                <!-- Card Debilidades -->
+                <div class="card p-6">
+                    <h3 class="text-lg font-semibold text-gray-600 mb-4 flex items-center">
+                        <svg class="w-6 h-6 mr-2 icon-weakness" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"></path></svg>
+                        Oportunidades de Mejora
+                    </h3>
+                    <ul id="weaknessesList" class="space-y-3 list-disc list-inside text-gray-700"></ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Análisis por Áreas -->
+        <section>
+            <h2 class="text-2xl font-semibold text-gray-700 mb-4">Análisis por Áreas</h2>
+            <!-- Pestañas -->
+            <div class="mb-6 border-b border-gray-200">
+                <nav class="flex -mb-px space-x-1" id="tabs">
+                    <!-- Las pestañas se generarán aquí -->
+                </nav>
+            </div>
+            <!-- Contenido de las Pestañas -->
+            <div id="tab-content">
+                <!-- El contenido se generará aquí -->
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        // --- DATOS EXTRAÍDOS DEL DOCUMENTO ---
+        // Estos datos se han extraído del PDF para alimentar la aplicación.
+        const schoolData = {
+            summary: {
+                positiveTrend: 60.00,
+                positiveRelevance: 76.19
+            },
+            areas: {
+                ensenanza: {
+                    name: 'Enseñanza-Aprendizaje',
+                    id: 'ensenanza',
+                    positiveTrend: 22.22,
+                    positiveRelevance: 66.67,
+                    indicators: [
+                        {
+                            name: '↑ Promoción del alumnado que inicia educación primaria',
+                            type: 'proactivo',
+                            trendIcon: 'trend-down',
+                            relevanceIcon: 'trend-down',
+                            centroData: [93.33, null, 66.67],
+                            comparisonData: { centro: 66.67, isec: 91.34, zona: 88.95, andalucia: 86.39 },
+                            analysis: 'Punto crítico de mejora. La tasa ha disminuido y está muy por debajo de los grupos de referencia. Es clave analizar causas y actuar.'
+                        },
+                        {
+                            name: '↑ Alumnado que finaliza primaria con evaluación positiva en todas las áreas',
+                            type: 'proactivo',
+                            trendIcon: 'trend-up',
+                            relevanceIcon: 'trend-up',
+                            centroData: [81.82, 100, 100],
+                            comparisonData: { centro: 93.94, isec: 84.70, zona: 79.83, andalucia: 77.58 },
+                            analysis: 'Fortaleza destacada. El centro supera las medias de referencia en la finalización de primaria, con una excelente tendencia ascendente.'
+                        },
+                        {
+                            name: '↑ Alumnado de 4º con dominio alto en competencia lingüística',
+                            type: 'proactivo',
+                            trendIcon: 'trend-up',
+                            relevanceIcon: 'trend-up',
+                            centroData: [null, 100, 100],
+                            comparisonData: { centro: 100, isec: 84.12, zona: 80.05, andalucia: 76.00 },
+                            analysis: 'Resultado excelente y fortaleza clara. El 100% del alumnado evaluado alcanza un dominio alto, superando ampliamente a todos los referentes.'
+                        }
+                    ]
+                },
+                diversidad: {
+                    name: 'Atención a la Diversidad',
+                    id: 'diversidad',
+                    positiveTrend: 80.00,
+                    positiveRelevance: 66.67,
+                    indicators: [
+                       {
+                            name: '↓ Absentismo escolar en la enseñanza básica',
+                            type: 'reactivo',
+                            trendIcon: 'trend-stable',
+                            relevanceIcon: 'trend-down',
+                            centroData: [2.13, 0, 1.09],
+                            comparisonData: { centro: 1.07, isec: 0.75, zona: 1.86, andalucia: 2.75 },
+                            analysis: 'El absentismo, aunque menor que la media de la zona y Andalucía, es superior a la de centros similares (ISEC). Requiere atención para alcanzar la excelencia (0%).'
+                        },
+                        {
+                            name: '↑ Idoneidad curso-edad en la enseñanza básica',
+                            type: 'proactivo',
+                            trendIcon: 'trend-up',
+                            relevanceIcon: 'trend-up',
+                            centroData: [94.42, 98.15, 98.15],
+                            comparisonData: { centro: 98.15, isec: 95.20, zona: 91.88, andalucia: 91.11 },
+                            analysis: 'Fortaleza muy positiva. El centro presenta una tasa de idoneidad curso-edad muy alta, superando a todos los referentes y con una tendencia estable en la excelencia.'
+                        },
+                         {
+                            name: '↓ Alumnado de 4º con dominio bajo en competencia matemática',
+                            type: 'reactivo',
+                            trendIcon: 'trend-up', // Bueno porque baja
+                            relevanceIcon: 'trend-up', // Bueno porque es mejor que la media
+                            centroData: [null, 0, 0],
+                            comparisonData: { centro: 0, isec: 1.46, zona: 2.77, andalucia: 2.49 },
+                            analysis: 'Resultado excelente. Ningún alumno presenta un dominio bajo en esta competencia, lo que nos sitúa muy por encima de las medias de referencia.'
+                        }
+                    ]
+                },
+                convivencia: {
+                    name: 'Clima y Convivencia',
+                    id: 'convivencia',
+                    positiveTrend: 100.00,
+                    positiveRelevance: 100.00,
+                    indicators: [
+                        {
+                            name: '↑ Cumplimiento de normas de convivencia',
+                            type: 'proactivo',
+                            trendIcon: 'trend-up',
+                            relevanceIcon: 'trend-up',
+                            centroData: [99.25, 100, 100],
+                            comparisonData: { centro: 99.75, isec: 98.64, zona: 97.24, andalucia: 97.56 },
+                            analysis: 'Fortaleza sobresaliente. El cumplimiento de normas es prácticamente total, superando todas las medias y mostrando una tendencia perfecta.'
+                        },
+                        {
+                            name: '↓ Conductas contrarias a la convivencia',
+                            type: 'reactivo',
+                            trendIcon: 'trend-up',
+                            relevanceIcon: 'trend-up',
+                            centroData: [0.75, 0, 0],
+                            comparisonData: { centro: 0.25, isec: 2.91, zona: 9.04, andalucia: 6.53 },
+                            analysis: 'Resultado extraordinario. La incidencia de conductas contrarias es mínima y muy inferior a todos los grupos de comparación. Tendencia a la erradicación total.'
+                        }
+                    ]
+                }
+            },
+            strengths: [
+                'Excelente clima de convivencia y cumplimiento de normas.',
+                'Alto porcentaje de alumnos que finalizan primaria con éxito.',
+                'Resultados sobresalientes en atención a la diversidad y competencias.'
+            ],
+            weaknesses: [
+                'Tasa de promoción al inicio de primaria muy por debajo de la media.',
+                'Tasa de absentismo superior a la de centros con ISEC similar.',
+                'El área de Enseñanza-Aprendizaje muestra una tendencia de mejora baja (22%).'
+            ]
+        };
+
+        // --- FUNCIONES DE RENDERIZADO ---
+
+        // Función para crear gráficos tipo "doughnut" o medidor
+        function createGaugeChart(ctx, value, color) {
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    datasets: [{
+                        data: [value, 100 - value],
+                        backgroundColor: [color, '#e5e7eb'],
+                        borderColor: ['#ffffff'],
+                        borderWidth: 2,
+                        circumference: 180,
+                        rotation: 270,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    cutout: '80%',
+                    plugins: { tooltip: { enabled: false } },
+                    events: []
+                }
+            });
+            document.getElementById(ctx.canvas.id.replace('Chart', 'Text')).textContent = `${value.toFixed(1)}%`;
+        }
+
+        // Función para renderizar el contenido de una pestaña
+        function renderTabContent(areaId) {
+            const area = schoolData.areas[areaId];
+            const contentEl = document.getElementById('tab-content');
+            
+            let indicatorsHTML = area.indicators.map((indicator, index) => `
+                <div class="card p-4 md:p-6 mb-6">
+                    <h4 class="text-md font-semibold text-gray-800 mb-4">${indicator.name}</h4>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center">
+                        <div>
+                            <h5 class="text-sm font-medium text-gray-500 mb-2 text-center">Comparativa con otros centros</h5>
+                            <canvas id="bar-${areaId}-${index}"></canvas>
+                        </div>
+                        <div>
+                            <h5 class="text-sm font-medium text-gray-500 mb-2 text-center">Evolución del centro (últimos 3 años)</h5>
+                            <canvas id="line-${areaId}-${index}"></canvas>
+                        </div>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-gray-200">
+                         <p class="text-sm text-gray-700 bg-gray-50 p-3 rounded-lg"><span class="font-bold">Análisis:</span> ${indicator.analysis}</p>
+                    </div>
+                </div>
+            `).join('');
+
+            contentEl.innerHTML = `
+                <div class="bg-blue-50 border-l-4 border-blue-500 text-blue-700 p-4 rounded-r-lg mb-6" role="alert">
+                    <p class="font-bold">${area.name}</p>
+                    <p>Tendencia positiva: <span class="font-semibold">${area.positiveTrend.toFixed(2)}%</span> | Relevancia positiva (vs ISEC): <span class="font-semibold">${area.positiveRelevance.toFixed(2)}%</span></p>
+                </div>
+                ${indicatorsHTML}
+            `;
+
+            // Renderizar los gráficos para los indicadores mostrados
+            area.indicators.forEach((indicator, index) => {
+                const barCtx = document.getElementById(`bar-${areaId}-${index}`).getContext('2d');
+                new Chart(barCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Nuestro Centro', 'ISEC Similar', 'Zona Educativa', 'Andalucía'],
+                        datasets: [{
+                            label: 'Valor del Indicador',
+                            data: Object.values(indicator.comparisonData),
+                            backgroundColor: ['#3B82F6', '#60A5FA', '#93C5FD', '#BFDBFE'],
+                            borderRadius: 4,
+                        }]
+                    },
+                    options: { indexAxis: 'y', plugins: { legend: { display: false } } }
+                });
+
+                const lineCtx = document.getElementById(`line-${areaId}-${index}`).getContext('2d');
+                new Chart(lineCtx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Curso 22/23', 'Curso 23/24', 'Curso 24/25'],
+                        datasets: [{
+                            label: 'Evolución',
+                            data: indicator.centroData,
+                            borderColor: '#3B82F6',
+                            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                            fill: true,
+                            tension: 0.3,
+                            spanGaps: true
+                        }]
+                    },
+                    options: { plugins: { legend: { display: false } } }
+                });
+            });
+        }
+
+        // --- INICIALIZACIÓN DE LA APLICACIÓN ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Renderizar medidores de resumen
+            createGaugeChart(document.getElementById('tendenciaChart').getContext('2d'), schoolData.summary.positiveTrend, '#34D399');
+            createGaugeChart(document.getElementById('relevanciaChart').getContext('2d'), schoolData.summary.positiveRelevance, '#60A5FA');
+
+            // Renderizar listas de fortalezas y debilidades
+            const strengthsList = document.getElementById('strengthsList');
+            schoolData.strengths.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = item;
+                strengthsList.appendChild(li);
+            });
+
+            const weaknessesList = document.getElementById('weaknessesList');
+            schoolData.weaknesses.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = item;
+                weaknessesList.appendChild(li);
+            });
+
+            // Renderizar pestañas y activar la primera
+            const tabsContainer = document.getElementById('tabs');
+            Object.values(schoolData.areas).forEach((area, index) => {
+                const tab = document.createElement('a');
+                tab.href = '#';
+                tab.dataset.tab = area.id;
+                tab.className = `px-4 py-2 text-sm font-medium text-gray-500 border-b-2 border-transparent hover:border-gray-300 hover:text-gray-700 ${index === 0 ? 'tab-active' : ''}`;
+                tab.textContent = area.name;
+                tabsContainer.appendChild(tab);
+            });
+
+            // Manejar clics en las pestañas
+            tabsContainer.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (e.target.tagName === 'A') {
+                    document.querySelectorAll('#tabs a').forEach(tab => tab.classList.remove('tab-active'));
+                    e.target.classList.add('tab-active');
+                    renderTabContent(e.target.dataset.tab);
+                }
+            });
+
+            // Cargar contenido de la primera pestaña por defecto
+            renderTabContent(Object.keys(schoolData.areas)[0]);
+        });
+    </script>
+</body>
+</html>
