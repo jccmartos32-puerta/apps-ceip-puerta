@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infografía de Resultados - Evaluación Diagnóstica 4º Primaria</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 400px;
+        }
+        @media (max-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        @media (max-width: 640px) {
+            .chart-container {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <main class="container mx-auto p-4 sm:p-6 md:p-8">
+
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-black text-slate-900">Resultados de la Evaluación Diagnóstica</h1>
+            <p class="text-xl md:text-2xl font-semibold text-[#006494] mt-2">4º de Primaria | C.E.I.P. Puerta de Martos</p>
+            <p class="text-md text-slate-500">Curso 2024/2025 | Torredonjimeno (Jaén)</p>
+        </header>
+
+        <section id="overview" class="mb-16">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                <div class="bg-white p-6 rounded-xl shadow-lg border-t-4 border-[#00A6FB]">
+                    <h3 class="text-2xl font-bold text-slate-900 mb-2">Lengua Castellana</h3>
+                    <p class="text-lg font-semibold text-[#00A6FB]">Rendimiento Sobresaliente</p>
+                    <p class="mt-2 text-slate-600">Dominio excepcional en la mayoría de competencias, rozando la excelencia en comprensión lectora y uso ético del lenguaje.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg border-t-4 border-[#F26419]">
+                    <h3 class="text-2xl font-bold text-slate-900 mb-2">Matemáticas</h3>
+                    <p class="text-lg font-semibold text-[#F26419]">Fortalezas y Desafíos</p>
+                    <p class="mt-2 text-slate-600">Resultados heterogéneos con áreas de gran capacidad y otras que requieren un refuerzo específico y focalizado.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg border-t-4 border-[#F9A03F]">
+                    <h3 class="text-2xl font-bold text-slate-900 mb-2">Lengua Extranjera</h3>
+                    <p class="text-lg font-semibold text-[#F9A03F]">Progreso Sólido</p>
+                    <p class="mt-2 text-slate-600">Nivel bueno y consistente en todas las competencias evaluadas, destacando una sólida capacidad de producción escrita.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="lengua" class="mb-16">
+            <div class="bg-white rounded-xl shadow-lg p-6 md:p-8">
+                <h2 class="text-3xl font-bold text-slate-900 mb-2">Lengua Castellana y Literatura: Un Dominio Excepcional</h2>
+                <p class="text-slate-600 mb-8 max-w-4xl">El alumnado demuestra un nivel muy avanzado en Lengua, con puntuaciones medias muy altas. La capacidad para usar el lenguaje de forma ética y respetuosa es un punto a destacar, alcanzando la puntuación máxima.</p>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-5 gap-8 items-center">
+                    <div class="lg:col-span-3">
+                        <h3 class="text-xl font-bold text-center mb-4">Puntuación Media por Competencia</h3>
+                        <div class="chart-container h-[450px]">
+                            <canvas id="lenguaScoresChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="lg:col-span-2 text-center bg-slate-100 p-6 rounded-lg">
+                        <h3 class="text-2xl font-bold text-[#00A6FB]">¡Resultado Perfecto!</h3>
+                        <p class="text-8xl font-black text-slate-900 my-4">10.0</p>
+                        <p class="font-semibold text-lg">en "Uso ético y no discriminatorio del lenguaje" (CE 10).</p>
+                        <p class="mt-2 text-slate-600">El 100% del alumnado se encuentra en el Nivel Alto, un logro extraordinario que refleja un profundo entendimiento de la comunicación para la convivencia.</p>
+                    </div>
+                </div>
+
+                <div class="mt-12">
+                     <h3 class="text-xl font-bold text-center mb-4">Distribución de Niveles de Rendimiento en Lengua</h3>
+                     <p class="text-center text-slate-600 mb-6 max-w-3xl mx-auto">La gran mayoría del alumnado se sitúa en el "Nivel Alto" (verde), lo que confirma el excelente desempeño general. La producción escrita (CE 5) es el área con mayor margen de crecimiento.</p>
+                     <div class="chart-container h-[500px]">
+                        <canvas id="lenguaLevelsChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="matematicas" class="mb-16">
+            <div class="bg-white rounded-xl shadow-lg p-6 md:p-8">
+                <h2 class="text-3xl font-bold text-slate-900 mb-2">Matemáticas: Fortalezas y Desafíos</h2>
+                <p class="text-slate-600 mb-8 max-w-4xl">En matemáticas, el alumnado muestra una buena capacidad para conectar conceptos, pero se identifican áreas clave de mejora como la resolución de problemas y, especialmente, el pensamiento computacional.</p>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <h3 class="text-xl font-bold text-center mb-4">Perfil de Competencias Matemáticas</h3>
+                        <div class="chart-container">
+                            <canvas id="matematicasScoresChart"></canvas>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-center mb-4">Distribución de Niveles de Rendimiento</h3>
+                         <div class="chart-container">
+                            <canvas id="matematicasLevelsChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-12 border-t pt-8">
+                    <h3 class="text-2xl font-bold text-center text-[#F26419] mb-4">Áreas de Enfoque Prioritario</h3>
+                    <p class="text-center text-slate-600 mb-8 max-w-3xl mx-auto">La resolución de problemas y el pensamiento computacional son las competencias con las puntuaciones más bajas y la mayor dispersión de niveles. Reforzar estas áreas será clave para un desarrollo matemático integral.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="bg-slate-100 p-6 rounded-lg">
+                            <h4 class="text-lg font-bold text-center mb-4">CE 2: Resolver situaciones problematizadas</h4>
+                            <div class="chart-container h-[250px] max-w-xs">
+                                <canvas id="mateCE2Donut"></canvas>
+                            </div>
+                        </div>
+                        <div class="bg-slate-100 p-6 rounded-lg">
+                             <h4 class="text-lg font-bold text-center mb-4">CE 4: Utilizar el pensamiento computacional</h4>
+                            <div class="chart-container h-[250px] max-w-xs">
+                                <canvas id="mateCE4Donut"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="idiomas" class="mb-16">
+            <div class="bg-white rounded-xl shadow-lg p-6 md:p-8">
+                <h2 class="text-3xl font-bold text-slate-900 mb-2">Primera Lengua Extranjera: Un Progreso Sólido</h2>
+                <p class="text-slate-600 mb-8 max-w-4xl">Los resultados en lengua extranjera son consistentes y positivos, indicando una base sólida. La producción de textos sencillos es la principal fortaleza, mientras que la comprensión y el uso de repertorios lingüísticos presentan oportunidades de mejora.</p>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <h3 class="text-xl font-bold text-center mb-4">Puntuación Media por Competencia</h3>
+                        <div class="chart-container">
+                            <canvas id="idiomasScoresChart"></canvas>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-center mb-4">Distribución de Niveles de Rendimiento</h3>
+                         <div class="chart-container">
+                            <canvas id="idiomasLevelsChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="recomendaciones" class="mb-12">
+             <h2 class="text-3xl font-bold text-center text-slate-900 mb-8">Recomendaciones Clave</h2>
+             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-xl shadow-md border-t-4 border-[#00A6FB]">
+                    <h3 class="text-2xl font-bold text-slate-900 mb-2 flex items-center"><span class="text-3xl mr-3">📖</span> Lengua</h3>
+                    <p class="mt-2 text-slate-600 font-semibold">Reforzar la producción escrita (CE 5).</p>
+                    <p class="text-slate-500">Fomentar la creatividad y estructuración de textos para elevar a más alumnos al nivel alto.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md border-t-4 border-[#F26419]">
+                    <h3 class="text-2xl font-bold text-slate-900 mb-2 flex items-center"><span class="text-3xl mr-3">🧮</span> Matemáticas</h3>
+                    <p class="mt-2 text-slate-600 font-semibold">Foco en resolución de problemas (CE 2) y pensamiento computacional (CE 4).</p>
+                    <p class="text-slate-500">Implementar actividades prácticas y lúdicas para desarrollar estas competencias clave.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md border-t-4 border-[#F9A03F]">
+                    <h3 class="text-2xl font-bold text-slate-900 mb-2 flex items-center"><span class="text-3xl mr-3">🌍</span> Idiomas</h3>
+                    <p class="mt-2 text-slate-600 font-semibold">Potenciar la comprensión (CE 1) y el uso de repertorios lingüísticos (CE 5).</p>
+                    <p class="text-slate-500">Aumentar la exposición a la lengua y crear más oportunidades de uso activo y personal.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    
+    <footer class="text-center p-6 text-slate-500 text-sm">
+        <p>Infografía generada a partir de los datos de la Evaluación Diagnóstica 2024/2025.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const wrapLabel = (str, maxLen) => {
+                if (str.length <= maxLen) {
+                    return str;
+                }
+                const words = str.split(' ');
+                let currentLine = '';
+                const lines = [];
+                for (const word of words) {
+                    if ((currentLine + word).length > maxLen && currentLine.length > 0) {
+                        lines.push(currentLine.trim());
+                        currentLine = '';
+                    }
+                    currentLine += word + ' ';
+                }
+                lines.push(currentLine.trim());
+                return lines;
+            };
+
+            const globalTooltipCallback = {
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            title: function(tooltipItems) {
+                                const item = tooltipItems[0];
+                                let label = item.chart.data.labels[item.dataIndex];
+                                if (Array.isArray(label)) {
+                                  return label.join(' ');
+                                } else {
+                                  return label;
+                                }
+                            }
+                        }
+                    },
+                    legend: {
+                        labels: {
+                            font: {
+                                size: 12
+                            }
+                        }
+                    }
+                }
+            };
+            
+            const levelColors = {
+                alto: 'rgba(46, 204, 113, 0.8)',
+                medioAlto: 'rgba(241, 196, 15, 0.8)',
+                medioBajo: 'rgba(230, 126, 34, 0.8)',
+                bajo: 'rgba(231, 76, 60, 0.8)',
+            };
+
+            const levelBorders = {
+                alto: 'rgba(46, 204, 113, 1)',
+                medioAlto: 'rgba(241, 196, 15, 1)',
+                medioBajo: 'rgba(230, 126, 34, 1)',
+                bajo: 'rgba(231, 76, 60, 1)',
+            };
+
+            const lenguaData = {
+                scores: [9.06, 8.84, 9.08, 7.82, 8.67, 8.88, 8.79, 8.96, 10.00],
+                labels: [
+                    'CE 1: Reconocer diversidad lingüística',
+                    'CE 2: Comprender textos orales',
+                    'CE 4: Comprender textos escritos',
+                    'CE 5: Producir textos escritos',
+                    'CE 6: Comprensión y análisis literario',
+                    'CE 7: Buscar y contrastar información',
+                    'CE 8: Leer de manera autónoma',
+                    'CE 9: Reflexionar sobre el lenguaje',
+                    'CE 10: Uso ético del lenguaje'
+                ],
+                levels: [
+                    { alto: 74, medioAlto: 26, medioBajo: 0, bajo: 0 },
+                    { alto: 81, medioAlto: 13, medioBajo: 6, bajo: 0 },
+                    { alto: 94, medioAlto: 6, medioBajo: 0, bajo: 0 },
+                    { alto: 54, medioAlto: 46, medioBajo: 0, bajo: 0 },
+                    { alto: 61, medioAlto: 33, medioBajo: 6, bajo: 0 },
+                    { alto: 87, medioAlto: 13, medioBajo: 0, bajo: 0 },
+                    { alto: 87, medioAlto: 13, medioBajo: 0, bajo: 0 },
+                    { alto: 94, medioAlto: 6, medioBajo: 0, bajo: 0 },
+                    { alto: 100, medioAlto: 0, medioBajo: 0, bajo: 0 },
+                ]
+            };
+
+            const mateData = {
+                scores: [7.45, 5.77, 7.99, 5.81, 8.25, 7.63],
+                labels: [
+                    'CE 1: Interpretar situaciones cotidianas',
+                    'CE 2: Resolver situaciones problematizadas',
+                    'CE 3: Explorar y formular conjeturas',
+                    'CE 4: Utilizar pensamiento computacional',
+                    'CE 5: Reconocer conexiones matemáticas',
+                    'CE 6: Comunicar resultados matemáticos'
+                ],
+                levels: [
+                    { alto: 62, medioAlto: 23, medioBajo: 15, bajo: 0 },
+                    { alto: 47, medioAlto: 38, medioBajo: 15, bajo: 0 },
+                    { alto: 62, medioAlto: 23, medioBajo: 15, bajo: 0 },
+                    { alto: 32, medioAlto: 47, medioBajo: 20, bajo: 1 },
+                    { alto: 70, medioAlto: 23, medioBajo: 7, bajo: 0 },
+                    { alto: 62, medioAlto: 23, medioBajo: 15, bajo: 0 },
+                ]
+            };
+
+            const idiomasData = {
+                scores: [6.94, 7.86, 6.73, 6.94],
+                labels: [
+                    'CE 1: Comprender textos breves',
+                    'CE 2: Producir textos sencillos',
+                    'CE 5: Usar repertorios lingüísticos',
+                    'CE 6: Apreciar diversidad cultural'
+                ],
+                levels: [
+                    { alto: 67, medioAlto: 20, medioBajo: 13, bajo: 0 },
+                    { alto: 74, medioAlto: 20, medioBajo: 6, bajo: 0 },
+                    { alto: 74, medioAlto: 20, medioBajo: 6, bajo: 0 },
+                    { alto: 74, medioAlto: 20, medioBajo: 6, bajo: 0 },
+                ]
+            };
+
+            const wrappedLenguaLabels = lenguaData.labels.map(label => wrapLabel(label, 25));
+            const wrappedMateLabels = mateData.labels.map(label => wrapLabel(label, 20));
+            const wrappedIdiomasLabels = idiomasData.labels.map(label => wrapLabel(label, 20));
+
+            new Chart(document.getElementById('lenguaScoresChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: wrappedLenguaLabels,
+                    datasets: [{
+                        label: 'Puntuación Media',
+                        data: lenguaData.scores,
+                        backgroundColor: 'rgba(0, 166, 251, 0.7)',
+                        borderColor: 'rgba(0, 100, 148, 1)',
+                        borderWidth: 2,
+                        borderRadius: 4,
+                    }]
+                },
+                options: { ...globalTooltipCallback, responsive: true, maintainAspectRatio: false, indexAxis: 'y', scales: { x: { beginAtZero: true, max: 10 } } }
+            });
+
+            new Chart(document.getElementById('lenguaLevelsChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: wrappedLenguaLabels,
+                    datasets: [
+                        { label: 'Nivel Alto', data: lenguaData.levels.map(l => l.alto), backgroundColor: levelColors.alto },
+                        { label: 'Nivel Medio-Alto', data: lenguaData.levels.map(l => l.medioAlto), backgroundColor: levelColors.medioAlto },
+                        { label: 'Nivel Medio-Bajo', data: lenguaData.levels.map(l => l.medioBajo), backgroundColor: levelColors.medioBajo },
+                    ]
+                },
+                options: { ...globalTooltipCallback, responsive: true, maintainAspectRatio: false, indexAxis: 'y', scales: { x: { stacked: true }, y: { stacked: true } } }
+            });
+
+            new Chart(document.getElementById('matematicasScoresChart').getContext('2d'), {
+                type: 'radar',
+                data: {
+                    labels: wrappedMateLabels,
+                    datasets: [{
+                        label: 'Puntuación Media',
+                        data: mateData.scores,
+                        backgroundColor: 'rgba(242, 100, 25, 0.4)',
+                        borderColor: 'rgba(242, 100, 25, 1)',
+                        borderWidth: 2,
+                        pointBackgroundColor: 'rgba(242, 100, 25, 1)',
+                        pointRadius: 5
+                    }]
+                },
+                options: { ...globalTooltipCallback, responsive: true, maintainAspectRatio: false, scales: { r: { beginAtZero: true, max: 10, pointLabels: { font: { size: 10 } } } } }
+            });
+            
+            new Chart(document.getElementById('matematicasLevelsChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: wrappedMateLabels,
+                    datasets: [
+                        { label: 'Nivel Alto', data: mateData.levels.map(l => l.alto), backgroundColor: levelColors.alto },
+                        { label: 'Nivel Medio-Alto', data: mateData.levels.map(l => l.medioAlto), backgroundColor: levelColors.medioAlto },
+                        { label: 'Nivel Medio-Bajo', data: mateData.levels.map(l => l.medioBajo), backgroundColor: levelColors.medioBajo },
+                        { label: 'Nivel Bajo', data: mateData.levels.map(l => l.bajo), backgroundColor: levelColors.bajo },
+                    ]
+                },
+                options: { ...globalTooltipCallback, responsive: true, maintainAspectRatio: false, scales: { x: { stacked: true }, y: { stacked: true } } }
+            });
+
+            new Chart(document.getElementById('mateCE2Donut').getContext('2d'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['Nivel Alto', 'Nivel Medio-Alto', 'Nivel Medio-Bajo'],
+                    datasets: [{
+                        data: [47, 38, 15],
+                        backgroundColor: [levelColors.alto, levelColors.medioAlto, levelColors.medioBajo],
+                        borderColor: [levelBorders.alto, levelBorders.medioAlto, levelBorders.medioBajo],
+                        borderWidth: 2
+                    }]
+                },
+                options: { ...globalTooltipCallback, responsive: true, maintainAspectRatio: false }
+            });
+
+            new Chart(document.getElementById('mateCE4Donut').getContext('2d'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['Nivel Alto', 'Nivel Medio-Alto', 'Nivel Medio-Bajo', 'Nivel Bajo'],
+                    datasets: [{
+                        data: [32, 47, 20, 1],
+                        backgroundColor: [levelColors.alto, levelColors.medioAlto, levelColors.medioBajo, levelColors.bajo],
+                        borderColor: [levelBorders.alto, levelBorders.medioAlto, levelBorders.medioBajo, levelBorders.bajo],
+                        borderWidth: 2
+                    }]
+                },
+                options: { ...globalTooltipCallback, responsive: true, maintainAspectRatio: false }
+            });
+
+            new Chart(document.getElementById('idiomasScoresChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: wrappedIdiomasLabels,
+                    datasets: [{
+                        label: 'Puntuación Media',
+                        data: idiomasData.scores,
+                        backgroundColor: 'rgba(249, 160, 63, 0.7)',
+                        borderColor: 'rgba(249, 160, 63, 1)',
+                        borderWidth: 2,
+                        borderRadius: 4,
+                    }]
+                },
+                options: { ...globalTooltipCallback, responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, max: 10 } } }
+            });
+            
+            new Chart(document.getElementById('idiomasLevelsChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: wrappedIdiomasLabels,
+                    datasets: [
+                        { label: 'Nivel Alto', data: idiomasData.levels.map(l => l.alto), backgroundColor: levelColors.alto },
+                        { label: 'Nivel Medio-Alto', data: idiomasData.levels.map(l => l.medioAlto), backgroundColor: levelColors.medioAlto },
+                        { label: 'Nivel Medio-Bajo', data: idiomasData.levels.map(l => l.medioBajo), backgroundColor: levelColors.medioBajo },
+                    ]
+                },
+                options: { ...globalTooltipCallback, responsive: true, maintainAspectRatio: false, scales: { x: { stacked: true }, y: { stacked: true } } }
+            });
+
+        });
+    </script>
+</body>
+</html>
