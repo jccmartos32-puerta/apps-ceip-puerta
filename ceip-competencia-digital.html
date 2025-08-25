@@ -1,0 +1,1489 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CEIP Puerta de Martos - Competencia Digital</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8fafc;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: white;
+            padding: 1.5rem 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo-icon {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            font-size: 1.5rem;
+        }
+
+        .logo-text h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .logo-text p {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+
+        .header-info {
+            text-align: right;
+            font-size: 0.875rem;
+        }
+
+        /* Navigation */
+        .nav {
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-tabs {
+            display: flex;
+            overflow-x: auto;
+            gap: 0.25rem;
+            padding: 0.5rem 0;
+        }
+
+        .nav-tab {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1rem;
+            background: none;
+            border: none;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #6b7280;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .nav-tab:hover {
+            background: #f3f4f6;
+            color: #374151;
+        }
+
+        .nav-tab.active {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .nav-tab-icon {
+            font-size: 1rem;
+        }
+
+        /* Content */
+        .content {
+            padding: 2rem 0;
+            min-height: 60vh;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Cards */
+        .card {
+            background: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1.5rem;
+        }
+
+        .card-header {
+            padding: 1.5rem 1.5rem 0;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .card-description {
+            color: #6b7280;
+            font-size: 0.875rem;
+        }
+
+        .card-content {
+            padding: 1.5rem;
+        }
+
+        /* Grid */
+        .grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .grid-cols-2 {
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+
+        .grid-cols-3 {
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        }
+
+        /* Forms */
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+            color: #374151;
+        }
+
+        .input {
+            width: 100%;
+            padding: 0.5rem 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            transition: border-color 0.2s;
+        }
+
+        .input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2563eb;
+        }
+
+        .btn-secondary {
+            background: #6b7280;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #4b5563;
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #3b82f6;
+            border: 1px solid #3b82f6;
+        }
+
+        .btn-outline:hover {
+            background: #3b82f6;
+            color: white;
+        }
+
+        /* Badges */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            border-radius: 0.25rem;
+        }
+
+        .badge-primary {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .badge-success {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .badge-warning {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .badge-danger {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        /* Alerts */
+        .alert {
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid;
+        }
+
+        .alert-info {
+            background: #eff6ff;
+            border-color: #3b82f6;
+            color: #1e40af;
+        }
+
+        .alert-success {
+            background: #f0fdf4;
+            border-color: #22c55e;
+            color: #166534;
+        }
+
+        .alert-warning {
+            background: #fffbeb;
+            border-color: #f59e0b;
+            color: #92400e;
+        }
+
+        .alert-danger {
+            background: #fef2f2;
+            border-color: #ef4444;
+            color: #dc2626;
+        }
+
+        /* Progress */
+        .progress {
+            width: 100%;
+            height: 0.5rem;
+            background: #e5e7eb;
+            border-radius: 0.25rem;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: #3b82f6;
+            transition: width 0.3s;
+        }
+
+        /* Table */
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.875rem;
+        }
+
+        .table th,
+        .table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .table th {
+            font-weight: 600;
+            background: #f9fafb;
+        }
+
+        .table tr:hover {
+            background: #f9fafb;
+        }
+
+        /* Checkbox */
+        .checkbox {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .checkbox input {
+            width: 1rem;
+            height: 1rem;
+        }
+
+        /* Calculator specific styles */
+        .calculator-result {
+            text-align: center;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .calculator-result.tde {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+        }
+
+        .calculator-result.steam {
+            background: #fff7ed;
+            border: 1px solid #fed7aa;
+        }
+
+        .calculator-hours {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .calculator-hours.tde {
+            color: #166534;
+        }
+
+        .calculator-hours.steam {
+            color: #ea580c;
+        }
+
+        .calculator-breakdown {
+            font-size: 0.75rem;
+            opacity: 0.8;
+            margin-top: 0.5rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: #1f2937;
+            color: white;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .footer p {
+            font-size: 0.875rem;
+            color: #d1d5db;
+            line-height: 1.5;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #374151;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            text-align: center;
+            font-size: 0.875rem;
+            color: #9ca3af;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                text-align: center;
+            }
+
+            .header-info {
+                text-align: center;
+            }
+
+            .nav-tabs {
+                justify-content: center;
+            }
+
+            .nav-tab span {
+                display: none;
+            }
+
+            .grid-cols-2,
+            .grid-cols-3 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Utility classes */
+        .hidden {
+            display: none;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-right {
+            text-align: right;
+        }
+
+        .mb-2 {
+            margin-bottom: 0.5rem;
+        }
+
+        .mb-4 {
+            margin-bottom: 1rem;
+        }
+
+        .mt-4 {
+            margin-top: 1rem;
+        }
+
+        .flex {
+            display: flex;
+        }
+
+        .items-center {
+            align-items: center;
+        }
+
+        .justify-between {
+            justify-content: space-between;
+        }
+
+        .gap-2 {
+            gap: 0.5rem;
+        }
+
+        .gap-4 {
+            gap: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">🏫</div>
+                    <div class="logo-text">
+                        <h1>CEIP Puerta de Martos</h1>
+                        <p>Herramienta de Competencia Digital</p>
+                    </div>
+                </div>
+                <div class="header-info">
+                    <div><strong>BOJA núm. 151</strong></div>
+                    <div>7 de agosto de 2025</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="container">
+            <div class="nav-tabs">
+                <button class="nav-tab active" data-tab="inicio">
+                    <span class="nav-tab-icon">🏠</span>
+                    <span>Inicio</span>
+                </button>
+                <button class="nav-tab" data-tab="centro">
+                    <span class="nav-tab-icon">🏢</span>
+                    <span>Centro</span>
+                </button>
+                <button class="nav-tab" data-tab="informacion">
+                    <span class="nav-tab-icon">ℹ️</span>
+                    <span>Información</span>
+                </button>
+                <button class="nav-tab" data-tab="calendario">
+                    <span class="nav-tab-icon">📅</span>
+                    <span>Calendario</span>
+                </button>
+                <button class="nav-tab" data-tab="coordinacion">
+                    <span class="nav-tab-icon">👥</span>
+                    <span>Coordinación</span>
+                </button>
+                <button class="nav-tab" data-tab="recursos">
+                    <span class="nav-tab-icon">🔧</span>
+                    <span>Recursos</span>
+                </button>
+                <button class="nav-tab" data-tab="steam">
+                    <span class="nav-tab-icon">🎓</span>
+                    <span>STEAM 4.0</span>
+                </button>
+                <button class="nav-tab" data-tab="herramientas">
+                    <span class="nav-tab-icon">⚙️</span>
+                    <span>Herramientas</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Content -->
+    <main class="content">
+        <div class="container">
+            <!-- Inicio Tab -->
+            <div id="inicio" class="tab-content active">
+                <div class="grid grid-cols-2">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">
+                                📋 Resumen Ejecutivo
+                            </h2>
+                            <p class="card-description">Resolución de 1 de agosto de 2025</p>
+                        </div>
+                        <div class="card-content">
+                            <p>Esta resolución establece las medidas para impulsar la competencia digital en centros educativos a través del <strong>Programa Código Escuela 4.0</strong>, enfocado en el desarrollo del pensamiento computacional, programación, robótica e inteligencia artificial.</p>
+                            
+                            <div class="grid grid-cols-2 mt-4">
+                                <div>
+                                    <h4><strong>Etapas Incluidas</strong></h4>
+                                    <ul style="list-style: disc; margin-left: 1.5rem; margin-top: 0.5rem;">
+                                        <li>Ed. Infantil (2º ciclo)</li>
+                                        <li>Ed. Primaria</li>
+                                        <li>Ed. Secundaria Obligatoria</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4><strong>Implementación</strong></h4>
+                                    <ul style="list-style: disc; margin-left: 1.5rem; margin-top: 0.5rem;">
+                                        <li>Curso 2025-2026</li>
+                                        <li>Curso 2026-2027</li>
+                                        <li>Integración progresiva</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">
+                                📊 Progreso General
+                            </h2>
+                            <p class="card-description">Estado de implementación</p>
+                        </div>
+                        <div class="card-content">
+                            <div class="mb-4">
+                                <div class="flex justify-between mb-2">
+                                    <span>Completado</span>
+                                    <span id="progress-percentage">0%</span>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar" id="progress-bar" style="width: 0%"></div>
+                                </div>
+                            </div>
+                            <p id="progress-text">0 de 7 tareas completadas</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            ⏰ Próximos Plazos Importantes
+                        </h2>
+                    </div>
+                    <div class="card-content">
+                        <div class="grid grid-cols-3">
+                            <div class="alert alert-warning">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span>⚠️</span>
+                                    <strong>Nombramiento de coordinadores</strong>
+                                </div>
+                                <div>30/9/2025</div>
+                                <div class="badge badge-warning" id="plazo-coordinadores">Calculando...</div>
+                            </div>
+                            <div class="alert alert-info">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span>ℹ️</span>
+                                    <strong>Actualización Rúbrica TDE</strong>
+                                </div>
+                                <div>15/10/2025</div>
+                                <div class="badge badge-primary" id="plazo-rubrica">Calculando...</div>
+                            </div>
+                            <div class="alert alert-info">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span>ℹ️</span>
+                                    <strong>Actualización PAD</strong>
+                                </div>
+                                <div>30/10/2025</div>
+                                <div class="badge badge-primary" id="plazo-pad">Calculando...</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            ✅ Lista de Verificación
+                        </h2>
+                        <p class="card-description">Tareas principales para la implementación</p>
+                    </div>
+                    <div class="card-content">
+                        <div class="grid grid-cols-2">
+                            <div class="checkbox">
+                                <input type="checkbox" id="task-1" onchange="updateProgress()">
+                                <label for="task-1">Designar Coordinador/a TDE</label>
+                            </div>
+                            <div class="checkbox">
+                                <input type="checkbox" id="task-2" onchange="updateProgress()">
+                                <label for="task-2">Designar Coordinador/a STEAM 4.0</label>
+                            </div>
+                            <div class="checkbox">
+                                <input type="checkbox" id="task-3" onchange="updateProgress()">
+                                <label for="task-3">Actualizar Rúbrica TDE</label>
+                            </div>
+                            <div class="checkbox">
+                                <input type="checkbox" id="task-4" onchange="updateProgress()">
+                                <label for="task-4">Actualizar Plan de Actuación Digital</label>
+                            </div>
+                            <div class="checkbox">
+                                <input type="checkbox" id="task-5" onchange="updateProgress()">
+                                <label for="task-5">Elaborar Proyecto STEAM 4.0</label>
+                            </div>
+                            <div class="checkbox">
+                                <input type="checkbox" id="task-6" onchange="updateProgress()">
+                                <label for="task-6">Planificar formación del profesorado</label>
+                            </div>
+                            <div class="checkbox">
+                                <input type="checkbox" id="task-7" onchange="updateProgress()">
+                                <label for="task-7">Inventariar recursos tecnológicos</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Centro Tab -->
+            <div id="centro" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            🏫 CEIP Puerta de Martos
+                        </h2>
+                        <p class="card-description">Código: Código del centro</p>
+                    </div>
+                    <div class="card-content">
+                        <div class="grid grid-cols-2">
+                            <div>
+                                <div class="mb-4">
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <span>📍</span>
+                                        <div>
+                                            <div><strong>Dirección del centro</strong></div>
+                                            <div class="text-sm text-gray-600">Localidad, Provincia</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-4">
+                                    <div class="flex items-center gap-2">
+                                        <span>📞</span>
+                                        <span>Teléfono de contacto</span>
+                                    </div>
+                                </div>
+                                <div class="mb-4">
+                                    <div class="flex items-center gap-2">
+                                        <span>✉️</span>
+                                        <span class="text-sm">email@juntadeandalucia.es</span>
+                                    </div>
+                                </div>
+                                <button class="btn btn-outline">
+                                    <span>🔗</span>
+                                    Sitio Web del Centro
+                                </button>
+                            </div>
+                            <div>
+                                <div class="mb-4">
+                                    <h4 class="flex items-center gap-2 mb-2">
+                                        <span>🎓</span>
+                                        <strong>Etapas Educativas</strong>
+                                    </h4>
+                                    <div class="flex gap-2">
+                                        <span class="badge badge-primary">Educación Infantil</span>
+                                        <span class="badge badge-primary">Educación Primaria</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h4 class="flex items-center gap-2 mb-2">
+                                        <span>👥</span>
+                                        <strong>Comunidad Educativa</strong>
+                                    </h4>
+                                    <div class="text-sm">
+                                        <div><strong>Alumnado:</strong> Número de alumnos/as</div>
+                                        <div><strong>Profesorado:</strong> Número de docentes</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            👥 Estado de Coordinaciones
+                        </h2>
+                        <p class="card-description">Situación actual de los coordinadores requeridos por la normativa</p>
+                    </div>
+                    <div class="card-content">
+                        <div class="grid grid-cols-2">
+                            <div class="alert alert-warning">
+                                <h4><strong>Coordinador/a TDE</strong></h4>
+                                <p class="mb-2"><strong>Estado:</strong> Por designar</p>
+                                <span class="badge badge-warning">Pendiente de nombramiento</span>
+                            </div>
+                            <div class="alert alert-warning">
+                                <h4><strong>Coordinador/a STEAM 4.0</strong></h4>
+                                <p class="mb-2"><strong>Estado:</strong> Por designar</p>
+                                <span class="badge badge-warning">Pendiente de nombramiento</span>
+                            </div>
+                        </div>
+                        <div class="alert alert-info mt-4">
+                            <p><strong>Recordatorio:</strong> Los nombramientos deben realizarse durante el mes de septiembre de 2025.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Información Tab -->
+            <div id="informacion" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            🔍 Buscador de Contenido
+                        </h2>
+                    </div>
+                    <div class="card-content">
+                        <div class="form-group">
+                            <input type="text" class="input" id="search-input" placeholder="Buscar en la normativa..." onkeyup="searchContent()">
+                        </div>
+                        <div id="search-results"></div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            📖 Contenido de la Normativa
+                        </h2>
+                    </div>
+                    <div class="card-content">
+                        <div class="accordion">
+                            <div class="accordion-item">
+                                <button class="accordion-button" onclick="toggleAccordion(this)">
+                                    <strong>1. Marco Normativo y Objetivos</strong>
+                                </button>
+                                <div class="accordion-content">
+                                    <p>El Programa Código Escuela 4.0 se enmarca en la estrategia de transformación digital del sistema educativo andaluz, con el objetivo de desarrollar la competencia digital del alumnado a través del pensamiento computacional, la programación, la robótica y la inteligencia artificial.</p>
+                                    <ul style="list-style: disc; margin-left: 1.5rem; margin-top: 0.5rem;">
+                                        <li>Desarrollo del pensamiento computacional</li>
+                                        <li>Iniciación a la programación</li>
+                                        <li>Robótica educativa</li>
+                                        <li>Inteligencia artificial aplicada</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <button class="accordion-button" onclick="toggleAccordion(this)">
+                                    <strong>2. Coordinación TDE</strong>
+                                </button>
+                                <div class="accordion-content">
+                                    <p>La coordinación de Transformación Digital Educativa (TDE) es fundamental para la implementación del programa en el centro.</p>
+                                    <ul style="list-style: disc; margin-left: 1.5rem; margin-top: 0.5rem;">
+                                        <li>Designación durante septiembre 2025</li>
+                                        <li>Actualización de la Rúbrica TDE hasta el 15 de octubre</li>
+                                        <li>Coordinación con ATI de referencia</li>
+                                        <li>Seguimiento del Plan de Actuación Digital</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <button class="accordion-button" onclick="toggleAccordion(this)">
+                                    <strong>3. Proyecto STEAM 4.0</strong>
+                                </button>
+                                <div class="accordion-content">
+                                    <p>El proyecto STEAM 4.0 integra ciencia, tecnología, ingeniería, arte y matemáticas con enfoque en competencia digital.</p>
+                                    <ul style="list-style: disc; margin-left: 1.5rem; margin-top: 0.5rem;">
+                                        <li>Elaboración hasta el 15 de noviembre 2025</li>
+                                        <li>Integración en el Plan de Centro</li>
+                                        <li>Coordinador/a STEAM 4.0 designado</li>
+                                        <li>Formación específica del profesorado</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Calendario Tab -->
+            <div id="calendario" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            📅 Calendario de Implementación
+                        </h2>
+                    </div>
+                    <div class="card-content">
+                        <div class="grid grid-cols-2">
+                            <div>
+                                <h3><strong>Curso 2025-2026</strong></h3>
+                                <div class="timeline">
+                                    <div class="timeline-item">
+                                        <div class="badge badge-warning">Sep 2025</div>
+                                        <div>Nombramiento de coordinadores</div>
+                                    </div>
+                                    <div class="timeline-item">
+                                        <div class="badge badge-primary">Oct 2025</div>
+                                        <div>Actualización Rúbrica TDE (hasta 15)</div>
+                                    </div>
+                                    <div class="timeline-item">
+                                        <div class="badge badge-primary">Oct 2025</div>
+                                        <div>Actualización PAD (1-30)</div>
+                                    </div>
+                                    <div class="timeline-item">
+                                        <div class="badge badge-success">Nov 2025</div>
+                                        <div>Proyecto STEAM 4.0 (hasta 15)</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <h3><strong>Curso 2026-2027</strong></h3>
+                                <div class="timeline">
+                                    <div class="timeline-item">
+                                        <div class="badge badge-primary">Oct 2026</div>
+                                        <div>Revisión Proyecto STEAM 4.0</div>
+                                    </div>
+                                    <div class="timeline-item">
+                                        <div class="badge badge-success">Todo el curso</div>
+                                        <div>Implementación completa</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Coordinación Tab -->
+            <div id="coordinacion" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            👤 Coordinador/a TDE
+                        </h2>
+                    </div>
+                    <div class="card-content">
+                        <p><strong>Funciones principales:</strong></p>
+                        <ul style="list-style: disc; margin-left: 1.5rem; margin-top: 0.5rem;">
+                            <li>Coordinar la transformación digital del centro</li>
+                            <li>Actualizar y mantener la Rúbrica TDE</li>
+                            <li>Gestionar el Plan de Actuación Digital</li>
+                            <li>Colaborar con la ATI de referencia</li>
+                            <li>Formar al profesorado en competencia digital</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            🎓 Coordinador/a STEAM 4.0
+                        </h2>
+                    </div>
+                    <div class="card-content">
+                        <p><strong>Funciones principales:</strong></p>
+                        <ul style="list-style: disc; margin-left: 1.5rem; margin-top: 0.5rem;">
+                            <li>Elaborar el Proyecto STEAM 4.0</li>
+                            <li>Coordinar actividades de pensamiento computacional</li>
+                            <li>Implementar programación y robótica</li>
+                            <li>Formar al profesorado en metodologías STEAM</li>
+                            <li>Evaluar y revisar el proyecto anualmente</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recursos Tab -->
+            <div id="recursos" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            🔗 Enlaces Útiles
+                        </h2>
+                    </div>
+                    <div class="card-content">
+                        <div class="grid grid-cols-2">
+                            <div>
+                                <h4><strong>Plataformas Oficiales</strong></h4>
+                                <ul style="list-style: disc; margin-left: 1.5rem; margin-top: 0.5rem;">
+                                    <li>Sistema Séneca</li>
+                                    <li>Portal TDE</li>
+                                    <li>Colabora</li>
+                                    <li>Moodle Centros</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4><strong>Recursos Educativos</strong></h4>
+                                <ul style="list-style: disc; margin-left: 1.5rem; margin-top: 0.5rem;">
+                                    <li>Procomún</li>
+                                    <li>eScholarium</li>
+                                    <li>Recursos STEAM</li>
+                                    <li>Formación del profesorado</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEAM Tab -->
+            <div id="steam" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            🚀 Proyecto STEAM 4.0
+                        </h2>
+                    </div>
+                    <div class="card-content">
+                        <div class="alert alert-info">
+                            <p><strong>Plazo de elaboración:</strong> Hasta el 15 de noviembre de 2025</p>
+                        </div>
+                        
+                        <h4><strong>Componentes del proyecto:</strong></h4>
+                        <div class="grid grid-cols-2 mt-4">
+                            <div>
+                                <h5><strong>Pensamiento Computacional</strong></h5>
+                                <ul style="list-style: disc; margin-left: 1.5rem; margin-top: 0.5rem;">
+                                    <li>Descomposición de problemas</li>
+                                    <li>Reconocimiento de patrones</li>
+                                    <li>Abstracción</li>
+                                    <li>Algoritmos</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h5><strong>Programación y Robótica</strong></h5>
+                                <ul style="list-style: disc; margin-left: 1.5rem; margin-top: 0.5rem;">
+                                    <li>Lenguajes de programación visual</li>
+                                    <li>Robótica educativa</li>
+                                    <li>Inteligencia artificial</li>
+                                    <li>Proyectos interdisciplinares</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Herramientas Tab -->
+            <div id="herramientas" class="tab-content">
+                <!-- Calculadora de Plazos -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            🧮 Calculadora de Plazos
+                        </h2>
+                        <p class="card-description">Calcula los días restantes para cada plazo importante</p>
+                    </div>
+                    <div class="card-content">
+                        <div class="form-group">
+                            <label class="label">Fecha actual de referencia</label>
+                            <input type="date" class="input" id="fecha-referencia" onchange="calcularPlazos()">
+                        </div>
+                        <div id="plazos-calculados"></div>
+                    </div>
+                </div>
+
+                <!-- Generador de Informes -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            📄 Generador de Informes
+                        </h2>
+                        <p class="card-description">Crea informes personalizados para el seguimiento del centro</p>
+                    </div>
+                    <div class="card-content">
+                        <div class="grid grid-cols-2">
+                            <div class="form-group">
+                                <label class="label">Coordinador/a TDE</label>
+                                <input type="text" class="input" id="coord-tde" placeholder="Nombre del coordinador TDE">
+                            </div>
+                            <div class="form-group">
+                                <label class="label">Coordinador/a STEAM 4.0</label>
+                                <input type="text" class="input" id="coord-steam" placeholder="Nombre del coordinador STEAM">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="label">Notas adicionales</label>
+                            <textarea class="input textarea" id="notas" placeholder="Añade observaciones, avances, dificultades encontradas..."></textarea>
+                        </div>
+                        <div class="flex gap-2">
+                            <button class="btn btn-primary" onclick="generarInforme()">
+                                📥 Generar Informe
+                            </button>
+                            <button class="btn btn-outline" onclick="exportarCalendario()">
+                                📅 Exportar Calendario
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Calculadora de Horas de Reducción -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            ⏰ Calculadora de Horas de Reducción Horaria
+                        </h2>
+                        <p class="card-description">Calcula las horas de dedicación para coordinadores TDE y STEAM 4.0 según las unidades del centro</p>
+                    </div>
+                    <div class="card-content">
+                        <div class="grid grid-cols-2">
+                            <div class="form-group">
+                                <label class="label">Unidades de Educación Infantil</label>
+                                <input type="number" class="input" id="unidades-infantil" min="0" max="20" placeholder="Número de unidades" onchange="calcularHoras()">
+                                <p style="font-size: 0.75rem; color: #6b7280; margin-top: 0.25rem;">Incluye todas las unidades de 2º ciclo de Infantil</p>
+                            </div>
+                            <div class="form-group">
+                                <label class="label">Unidades de Educación Primaria</label>
+                                <input type="number" class="input" id="unidades-primaria" min="0" max="30" placeholder="Número de unidades" onchange="calcularHoras()">
+                                <p style="font-size: 0.75rem; color: #6b7280; margin-top: 0.25rem;">Incluye todas las unidades de 1º a 6º de Primaria</p>
+                            </div>
+                        </div>
+
+                        <div id="resumen-centro" class="hidden" style="background: #eff6ff; padding: 1rem; border-radius: 0.5rem; border: 1px solid #bfdbfe; margin: 1rem 0;">
+                            <h4 style="color: #1e40af; margin-bottom: 0.5rem;">📊 Resumen del Centro</h4>
+                            <div class="grid grid-cols-3 text-center">
+                                <div>
+                                    <div style="font-size: 1.5rem; font-weight: bold; color: #3b82f6;" id="total-infantil">0</div>
+                                    <div style="color: #1e40af;">Infantil</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 1.5rem; font-weight: bold; color: #3b82f6;" id="total-primaria">0</div>
+                                    <div style="color: #1e40af;">Primaria</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 1.5rem; font-weight: bold; color: #3b82f6;" id="total-unidades">0</div>
+                                    <div style="color: #1e40af;">Total</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="resultados-horas" class="hidden">
+                            <div class="grid grid-cols-2">
+                                <div class="calculator-result tde">
+                                    <h4 style="color: #166534; margin-bottom: 0.5rem;">⏰ Coordinador/a TDE</h4>
+                                    <div class="calculator-hours tde" id="horas-tde">0 horas</div>
+                                    <div style="font-size: 0.875rem; color: #166534;">Reducción horaria semanal</div>
+                                    <div class="calculator-breakdown" id="breakdown-tde"></div>
+                                </div>
+                                <div class="calculator-result steam">
+                                    <h4 style="color: #ea580c; margin-bottom: 0.5rem;">🎓 Coordinador/a STEAM 4.0</h4>
+                                    <div class="calculator-hours steam" id="horas-steam">0 horas</div>
+                                    <div style="font-size: 0.875rem; color: #ea580c;">Reducción horaria semanal</div>
+                                    <div class="calculator-breakdown" id="breakdown-steam"></div>
+                                </div>
+                            </div>
+                            <div class="flex gap-2 mt-4">
+                                <button class="btn btn-primary" onclick="exportarCalculoHoras()">
+                                    📥 Exportar Cálculo
+                                </button>
+                                <button class="btn btn-outline" onclick="limpiarCalculadora()">
+                                    🗑️ Limpiar
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="alert alert-warning mt-4">
+                            <p><strong>Nota Importante:</strong> Estos cálculos son orientativos y se basan en criterios típicos de asignación. Consulte la normativa específica vigente y las instrucciones de su Delegación Territorial para confirmar las horas exactas correspondientes a su centro.</p>
+                        </div>
+
+                        <!-- Tabla de Referencia -->
+                        <div class="mt-4">
+                            <h4><strong>Tabla de Referencia Rápida</strong></h4>
+                            <p style="font-size: 0.875rem; color: #6b7280; margin-bottom: 1rem;">Horas de reducción según número de unidades</p>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Unidades</th>
+                                        <th style="text-align: center;">TDE</th>
+                                        <th style="text-align: center;">STEAM 4.0</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>3 unidades</td>
+                                        <td style="text-align: center;"><span class="badge badge-success">3.5h</span></td>
+                                        <td style="text-align: center;"><span class="badge badge-primary">1.9h</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>6 unidades</td>
+                                        <td style="text-align: center;"><span class="badge badge-success">5h</span></td>
+                                        <td style="text-align: center;"><span class="badge badge-primary">2.8h</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>9 unidades</td>
+                                        <td style="text-align: center;"><span class="badge badge-success">6h</span></td>
+                                        <td style="text-align: center;"><span class="badge badge-primary">3.7h</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>12 unidades</td>
+                                        <td style="text-align: center;"><span class="badge badge-success">6h</span></td>
+                                        <td style="text-align: center;"><span class="badge badge-primary">4h</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>15 unidades</td>
+                                        <td style="text-align: center;"><span class="badge badge-success">6h</span></td>
+                                        <td style="text-align: center;"><span class="badge badge-primary">4h</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>18 unidades</td>
+                                        <td style="text-align: center;"><span class="badge badge-success">6h</span></td>
+                                        <td style="text-align: center;"><span class="badge badge-primary">4h</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div>
+                    <h3>CEIP Puerta de Martos</h3>
+                    <p>Centro comprometido con la innovación educativa y la competencia digital.</p>
+                </div>
+                <div>
+                    <h3>Normativa</h3>
+                    <p>Resolución de 1 de agosto de 2025</p>
+                    <p style="color: #9ca3af; margin-top: 0.25rem;">BOJA núm. 151 - 7 de agosto de 2025</p>
+                </div>
+                <div>
+                    <h3>Contacto</h3>
+                    <p>Para consultas sobre la implementación de la normativa, contacte con la coordinación TDE del centro.</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2025 CEIP Puerta de Martos - Herramienta de Competencia Digital</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Tab functionality
+        function switchTab(tabName) {
+            // Hide all tab contents
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => content.classList.remove('active'));
+            
+            // Remove active class from all tabs
+            const tabs = document.querySelectorAll('.nav-tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to selected tab
+            document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+        }
+
+        // Add event listeners to tabs
+        document.querySelectorAll('.nav-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabName = tab.getAttribute('data-tab');
+                switchTab(tabName);
+            });
+        });
+
+        // Progress tracking
+        function updateProgress() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"][id^="task-"]');
+            const completed = Array.from(checkboxes).filter(cb => cb.checked).length;
+            const total = checkboxes.length;
+            const percentage = Math.round((completed / total) * 100);
+            
+            document.getElementById('progress-bar').style.width = percentage + '%';
+            document.getElementById('progress-percentage').textContent = percentage + '%';
+            document.getElementById('progress-text').textContent = `${completed} de ${total} tareas completadas`;
+        }
+
+        // Calculate deadlines
+        function calcularPlazos() {
+            const fechaRef = document.getElementById('fecha-referencia').value;
+            if (!fechaRef) return;
+            
+            const fechaReferencia = new Date(fechaRef);
+            const plazos = [
+                { fecha: '2025-09-30', titulo: 'Nombramiento de coordinadores', id: 'plazo-coordinadores' },
+                { fecha: '2025-10-15', titulo: 'Actualización Rúbrica TDE', id: 'plazo-rubrica' },
+                { fecha: '2025-10-30', titulo: 'Actualización PAD', id: 'plazo-pad' }
+            ];
+            
+            plazos.forEach(plazo => {
+                const fechaPlazo = new Date(plazo.fecha);
+                const diferencia = fechaPlazo.getTime() - fechaReferencia.getTime();
+                const dias = Math.ceil(diferencia / (1000 * 3600 * 24));
+                
+                const elemento = document.getElementById(plazo.id);
+                if (elemento) {
+                    if (dias > 0) {
+                        elemento.textContent = `${dias} días restantes`;
+                        elemento.className = dias <= 7 ? 'badge badge-danger' : 'badge badge-warning';
+                    } else if (dias === 0) {
+                        elemento.textContent = 'Hoy';
+                        elemento.className = 'badge badge-danger';
+                    } else {
+                        elemento.textContent = 'Vencido';
+                        elemento.className = 'badge badge-danger';
+                    }
+                }
+            });
+        }
+
+        // Search functionality
+        function searchContent() {
+            const searchTerm = document.getElementById('search-input').value.toLowerCase();
+            const resultsDiv = document.getElementById('search-results');
+            
+            if (searchTerm.length < 3) {
+                resultsDiv.innerHTML = '';
+                return;
+            }
+            
+            const searchableContent = [
+                { title: 'Coordinación TDE', content: 'transformación digital educativa coordinador rúbrica plan actuación' },
+                { title: 'Proyecto STEAM 4.0', content: 'steam ciencia tecnología ingeniería arte matemáticas programación robótica' },
+                { title: 'Pensamiento Computacional', content: 'algoritmos programación descomposición patrones abstracción' },
+                { title: 'Plazos Importantes', content: 'septiembre octubre noviembre coordinadores rúbrica proyecto' }
+            ];
+            
+            const results = searchableContent.filter(item => 
+                item.title.toLowerCase().includes(searchTerm) || 
+                item.content.toLowerCase().includes(searchTerm)
+            );
+            
+            if (results.length > 0) {
+                resultsDiv.innerHTML = '<h4>Resultados de búsqueda:</h4>' + 
+                    results.map(result => `<div class="alert alert-info">${result.title}</div>`).join('');
+            } else {
+                resultsDiv.innerHTML = '<div class="alert alert-warning">No se encontraron resultados</div>';
+            }
+        }
+
+        // Accordion functionality
+        function toggleAccordion(button) {
+            const content = button.nextElementSibling;
+            const isOpen = content.style.display === 'block';
+            
+            // Close all accordion items
+            document.querySelectorAll('.accordion-content').forEach(item => {
+                item.style.display = 'none';
+            });
+            
+            // Open clicked item if it was closed
+            if (!isOpen) {
+                content.style.display = 'block';
+            }
+        }
+
+        // Report generation
+        function generarInforme() {
+            const coordTDE = document.getElementById('coord-tde').value || 'Pendiente de designación';
+            const coordSTEAM = document.getElementById('coord-steam').value || 'Pendiente de designación';
+            const notas = document.getElementById('notas').value || 'Sin notas adicionales';
+            
+            const contenido = `INFORME DE SEGUIMIENTO - CEIP PUERTA DE MARTOS
+Competencia Digital - Código Escuela 4.0
+
+Fecha del informe: ${new Date().toLocaleDateString('es-ES')}
+
+COORDINADORES DESIGNADOS:
+- Coordinador/a TDE: ${coordTDE}
+- Coordinador/a STEAM 4.0: ${coordSTEAM}
+
+NOTAS ADICIONALES:
+${notas}
+
+---
+Generado por la Herramienta de Competencia Digital del CEIP Puerta de Martos`;
+            
+            const blob = new Blob([contenido], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `informe_competencia_digital_${new Date().toISOString().split('T')[0]}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // Calendar export
+        function exportarCalendario() {
+            const eventos = [
+                { fecha: '2025-09-30', titulo: 'Nombramiento de coordinadores' },
+                { fecha: '2025-10-15', titulo: 'Actualización Rúbrica TDE' },
+                { fecha: '2025-10-30', titulo: 'Actualización PAD' },
+                { fecha: '2025-11-15', titulo: 'Proyecto STEAM 4.0' }
+            ];
+            
+            const calendario = eventos.map(evento => 
+                `BEGIN:VEVENT\nDTSTART:${evento.fecha.replace(/-/g, '')}\nSUMMARY:${evento.titulo}\nEND:VEVENT`
+            ).join('\n');
+            
+            const contenido = `BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//CEIP Puerta de Martos//Competencia Digital//ES\n${calendario}\nEND:VCALENDAR`;
+            
+            const blob = new Blob([contenido], { type: 'text/calendar;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'calendario_competencia_digital.ics';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // Hours calculation
+        function calcularHoras() {
+            const infantil = parseInt(document.getElementById('unidades-infantil').value) || 0;
+            const primaria = parseInt(document.getElementById('unidades-primaria').value) || 0;
+            const total = infantil + primaria;
+            
+            if (total === 0) {
+                document.getElementById('resumen-centro').classList.add('hidden');
+                document.getElementById('resultados-horas').classList.add('hidden');
+                return;
+            }
+            
+            // Update summary
+            document.getElementById('total-infantil').textContent = infantil;
+            document.getElementById('total-primaria').textContent = primaria;
+            document.getElementById('total-unidades').textContent = total;
+            document.getElementById('resumen-centro').classList.remove('hidden');
+            
+            // Calculate hours
+            const criterios = {
+                tde: { base: 2, porUnidad: 0.5, maximo: 6 },
+                steam: { base: 1, porUnidad: 0.3, maximo: 4 }
+            };
+            
+            const horasTDE = Math.min(criterios.tde.base + (total * criterios.tde.porUnidad), criterios.tde.maximo);
+            const horasSTEAM = Math.min(criterios.steam.base + (total * criterios.steam.porUnidad), criterios.steam.maximo);
+            
+            document.getElementById('horas-tde').textContent = `${horasTDE.toFixed(1)} horas`;
+            document.getElementById('horas-steam').textContent = `${horasSTEAM.toFixed(1)} horas`;
+            
+            document.getElementById('breakdown-tde').textContent = 
+                `Base: ${criterios.tde.base}h + ${criterios.tde.porUnidad}h × ${total} = ${(criterios.tde.base + total * criterios.tde.porUnidad).toFixed(1)}h (máx: ${criterios.tde.maximo}h)`;
+            document.getElementById('breakdown-steam').textContent = 
+                `Base: ${criterios.steam.base}h + ${criterios.steam.porUnidad}h × ${total} = ${(criterios.steam.base + total * criterios.steam.porUnidad).toFixed(1)}h (máx: ${criterios.steam.maximo}h)`;
+            
+            document.getElementById('resultados-horas').classList.remove('hidden');
+        }
+
+        function exportarCalculoHoras() {
+            const infantil = document.getElementById('unidades-infantil').value || 0;
+            const primaria = document.getElementById('unidades-primaria').value || 0;
+            const total = parseInt(infantil) + parseInt(primaria);
+            const horasTDE = document.getElementById('horas-tde').textContent;
+            const horasSTEAM = document.getElementById('horas-steam').textContent;
+            
+            const contenido = `CÁLCULO DE HORAS DE REDUCCIÓN HORARIA
+CEIP Puerta de Martos
+
+Fecha del cálculo: ${new Date().toLocaleDateString('es-ES')}
+
+UNIDADES DEL CENTRO:
+- Educación Infantil: ${infantil} unidades
+- Educación Primaria: ${primaria} unidades
+- Total: ${total} unidades
+
+HORAS DE REDUCCIÓN CALCULADAS:
+- Coordinador/a TDE: ${horasTDE}
+- Coordinador/a STEAM 4.0: ${horasSTEAM}
+
+NOTA: Estos cálculos son orientativos y deben confirmarse con la normativa específica vigente.
+
+---
+Generado por la Herramienta de Competencia Digital del CEIP Puerta de Martos`;
+            
+            const blob = new Blob([contenido], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `calculo_horas_coordinadores_${new Date().toISOString().split('T')[0]}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function limpiarCalculadora() {
+            document.getElementById('unidades-infantil').value = '';
+            document.getElementById('unidades-primaria').value = '';
+            document.getElementById('resumen-centro').classList.add('hidden');
+            document.getElementById('resultados-horas').classList.add('hidden');
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set current date
+            document.getElementById('fecha-referencia').value = new Date().toISOString().split('T')[0];
+            calcularPlazos();
+            updateProgress();
+        });
+    </script>
+</body>
+</html>
+
