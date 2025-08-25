@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infografía: Proyectos de Dirección en Andalucía</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 320px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .kpi-card {
+            background-color: #ffffff;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            padding: 1.5rem;
+            text-align: center;
+            border-left: 5px solid #005f73;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .kpi-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        .flowchart-step {
+            background-color: #ffffff;
+            border: 2px solid #0a9396;
+            color: #001219;
+        }
+        .flowchart-arrow {
+            color: #0a9396;
+        }
+    </style>
+</head>
+<body class="bg-[#F0F4F8] text-[#001219]">
+
+    <div class="container mx-auto p-4 md:p-8">
+
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-[#005F73] mb-4">Proyectos de Dirección en Andalucía</h1>
+            <p class="text-lg md:text-xl text-[#0A9396] max-w-4xl mx-auto">Una guía visual sobre las claves, estrategias y el impacto de los proyectos de dirección en los centros de infantil y primaria para la transformación educativa.</p>
+        </header>
+
+        <main>
+            <section id="introduction" class="mb-16">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="kpi-card">
+                        <p class="text-5xl font-black text-[#94D2BD]">4 Años</p>
+                        <h3 class="text-xl font-semibold mt-2 text-[#005F73]">Duración del Mandato</h3>
+                        <p class="mt-1 text-gray-600">Es el periodo de vigencia de cada Proyecto de Dirección, permitiendo un desarrollo a medio plazo.</p>
+                    </div>
+                    <div class="kpi-card">
+                        <p class="text-5xl font-black text-[#94D2BD]">>85%</p>
+                        <h3 class="text-xl font-semibold mt-2 text-[#005F73]">Liderazgo Pedagógico</h3>
+                        <p class="mt-1 text-gray-600">Es el factor más valorado para el éxito escolar, impulsado desde el Proyecto de Dirección.</p>
+                    </div>
+                    <div class="kpi-card">
+                        <p class="text-5xl font-black text-[#94D2BD]">100%</p>
+                        <h3 class="text-xl font-semibold mt-2 text-[#005F73]">Marco Normativo</h3>
+                        <p class="mt-1 text-gray-600">Regulados por el Decreto 152/2020, que establece un procedimiento claro de selección y evaluación.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="core-components" class="mb-16">
+                <div class="bg-white rounded-lg shadow-md p-6 md:p-8">
+                    <h2 class="text-3xl font-bold text-center text-[#005F73] mb-2">Ejes Fundamentales de un Proyecto Exitoso</h2>
+                    <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto">Un proyecto de dirección robusto no es un mero trámite administrativo; es la hoja de ruta estratégica del centro. Los proyectos más eficaces distribuyen sus esfuerzos de manera equilibrada en varios ejes clave, con un claro enfoque en la mejora de los resultados del alumnado.</p>
+                    <div class="chart-container">
+                        <canvas id="projectAxesChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <section id="success-factors" class="mb-16">
+                 <div class="bg-white rounded-lg shadow-md p-6 md:p-8">
+                    <h2 class="text-3xl font-bold text-center text-[#005F73] mb-2">Factores Clave de Éxito</h2>
+                    <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto">La investigación sobre proyectos de dirección efectivos revela que ciertos factores son determinantes para lograr un impacto real y sostenible. El liderazgo distribuido y la formación continua del profesorado destacan como los pilares más importantes para la transformación del centro.</p>
+                    <div class="chart-container h-[400px] md:h-[450px]">
+                        <canvas id="successFactorsChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <section id="procedure" class="mb-16">
+                <h2 class="text-3xl font-bold text-center text-[#005F73] mb-8">Fases de Elaboración y Puesta en Marcha</h2>
+                <div class="flex flex-col md:flex-row flex-wrap justify-center items-center gap-y-4">
+                    <div class="w-full md:w-1/5 text-center p-4 m-2 rounded-lg flowchart-step"><strong>1. Convocatoria</strong><p class="text-sm">Publicación oficial de plazas vacantes.</p></div>
+                    <div class="text-2xl flowchart-arrow hidden md:block">&rarr;</div>
+                    <div class="text-2xl flowchart-arrow block md:hidden">&darr;</div>
+                    <div class="w-full md:w-1/5 text-center p-4 m-2 rounded-lg flowchart-step"><strong>2. Análisis</strong><p class="text-sm">Estudio del contexto del centro (datos, DAFO).</p></div>
+                    <div class="text-2xl flowchart-arrow hidden md:block">&rarr;</div>
+                    <div class="text-2xl flowchart-arrow block md:hidden">&darr;</div>
+                    <div class="w-full md:w-1/5 text-center p-4 m-2 rounded-lg flowchart-step"><strong>3. Diseño</strong><p class="text-sm">Definición de objetivos, líneas de actuación e indicadores.</p></div>
+                    <div class="text-2xl flowchart-arrow block md:hidden">&darr;</div>
+                </div>
+                 <div class="flex flex-col md:flex-row flex-wrap justify-center items-center gap-y-4 mt-0 md:mt-4">
+                    <div class="w-full md:w-1/5 text-center p-4 m-2 rounded-lg flowchart-step"><strong>4. Presentación</strong><p class="text-sm">Defensa del proyecto ante la Comisión de Selección.</p></div>
+                    <div class="text-2xl flowchart-arrow hidden md:block">&rarr;</div>
+                     <div class="text-2xl flowchart-arrow block md:hidden">&darr;</div>
+                    <div class="w-full md:w-1/5 text-center p-4 m-2 rounded-lg flowchart-step"><strong>5. Ejecución</strong><p class="text-sm">Nombramiento e implementación del plan (4 años).</p></div>
+                     <div class="text-2xl flowchart-arrow hidden md:block">&rarr;</div>
+                     <div class="text-2xl flowchart-arrow block md:hidden">&darr;</div>
+                    <div class="w-full md:w-1/5 text-center p-4 m-2 rounded-lg flowchart-step"><strong>6. Evaluación</strong><p class="text-sm">Seguimiento anual y evaluación final de logros.</p></div>
+                </div>
+            </section>
+            
+            <section id="innovation" class="mb-16">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    <div class="bg-white rounded-lg shadow-md p-6 md:p-8">
+                        <h2 class="text-3xl font-bold text-[#005F73] mb-4">Innovación y Transformación Digital</h2>
+                        <p class="text-gray-600 mb-6">La integración de la tecnología es un eje transversal en los proyectos de dirección modernos. Ya no se trata solo de dotar de equipos, sino de transformar las metodologías de enseñanza y los procesos de gestión. Los proyectos más innovadores se centran en desarrollar la competencia digital de toda la comunidad educativa.</p>
+                         <ul class="list-disc list-inside space-y-2 text-gray-700">
+                            <li><span class="font-bold">Gestión:</span> Uso de Séneca/iPasen para unificar la comunicación y los trámites.</li>
+                            <li><span class="font-bold">Enseñanza:</span> Plataformas como Moodle Centros y Google for Education para Aulas Virtuales.</li>
+                            <li><span class="font-bold">Metodologías:</span> Impulso del Aprendizaje Basado en Proyectos (ABP), gamificación y robótica educativa.</li>
+                            <li><span class="font-bold">Competencia Digital:</span> Planes de formación para docentes basados en el Marco DigCompEdu.</li>
+                        </ul>
+                    </div>
+                     <div class="bg-white rounded-lg shadow-md p-6 md:p-8">
+                        <h3 class="text-2xl font-bold text-center text-[#005F73] mb-2">Evolución de la Adopción Digital</h3>
+                         <p class="text-center text-gray-600 mb-8">El uso de herramientas digitales en los centros ha experimentado un crecimiento exponencial, especialmente desde 2020. Esta gráfica muestra la tendencia en la integración de plataformas colaborativas y recursos educativos abiertos (REA) en los proyectos de dirección.</p>
+                        <div class="chart-container">
+                           <canvas id="digitalAdoptionChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="improvement-areas" class="mb-16">
+                 <h2 class="text-3xl font-bold text-center text-[#005F73] mb-8">Áreas de Mejora y Visión de Futuro</h2>
+                 <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto">A pesar de los avances, existen desafíos y oportunidades para potenciar el impacto de los proyectos de dirección. El análisis DAFO (Debilidades, Amenazas, Fortalezas, Oportunidades) sintetiza la situación actual y las líneas estratégicas a seguir.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-red-500">
+                        <h3 class="text-2xl font-bold text-red-700 mb-3">Debilidades</h3>
+                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                           <li>Excesiva carga burocrática para los equipos directivos.</li>
+                           <li>Resistencia al cambio en parte del profesorado.</li>
+                           <li>Brecha digital en algunos sectores de la comunidad.</li>
+                        </ul>
+                    </div>
+                     <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-amber-500">
+                        <h3 class="text-2xl font-bold text-amber-700 mb-3">Amenazas</h3>
+                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                           <li>Normativa cambiante que puede afectar a la estabilidad.</li>
+                           <li>Falta de recursos económicos para proyectos ambiciosos.</li>
+                           <li>Descenso de la natalidad y su impacto en las ratios.</li>
+                        </ul>
+                    </div>
+                     <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-green-500">
+                        <h3 class="text-2xl font-bold text-green-700 mb-3">Fortalezas</h3>
+                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                           <li>Marco normativo claro y estable (Decreto 152/2020).</li>
+                           <li>Alta motivación y compromiso de muchos equipos directivos.</li>
+                           <li>Red de formación del profesorado (CEPs).</li>
+                        </ul>
+                    </div>
+                     <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-blue-500">
+                        <h3 class="text-2xl font-bold text-blue-700 mb-3">Oportunidades</h3>
+                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                           <li>Fondos europeos para la digitalización (Next Generation).</li>
+                           <li>Potenciar el liderazgo distribuido y la co-docencia.</li>
+                           <li>Abrir el centro al entorno: aprendizaje-servicio y alianzas.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="text-center pt-8 mt-12 border-t-2 border-[#94D2BD]">
+             <p class="text-gray-600">Infografía generada a partir de la investigación sobre Proyectos de Dirección en centros públicos de Andalucía. | Julio 2025</p>
+        </footer>
+
+    </div>
+
+    <script>
+        const brilliantBluesPalette = {
+            darkBlue: '#001219',
+            teal: '#005F73',
+            darkCyan: '#0A9396',
+            lightCyan: '#94D2BD',
+            mint: '#E9D8A6',
+            orange: '#EE9B00',
+            darkOrange: '#CA6702',
+            rust: '#BB3E03',
+            red: '#AE2012',
+            darkRed: '#9B2226'
+        };
+
+        const chartColors = [
+            brilliantBluesPalette.teal,
+            brilliantBluesPalette.darkCyan,
+            brilliantBluesPalette.lightCyan,
+            brilliantBluesPalette.orange,
+            brilliantBluesPalette.rust,
+        ];
+        
+        function wrapLabels(label, maxWidth) {
+            const words = label.split(' ');
+            let lines = [];
+            let currentLine = '';
+            words.forEach(word => {
+                if ((currentLine + ' ' + word).length > maxWidth && currentLine.length > 0) {
+                    lines.push(currentLine);
+                    currentLine = word;
+                } else {
+                    currentLine = currentLine.length === 0 ? word : currentLine + ' ' + word;
+                }
+            });
+            lines.push(currentLine);
+            return lines;
+        }
+
+        const commonTooltipCallback = {
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        title: function(tooltipItems) {
+                            const item = tooltipItems[0];
+                            let label = item.chart.data.labels[item.dataIndex];
+                            if (Array.isArray(label)) {
+                              return label.join(' ');
+                            }
+                            return label;
+                        }
+                    }
+                },
+                legend: {
+                    labels: {
+                        color: brilliantBluesPalette.darkBlue
+                    }
+                }
+            }
+        };
+
+        const projectAxesData = {
+            labels: ['Mejora del Rendimiento Académico', 'Transformación Digital', 'Convivencia e Inclusión', ['Participación de', 'las Familias'], ['Organización y', 'Funcionamiento']],
+            datasets: [{
+                label: 'Distribución de Esfuerzos (%)',
+                data: [35, 25, 20, 15, 5],
+                backgroundColor: chartColors,
+                borderColor: '#ffffff',
+                borderWidth: 2
+            }]
+        };
+        new Chart(document.getElementById('projectAxesChart'), {
+            type: 'doughnut',
+            data: projectAxesData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                ...commonTooltipCallback
+            }
+        });
+
+        const successFactorsData = {
+            labels: ['Liderazgo Pedagógico y Distribuido', 'Formación Permanente del Profesorado', ['Implicación de la', 'Comunidad Educativa'], ['Uso de Datos', 'para la Toma de Decisiones'], 'Autonomía y Recursos del Centro'].map(l => Array.isArray(l) ? l : wrapLabels(l, 16)),
+            datasets: [{
+                label: 'Impacto en el Éxito (Puntuación /100)',
+                data: [95, 92, 88, 81, 75],
+                backgroundColor: brilliantBluesPalette.darkCyan,
+                borderColor: brilliantBluesPalette.teal,
+                borderWidth: 1,
+                axis: 'y',
+            }]
+        };
+        new Chart(document.getElementById('successFactorsChart'), {
+            type: 'bar',
+            data: successFactorsData,
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        max: 100,
+                        ticks: { color: brilliantBluesPalette.darkBlue },
+                        grid: { color: '#e0e0e0' }
+                    },
+                    y: {
+                        ticks: { color: brilliantBluesPalette.darkBlue },
+                        grid: { display: false }
+                    }
+                },
+                ...commonTooltipCallback
+            }
+        });
+
+        const digitalAdoptionData = {
+            labels: ['2020', '2021', '2022', '2023', '2024', '2025 (Est.)'],
+            datasets: [
+                {
+                    label: 'Uso de Plataformas Colaborativas (%)',
+                    data: [20, 45, 65, 75, 85, 90],
+                    borderColor: brilliantBluesPalette.teal,
+                    backgroundColor: 'rgba(10, 147, 150, 0.2)',
+                    fill: true,
+                    tension: 0.4
+                },
+                {
+                    label: 'Integración de Recursos Educativos Abiertos (%)',
+                    data: [15, 30, 50, 60, 70, 78],
+                    borderColor: brilliantBluesPalette.orange,
+                    backgroundColor: 'rgba(238, 155, 0, 0.2)',
+                    fill: true,
+                    tension: 0.4
+                }
+            ]
+        };
+        new Chart(document.getElementById('digitalAdoptionChart'), {
+            type: 'line',
+            data: digitalAdoptionData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
+                        ticks: { color: brilliantBluesPalette.darkBlue, callback: value => value + '%' },
+                        grid: { color: '#e0e0e0' }
+                    },
+                    x: {
+                       ticks: { color: brilliantBluesPalette.darkBlue },
+                       grid: { display: false }
+                    }
+                },
+                 ...commonTooltipCallback
+            }
+        });
+    </script>
+</body>
+</html>
