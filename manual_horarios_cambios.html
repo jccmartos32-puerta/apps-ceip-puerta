@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manual de Horarios: Cambios 2024-2025</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .header {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            color: #2c3e50;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .header h2 {
+            color: #7f8c8d;
+            font-size: 1.2rem;
+            font-weight: 400;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .intro-card {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        
+        .intro-card h3 {
+            color: #2c3e50;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .intro-card .icon {
+            margin-right: 10px;
+            font-size: 1.8rem;
+        }
+        
+        .tabs {
+            display: flex;
+            background: rgba(255,255,255,0.2);
+            border-radius: 15px;
+            padding: 5px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .tab-button {
+            flex: 1;
+            padding: 15px 20px;
+            background: transparent;
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .tab-button.active {
+            background: rgba(255,255,255,0.9);
+            color: #2c3e50;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .changes-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 25px;
+        }
+        
+        .change-card {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .change-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+        }
+        
+        .change-header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            font-weight: 600;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .change-header .icon {
+            margin-right: 10px;
+            font-size: 1.5rem;
+        }
+        
+        .change-content {
+            padding: 25px;
+        }
+        
+        .before-after {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 15px;
+        }
+        
+        .before, .after {
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid;
+        }
+        
+        .before {
+            background: #fee;
+            border-left-color: #e74c3c;
+        }
+        
+        .after {
+            background: #efe;
+            border-left-color: #27ae60;
+        }
+        
+        .before h4, .after h4 {
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .before h4 {
+            color: #c0392b;
+        }
+        
+        .after h4 {
+            color: #27ae60;
+        }
+        
+        .highlight {
+            background: #fff3cd;
+            padding: 3px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+        
+        .summary-card {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+            text-align: center;
+        }
+        
+        .summary-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+        
+        .summary-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 25px;
+        }
+        
+        .stat-item {
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            display: block;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-top: 5px;
+        }
+        
+        @media (max-width: 768px) {
+            .before-after {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+        }
+        
+        .impact-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+        
+        .impact-high {
+            background: #e74c3c;
+            color: white;
+        }
+        
+        .impact-medium {
+            background: #f39c12;
+            color: white;
+        }
+        
+        .impact-low {
+            background: #27ae60;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>📋 Manual de Horarios Docentes</h1>
+        <h2>Cambios Normativos 2024-2025 | CEIP Puerta de Martos</h2>
+    </div>
+    
+    <div class="container">
+        <div class="intro-card">
+            <h3><span class="icon">📢</span>Información General</h3>
+            <p><strong>Resolución de modificación:</strong> 7 de agosto de 2025</p>
+            <p><strong>Vigencia:</strong> A partir del día siguiente de su publicación</p>
+            <p><strong>Documento modificado:</strong> Manual aprobado el 30 de septiembre de 2024</p>
+            <p><strong>Objetivo:</strong> Mejorar la plataforma informática Séneca y actualizar procedimientos administrativos</p>
+        </div>
+        
+        <div class="tabs">
+            <button class="tab-button active" onclick="showTab('cambios')">🔄 Cambios Específicos</button>
+            <button class="tab-button" onclick="showTab('resumen')">📊 Resumen Ejecutivo</button>
+            <button class="tab-button" onclick="showTab('impacto')">⚡ Impacto en el Centro</button>
+        </div>
+        
+        <div id="cambios" class="tab-content active">
+            <div class="changes-grid">
+                <div class="change-card">
+                    <div class="change-header">
+                        <span class="icon">🏫</span>
+                        7.3.2 Equipos de Orientación Educativa
+                        <span class="impact-badge impact-low">BAJO IMPACTO</span>
+                    </div>
+                    <div class="change-content">
+                        <p><strong>Modificación:</strong> Se añade un nuevo párrafo sobre el procedimiento de aprobación de horarios.</p>
+                        <div class="before-after">
+                            <div class="after">
+                                <h4>✅ NUEVO (2025)</h4>
+                                <p>"Una vez aprobados los horarios, se procederá de la misma forma que la establecida en el subapartado 7.2 para los centros educativos."</p>
+                            </div>
+                            <div class="before">
+                                <h4>📋 ANTERIOR (2024)</h4>
+                                <p>No existía esta especificación del procedimiento.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="change-card">
+                    <div class="change-header">
+                        <span class="icon">⚖️</span>
+                        9.2.4 Ausencias No Justificadas - Procedimiento Disciplinario
+                        <span class="impact-badge impact-medium">MEDIO IMPACTO</span>
+                    </div>
+                    <div class="change-content">
+                        <p><strong>Modificación:</strong> Cambio importante en el tratamiento disciplinario de las ausencias.</p>
+                        <div class="before-after">
+                            <div class="before">
+                                <h4>❌ ANTERIOR (2024)</h4>
+                                <p>"La persona titular de la dirección del centro <span class="highlight">iniciará</span> el procedimiento disciplinario"</p>
+                                <p>"Sin perjuicio de lo dispuesto en el párrafo anterior <span class="highlight">para la detracción de haberes</span>"</p>
+                            </div>
+                            <div class="after">
+                                <h4>✅ NUEVO (2025)</h4>
+                                <p>"La persona titular de la dirección del centro <span class="highlight">podrá iniciar</span> el procedimiento disciplinario"</p>
+                                <p>"Sin perjuicio de lo dispuesto en el párrafo anterior, <span class="highlight">con independencia de la detracción de haberes</span>"</p>
+                            </div>
+                        </div>
+                        <p><strong>📝 Implicación:</strong> Mayor discrecionalidad para los directores en la incoación de procedimientos disciplinarios.</p>
+                    </div>
+                </div>
+                
+                <div class="change-card">
+                    <div class="change-header">
+                        <span class="icon">📊</span>
+                        9.3 Publicidad de Ausencias - Sistema Séneca
+                        <span class="impact-badge impact-low">BAJO IMPACTO</span>
+                    </div>
+                    <div class="change-content">
+                        <p><strong>Modificación:</strong> Cambio técnico en el envío de estadillos a inspección.</p>
+                        <div class="before-after">
+                            <div class="before">
+                                <h4>❌ ANTERIOR (2024)</h4>
+                                <p>"Una vez generado dicho estadillo, <span class="highlight">será enviado</span> a través de la plataforma Séneca al servicio de inspección"</p>
+                            </div>
+                            <div class="after">
+                                <h4>✅ NUEVO (2025)</h4>
+                                <p>"Una vez generado dicho estadillo, <span class="highlight">se pondrá a disposición</span>, a través de la plataforma Séneca, del servicio de inspección"</p>
+                            </div>
+                        </div>
+                        <p><strong>📝 Implicación:</strong> Mejora técnica en la gestión de la plataforma Séneca.</p>
+                    </div>
+                </div>
+                
+                <div class="change-card">
+                    <div class="change-header">
+                        <span class="icon">✊</span>
+                        10.2 Control de Huelgas - Simplificación
+                        <span class="impact-badge impact-medium">MEDIO IMPACTO</span>
+                    </div>
+                    <div class="change-content">
+                        <p><strong>Modificación:</strong> Simplificación del control de asistencia durante huelgas.</p>
+                        <div class="before-after">
+                            <div class="before">
+                                <h4>❌ ANTERIOR (2024)</h4>
+                                <p>Control detallado por tramos horarios tanto para huelgas como paros parciales</p>
+                                <p>Procedimiento complejo de adaptación para personal de administración</p>
+                            </div>
+                            <div class="after">
+                                <h4>✅ NUEVO (2025)</h4>
+                                <p><strong>Huelgas:</strong> Control general a través de Séneca</p>
+                                <p><strong>Paros parciales:</strong> Control por tramos horarios específicos</p>
+                                <p>Eliminación de procedimientos transitorios complejos</p>
+                            </div>
+                        </div>
+                        <p><strong>📝 Implicación:</strong> Procedimiento más claro y eficiente para el control durante conflictos laborales.</p>
+                    </div>
+                </div>
+                
+                <div class="change-card">
+                    <div class="change-header">
+                        <span class="icon">🏛️</span>
+                        11.2 Comisión Provincial - Funciones
+                        <span class="impact-badge impact-high">ALTO IMPACTO</span>
+                    </div>
+                    <div class="change-content">
+                        <p><strong>Modificación:</strong> Cambio sustancial en las funciones de la Comisión Provincial.</p>
+                        <div class="before-after">
+                            <div class="before">
+                                <h4>❌ ANTERIOR (2024)</h4>
+                                <p>La Comisión debía <span class="highlight">comprobar que la dirección ha iniciado</span> el procedimiento disciplinario</p>
+                                <p>Responsabilidad directa en supervisión de procedimientos</p>
+                            </div>
+                            <div class="after">
+                                <h4>✅ NUEVO (2025)</h4>
+                                <p>La Comisión <span class="highlight">comunicará los hechos</span> al servicio de inspección educativa</p>
+                                <p>Eliminación de párrafo sobre control directo de procedimientos</p>
+                            </div>
+                        </div>
+                        <p><strong>📝 Implicación:</strong> Redistribución de competencias entre Comisión e Inspección Educativa.</p>
+                    </div>
+                </div>
+                
+                <div class="change-card">
+                    <div class="change-header">
+                        <span class="icon">📋</span>
+                        Anexo D - Formulario de Huelgas
+                        <span class="impact-badge impact-low">BAJO IMPACTO</span>
+                    </div>
+                    <div class="change-content">
+                        <p><strong>Modificación:</strong> Simplificación del formulario de notificación de huelgas.</p>
+                        <div class="before-after">
+                            <div class="before">
+                                <h4>❌ ANTERIOR (2024)</h4>
+                                <p>Incluía nota al pie compleja sobre cálculo de horas (7 horas por día + horas complementarias proporcionales)</p>
+                            </div>
+                            <div class="after">
+                                <h4>✅ NUEVO (2025)</h4>
+                                <p>Formulario simplificado sin notas al pie complejas</p>
+                                <p>Formato más limpio y directo</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="resumen" class="tab-content">
+            <div class="summary-card">
+                <h3>📋 Resumen Ejecutivo de Cambios</h3>
+                <p>Las modificaciones introducidas en agosto de 2025 buscan principalmente <strong>simplificar procedimientos administrativos</strong> y mejorar la <strong>eficiencia de la plataforma Séneca</strong>.</p>
+                
+                <div class="summary-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">6</span>
+                        <div class="stat-label">Apartados Modificados</div>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">2</span>
+                        <div class="stat-label">Cambios de Alto Impacto</div>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">3</span>
+                        <div class="stat-label">Mejoras Técnicas</div>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">1</span>
+                        <div class="stat-label">Formulario Simplificado</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="change-card" style="margin-top: 30px;">
+                <div class="change-header">
+                    <span class="icon">🎯</span>
+                    Objetivos Principales de la Reforma
+                </div>
+                <div class="change-content">
+                    <ul style="line-height: 2; font-size: 1.1rem;">
+                        <li>🔧 <strong>Mejoras técnicas</strong> en la plataforma Séneca</li>
+                        <li>📊 <strong>Optimización</strong> del tratamiento de datos de ausencias</li>
+                        <li>⚖️ <strong>Mayor flexibilidad</strong> en procedimientos disciplinarios</li>
+                        <li>🏛️ <strong>Redistribución</strong> de competencias administrativas</li>
+                        <li>📋 <strong>Simplificación</strong> de formularios y procesos</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div id="impacto" class="tab-content">
+            <div class="changes-grid">
+                <div class="change-card">
+                    <div class="change-header">
+                        <span class="icon">🎯</span>
+                        Impacto Directo en CEIP Puerta de Martos
+                    </div>
+                    <div class="change-content">
+                        <h4 style="color: #2c3e50; margin-bottom: 15px;">📋 Para el Equipo Directivo:</h4>
+                        <ul style="line-height: 1.8;">
+                            <li><strong>Mayor discrecionalidad</strong> en procedimientos disciplinarios (9.2.4)</li>
+                            <li><strong>Proceso simplificado</strong> para control de huelgas (10.2)</li>
+                            <li><strong>Menos supervisión directa</strong> de la Comisión Provincial (11.2)</li>
+                        </ul>
+                        
+                        <h4 style="color: #2c3e50; margin: 20px 0 15px;">👥 Para el Profesorado:</h4>
+                        <ul style="line-height: 1.8;">
+                            <li><strong>Procedimientos más claros</strong> en notificaciones</li>
+                            <li><strong>Formularios simplificados</strong> para situaciones de huelga</li>
+                            <li><strong>Mejores prestaciones</strong> de la plataforma Séneca</li>
+                        </ul>
+                        
+                        <h4 style="color: #2c3e50; margin: 20px 0 15px;">🏫 Para el Centro:</h4>
+                        <ul style="line-height: 1.8;">
+                            <li><strong>Gestión más eficiente</strong> de ausencias y horarios</li>
+                            <li><strong>Menos burocracia</strong> en procesos administrativos</li>
+                            <li><strong>Mayor autonomía</strong> en la toma de decisiones</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="change-card">
+                    <div class="change-header">
+                        <span class="icon">📅</span>
+                        Cronograma de Implementación
+                    </div>
+                    <div class="change-content">
+                        <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 15px; margin-top: 10px;">
+                            <div style="background: #e8f4fd; padding: 15px; border-radius: 8px;">
+                                <strong>21 Agosto 2025</strong>
+                            </div>
+                            <div style="background: #f8f9fa; padding: 15px; border-radius: 8px;">
+                                Entrada en vigor de todas las modificaciones
+                            </div>
+                            
+                            <div style="background: #e8f4fd; padding: 15px; border-radius: 8px;">
+                                <strong>Septiembre 2025</strong>
+                            </div>
+                            <div style="background: #f8f9fa; padding: 15px; border-radius: 8px;">
+                                Presentación al Claustro y formación del equipo
+                            </div>
+                            
+                            <div style="background: #e8f4fd; padding: 15px; border-radius: 8px;">
+                                <strong>Curso 2025-26</strong>
+                            </div>
+                            <div style="background: #f8f9fa; padding: 15px; border-radius: 8px;">
+                                Aplicación completa del nuevo marco normativo
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="change-card">
+                    <div class="change-header">
+                        <span class="icon">✅</span>
+                        Acciones Requeridas
+                    </div>
+                    <div class="change-content">
+                        <div style="display: grid; gap: 15px;">
+                            <div style="background: #fff3cd; padding: 15px; border-left: 4px solid #ffc107; border-radius: 0 8px 8px 0;">
+                                <strong>🎯 INMEDIATO:</strong> Informar al personal sobre los cambios normativos
+                            </div>
+                            <div style="background: #d1ecf1; padding: 15px; border-left: 4px solid #17a2b8; border-radius: 0 8px 8px 0;">
+                                <strong>📋 CORTO PLAZO:</strong> Actualizar protocolos internos del centro
+                            </div>
+                            <div style="background: #d4edda; padding: 15px; border-left: 4px solid #28a745; border-radius: 0 8px 8px 0;">
+                                <strong>🔄 MEDIO PLAZO:</strong> Revisar y adaptar documentos del Plan de Centro
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function showTab(tabName) {
+            // Ocultar todos los contenidos
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active'));
+            
+            // Quitar clase active de todos los botones
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => button.classList.remove('active'));
+            
+            // Mostrar el contenido seleccionado
+            document.getElementById(tabName).classList.add('active');
+            
+            // Activar el botón correspondiente
+            event.target.classList.add('active');
+        }
+        
+        // Efecto de aparición progresiva
+        window.addEventListener('load', function() {
+            const cards = document.querySelectorAll('.change-card');
+            cards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(20px)';
+                    card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                    
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, 100);
+                }, index * 200);
+            });
+        });
+    </script>
+</body>
+</html>
