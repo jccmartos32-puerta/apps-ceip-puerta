@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IA en Primaria - CEIP Puerta de Martos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out;
+        }
+        .accordion-button.active .rotate-icon {
+            transform: rotate(180deg);
+        }
+        .stage-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .stage-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+        <!-- Header -->
+        <header class="text-center mb-8">
+            <h1 class="text-4xl md:text-5xl font-bold text-blue-600">IA en Primaria</h1>
+            <p class="text-lg text-gray-600 mt-2">Guía para el claustro del CEIP Puerta de Martos</p>
+        </header>
+
+        <main class="space-y-6">
+            <!-- Principios Clave -->
+            <div class="bg-white rounded-xl shadow-md border border-gray-200">
+                <button class="accordion-button w-full flex justify-between items-center p-5 text-left text-xl font-semibold text-gray-800 focus:outline-none" data-target="principios">
+                    <span class="flex items-center"><i data-lucide="key-round" class="mr-3 text-yellow-500"></i>Las 6 Reglas de Oro</span>
+                    <i data-lucide="chevron-down" class="rotate-icon transition-transform duration-300"></i>
+                </button>
+                <div id="principios" class="accordion-content px-5 pb-5">
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4 pt-4 border-t">
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <h3 class="font-semibold text-blue-800 flex items-center"><i data-lucide="brain-circuit" class="mr-2"></i>1. Para pensar, no para copiar</h3>
+                            <p class="text-sm text-gray-700 mt-1">La IA da pistas y ejemplos, pero el niño debe explicar lo que ha entendido con sus propias palabras.</p>
+                        </div>
+                        <div class="bg-green-50 p-4 rounded-lg">
+                            <h3 class="font-semibold text-green-800 flex items-center"><i data-lucide="user-check" class="mr-2"></i>2. Un ayudante, no un sustituto</h3>
+                            <p class="text-sm text-gray-700 mt-1">Funciona como un "entrenador" que sugiere mejoras. El niño siempre tiene la última palabra y decide qué usar.</p>
+                        </div>
+                        <div class="bg-purple-50 p-4 rounded-lg">
+                            <h3 class="font-semibold text-purple-800 flex items-center"><i data-lucide="lightbulb" class="mr-2"></i>3. Para despertar la creatividad</h3>
+                            <p class="text-sm text-gray-700 mt-1">Es un motor de ideas para que los alumnos, solos o en equipo, puedan crear proyectos originales.</p>
+                        </div>
+                        <div class="bg-red-50 p-4 rounded-lg">
+                            <h3 class="font-semibold text-red-800 flex items-center"><i data-lucide="clipboard-check" class="mr-2"></i>4. Evaluar el proceso, no el resultado</h3>
+                            <p class="text-sm text-gray-700 mt-1">Es mejor pedirles que expliquen cómo lo han hecho o que defiendan su trabajo en voz alta que usar detectores de IA.</p>
+                        </div>
+                        <div class="bg-indigo-50 p-4 rounded-lg">
+                            <h3 class="font-semibold text-indigo-800 flex items-center"><i data-lucide="graduation-cap" class="mr-2"></i>5. Aprender poco a poco</h3>
+                            <p class="text-sm text-gray-700 mt-1">El uso de la IA debe ir creciendo con la edad del niño, siempre con la guía de un adulto que le enseñe a usarla bien.</p>
+                        </div>
+                        <div class="bg-pink-50 p-4 rounded-lg">
+                            <h3 class="font-semibold text-pink-800 flex items-center"><i data-lucide="shield-check" class="mr-2"></i>6. Siempre con seguridad</h3>
+                            <p class="text-sm text-gray-700 mt-1">Usar siempre cuentas de nuestro cole, sin dar datos personales, y con un objetivo educativo claro.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Neuroguía -->
+            <div class="bg-white rounded-xl shadow-md border border-gray-200">
+                <button class="accordion-button w-full flex justify-between items-center p-5 text-left text-xl font-semibold text-gray-800 focus:outline-none" data-target="neuroguia">
+                    <span class="flex items-center"><i data-lucide="brain-cog" class="mr-3 text-purple-500"></i>Neuroguía: El Cerebro del Niño y la IA</span>
+                    <i data-lucide="chevron-down" class="rotate-icon transition-transform duration-300"></i>
+                </button>
+                <div id="neuroguia" class="accordion-content px-5 pb-5">
+                    <div class="pt-4 border-t text-center">
+                        <p class="text-gray-600 mb-4">Entender cómo madura el cerebro nos ayuda a usar la IA de forma más inteligente, ajustándola a las necesidades reales de cada edad.</p>
+                        <div class="grid lg:grid-cols-3 gap-6 text-left">
+                            <div class="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                                <h4 class="font-bold text-lg text-orange-600">1º Ciclo (6-8 años)</h4>
+                                <p class="font-semibold mt-2 text-gray-700">El cerebro en esta etapa:</p>
+                                <p class="text-sm text-gray-600 mt-1">La "memoria RAM" (memoria de trabajo) es pequeña. Les cuesta frenar impulsos y se distraen fácilmente. Necesitan pasos muy cortos y claros.</p>
+                                <p class="font-semibold mt-3 text-gray-700">Ajuste con IA:</p>
+                                <p class="text-sm text-gray-600 mt-1">La IA es una herramienta para el profe. Se usa para crear materiales sencillos (cuentos, fichas) que reducen la "carga mental" del niño, permitiéndole centrarse en la tarea principal sin la distracción de la pantalla.</p>
+                            </div>
+                            <div class="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                                <h4 class="font-bold text-lg text-teal-600">2º Ciclo (8-10 años)</h4>
+                                <p class="font-semibold mt-2 text-gray-700">El cerebro en esta etapa:</p>
+                                <p class="text-sm text-gray-600 mt-1">Aumenta su "memoria RAM" y pueden manejar más información. Su capacidad de atención es mayor y empiezan a hacer razonamientos más complejos.</p>
+                                <p class="font-semibold mt-3 text-gray-700">Ajuste con IA:</p>
+                                <p class="text-sm text-gray-600 mt-1">El niño puede empezar a interactuar con la IA como un ayudante supervisado. Le da pistas o le ayuda a revisar un borrador, apoyando su memoria de trabajo sin darle la solución y forzándole a tomar decisiones.</p>
+                            </div>
+                            <div class="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                                <h4 class="font-bold text-lg text-indigo-600">3º Ciclo (10-12 años)</h4>
+                                <p class="font-semibold mt-2 text-gray-700">El cerebro en esta etapa:</p>
+                                <p class="text-sm text-gray-600 mt-1">El "director de orquesta" del cerebro (funciones ejecutivas) está madurando. Mejoran en planificación, organización y en ver un problema desde diferentes ángulos.</p>
+                                <p class="font-semibold mt-3 text-gray-700">Ajuste con IA:</p>
+                                <p class="text-sm text-gray-600 mt-1">La IA se convierte en un "compañero de debate". Actúa como un andamio para sus habilidades de planificación, ayudándole a organizar una investigación, a generar preguntas o a encontrar fallos en sus argumentos.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Secuenciación por Etapas -->
+            <div class="bg-white rounded-xl shadow-md border border-gray-200">
+                 <button class="accordion-button w-full flex justify-between items-center p-5 text-left text-xl font-semibold text-gray-800 focus:outline-none" data-target="etapas">
+                    <span class="flex items-center"><i data-lucide="waypoints" class="mr-3 text-green-500"></i>Uso de la IA en cada etapa</span>
+                    <i data-lucide="chevron-down" class="rotate-icon transition-transform duration-300"></i>
+                </button>
+                <div id="etapas" class="accordion-content px-5 pb-5">
+                    <div class="grid lg:grid-cols-3 gap-6 pt-4 border-t">
+                        <!-- Primer Ciclo -->
+                        <div class="stage-card bg-orange-50 border border-orange-200 rounded-lg p-5 flex flex-col">
+                            <h3 class="text-2xl font-bold text-orange-600">1º Ciclo (6-8 años)</h3>
+                            <p class="font-semibold mt-2">Meta:</p>
+                            <p class="text-sm">Afianzar la lectura, la escritura y el cálculo básico.</p>
+                            <p class="font-semibold mt-3">Uso de la IA:</p>
+                            <p class="text-sm">El profe la usa para crear materiales. Genera cuentos, imágenes o problemas adaptados que luego se trabajan en papel.</p>
+                            <div class="bg-yellow-100 border-l-4 border-yellow-400 text-yellow-800 p-2 mt-3 rounded-r-lg">
+                                <p class="text-xs italic flex items-center"><i data-lucide="eye" class="w-4 h-4 mr-2 flex-shrink-0"></i>Todo uso de la IA es guiado y supervisado por el docente.</p>
+                            </div>
+                            <div class="mt-4 flex-grow flex flex-col">
+                                <h4 class="font-semibold text-md mb-2">Ejemplo práctico:</h4>
+                                <div class="bg-white p-3 rounded-md shadow-sm flex-grow">
+                                    <p class="font-semibold text-sm">Fábrica de cuentos</p>
+                                    <p class="text-xs text-gray-600 mt-1">El profe pide a la IA un texto breve y sencillo para que los niños lo lean, lo ordenen o dibujen sobre él.</p>
+                                    <p class="text-xs font-mono bg-gray-100 p-2 rounded mt-2 text-gray-500">"Escribe un cuento de 5 frases para niños de 7 años. Usa estas palabras: dragón, castillo, valiente. Después, crea 3 preguntas fáciles sobre el texto."</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Segundo Ciclo -->
+                        <div class="stage-card bg-teal-50 border border-teal-200 rounded-lg p-5 flex flex-col">
+                            <h3 class="text-2xl font-bold text-teal-600">2º Ciclo (8-10 años)</h3>
+                            <p class="font-semibold mt-2">Meta:</p>
+                            <p class="text-sm">Escribir textos más largos y resolver problemas con varios pasos.</p>
+                            <p class="font-semibold mt-3">Uso de la IA:</p>
+                            <p class="text-sm">El alumno la usa como ayudante. Le pide pistas o sugerencias para mejorar un borrador ya hecho.</p>
+                             <div class="bg-yellow-100 border-l-4 border-yellow-400 text-yellow-800 p-2 mt-3 rounded-r-lg">
+                                <p class="text-xs italic flex items-center"><i data-lucide="eye" class="w-4 h-4 mr-2 flex-shrink-0"></i>Todo uso de la IA es guiado y supervisado por el docente.</p>
+                            </div>
+                            <div class="mt-4 flex-grow flex flex-col">
+                                <h4 class="font-semibold text-md mb-2">Ejemplo práctico:</h4>
+                                <div class="bg-white p-3 rounded-md shadow-sm flex-grow">
+                                    <p class="font-semibold text-sm">Revisor de textos</p>
+                                    <p class="text-xs text-gray-600 mt-1">El niño escribe un borrador. Luego, le pide a la IA que le dé ideas para mejorarlo, pero sin que se lo reescriba.</p>
+                                    <p class="text-xs font-mono bg-gray-100 p-2 rounded mt-2 text-gray-500">"Lee este texto que he escrito. No lo corrijas. Solo dime: ¿qué frase no está clara? ¿Qué palabra puedo usar en vez de 'dijo' para no repetir? Dame una idea para que el final sea más emocionante."</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Tercer Ciclo -->
+                        <div class="stage-card bg-indigo-50 border border-indigo-200 rounded-lg p-5 flex flex-col">
+                            <h3 class="text-2xl font-bold text-indigo-600">3º Ciclo (10-12 años)</h3>
+                            <p class="font-semibold mt-2">Meta:</p>
+                            <p class="text-sm">Aprender a investigar, dar opiniones con argumentos y contrastar información.</p>
+                            <p class="font-semibold mt-3">Uso de la IA:</p>
+                            <p class="text-sm">El alumno la usa como un "compañero de debate". Le ayuda a explorar un tema y a encontrar puntos débiles en sus argumentos.</p>
+                             <div class="bg-yellow-100 border-l-4 border-yellow-400 text-yellow-800 p-2 mt-3 rounded-r-lg">
+                                <p class="text-xs italic flex items-center"><i data-lucide="eye" class="w-4 h-4 mr-2 flex-shrink-0"></i>Todo uso de la IA es guiado y supervisado por el docente.</p>
+                            </div>
+                            <div class="mt-4 flex-grow flex flex-col">
+                                <h4 class="font-semibold text-md mb-2">Ejemplo práctico:</h4>
+                                <div class="bg-white p-3 rounded-md shadow-sm flex-grow">
+                                    <p class="font-semibold text-sm">Entrenador de argumentos</p>
+                                    <p class="text-xs text-gray-600 mt-1">El alumno defiende una idea. La IA actúa como "abogado del diablo", planteando preguntas difíciles para que el alumno refuerce su postura.</p>
+                                    <p class="text-xs font-mono bg-gray-100 p-2 rounded mt-2 text-gray-500">"Mi opinión es que los videojuegos son buenos para aprender. Actúa como alguien que no está de acuerdo y hazme 2 preguntas difíciles para poner a prueba mi argumento. No me des tus opiniones, solo preguntas."</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Papel de las Familias -->
+            <div class="bg-white rounded-xl shadow-md border border-gray-200">
+                <button class="accordion-button w-full flex justify-between items-center p-5 text-left text-xl font-semibold text-gray-800 focus:outline-none" data-target="familias">
+                    <span class="flex items-center"><i data-lucide="heart-handshake" class="mr-3 text-red-500"></i>El Papel Clave de las Familias</span>
+                    <i data-lucide="chevron-down" class="rotate-icon transition-transform duration-300"></i>
+                </button>
+                <div id="familias" class="accordion-content px-5 pb-5">
+                    <div class="pt-4 border-t">
+                        <p class="mb-4 text-gray-700">La colaboración entre nuestro cole y casa es fundamental. Un plan de acción podría ser:</p>
+                        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+                            <div class="bg-gray-100 p-4 rounded-lg">
+                                <h4 class="font-bold">1. Preparar el terreno</h4>
+                                <p class="text-sm mt-1">Hacer una pequeña encuesta para saber qué dudas hay en casa y crear un equipo mixto (profes y familias) que guíe el proceso.</p>
+                            </div>
+                            <div class="bg-gray-100 p-4 rounded-lg">
+                                <h4 class="font-bold">2. Formación para todos</h4>
+                                <p class="text-sm mt-1">Organizar charlas sencillas para familias: qué es la IA, cómo proteger los datos y, sobre todo, cómo ayudar con los deberes sin hacerlos.</p>
+                            </div>
+                            <div class="bg-gray-100 p-4 rounded-lg">
+                                <h4 class="font-bold">3. Manos a la obra</h4>
+                                <p class="text-sm mt-1">El cole comparte ejemplos de tareas y se organizan talleres donde familias y profes resuelven dudas juntos.</p>
+                            </div>
+                             <div class="bg-gray-100 p-4 rounded-lg">
+                                <h4 class="font-bold">4. Revisar y mejorar</h4>
+                                <p class="text-sm mt-1">Al final de curso, ver qué ha funcionado y qué no para ajustar el plan del año siguiente.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Herramientas y Evaluación -->
+            <div class="bg-white rounded-xl shadow-md border border-gray-200">
+                <button class="accordion-button w-full flex justify-between items-center p-5 text-left text-xl font-semibold text-gray-800 focus:outline-none" data-target="herramientas">
+                    <span class="flex items-center"><i data-lucide="wrench" class="mr-3 text-gray-500"></i>Herramientas para el día a día</span>
+                    <i data-lucide="chevron-down" class="rotate-icon transition-transform duration-300"></i>
+                </button>
+                <div id="herramientas" class="accordion-content px-5 pb-5">
+                    <div class="grid md:grid-cols-2 gap-6 pt-4 border-t">
+                        <!-- Semáforo de Tareas -->
+                        <div>
+                            <h3 class="font-semibold text-lg mb-2">El Semáforo de la IA</h3>
+                            <p class="text-sm text-gray-600 mb-3">Una forma visual y sencilla para que los niños sepan cuándo y cómo pueden usar la IA en cada tarea.</p>
+                            <div class="space-y-3">
+                                <div class="flex items-start p-3 bg-red-100 border-l-4 border-red-500 rounded-r-lg">
+                                    <div class="w-6 h-6 rounded-full bg-red-500 mr-4 flex-shrink-0"></div>
+                                    <div>
+                                        <h4 class="font-bold text-red-800">Rojo: Tarea sin IA</h4>
+                                        <p class="text-sm text-red-700">Hoy trabajamos la memoria, el cálculo mental o la escritura a mano. ¡El cerebro es el protagonista!</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start p-3 bg-yellow-100 border-l-4 border-yellow-500 rounded-r-lg">
+                                    <div class="w-6 h-6 rounded-full bg-yellow-500 mr-4 flex-shrink-0"></div>
+                                    <div>
+                                        <h4 class="font-bold text-yellow-800">Ámbar: IA como ayudante</h4>
+                                        <p class="text-sm text-yellow-700">Puedes usarla para buscar ideas, preguntar dudas o pedir pistas si te atascas. ¡Apunta qué le has pedido!</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start p-3 bg-green-100 border-l-4 border-green-500 rounded-r-lg">
+                                    <div class="w-6 h-6 rounded-full bg-green-500 mr-4 flex-shrink-0"></div>
+                                    <div>
+                                        <h4 class="font-bold text-green-800">Verde: IA para revisar</h4>
+                                        <p class="text-sm text-green-700">Cuando ya tengas tu borrador, puedes pedirle que te ayude a encontrar faltas o a mejorar la redacción.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Diario de Uso y Evaluación -->
+                        <div>
+                             <h3 class="font-semibold text-lg mb-2">¿Cómo evaluamos?</h3>
+                             <p class="text-sm text-gray-600 mb-3">Nos fijamos en todo el camino, no solo en la meta. La clave es que el niño sea transparente.</p>
+                             <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                                <h4 class="font-bold text-blue-800 flex items-center"><i data-lucide="book-marked" class="mr-2"></i>El Diario de Uso</h4>
+                                <p class="text-sm text-blue-700 mt-2">Al final de la tarea, el niño rellena esta pequeña ficha:</p>
+                                <div class="text-sm bg-white p-3 mt-2 rounded-md shadow-sm text-gray-600">
+                                    <p>1. ¿Para qué usé la IA? (Para tener ideas / corregir / buscar pistas).</p>
+                                    <p>2. Una cosa que acepté: (La idea de empezar con una pregunta).</p>
+                                    <p>3. Una cosa que rechacé: (Una palabra que me sugirió porque no la entendía).</p>
+                                </div>
+                                <p class="text-sm text-blue-700 mt-3">La nota final combina el trabajo entregado, el diario de uso y una pequeña charla donde el niño explica lo que hizo.</p>
+                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Botón Artículo -->
+            <div class="text-center pt-6">
+                <a href="https://iaenlasaulas.blogspot.com/2025/07/usar-ia-en-primaria.html" target="_blank" rel="noopener noreferrer" class="inline-flex items-center bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg shadow-md hover:bg-blue-700 transition-colors duration-300">
+                    <i data-lucide="book-open" class="mr-2"></i>
+                    Leer el artículo de referencia
+                </a>
+            </div>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="text-center mt-12 py-4 border-t border-gray-200">
+            <p class="text-sm text-gray-500">Adaptado para el CEIP Puerta de Martos.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Accordion functionality
+        const accordionButtons = document.querySelectorAll('.accordion-button');
+
+        accordionButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const content = document.getElementById(button.dataset.target);
+                const isActive = button.classList.contains('active');
+
+                // Close all accordions
+                accordionButtons.forEach(btn => {
+                    const otherContent = document.getElementById(btn.dataset.target);
+                    if (otherContent !== content) {
+                        btn.classList.remove('active');
+                        otherContent.style.maxHeight = null;
+                    }
+                });
+
+                // Toggle the clicked one
+                if (isActive) {
+                    button.classList.remove('active');
+                    content.style.maxHeight = null;
+                } else {
+                    button.classList.add('active');
+                    content.style.maxHeight = content.scrollHeight + 'px';
+                }
+            });
+        });
+
+        // Open the first accordion by default
+        const firstButton = accordionButtons[0];
+        if (firstButton) {
+            firstButton.click();
+        }
+    </script>
+</body>
+</html>
