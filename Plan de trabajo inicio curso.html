@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendario de Inicio de Curso - CEIP Puerta de Martos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8fafc;
+        }
+
+        .header {
+            background: #0b5bd3;
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(11, 91, 211, 0.15);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0 1rem;
+        }
+
+        .logo {
+            width: 48px;
+            height: 48px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .header-title {
+            flex: 1;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            color: #0b5bd3;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: #64748b;
+            margin-bottom: 1rem;
+        }
+
+        .hero-description {
+            font-size: 1rem;
+            color: #64748b;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .controls {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(11, 91, 211, 0.08);
+            margin-bottom: 2rem;
+        }
+
+        .search-container {
+            margin-bottom: 1.5rem;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #0b5bd3;
+        }
+
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .filter-pill {
+            background: #f1f5f9;
+            color: #475569;
+            border: none;
+            padding: 0.75rem 1.25rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .filter-pill:hover {
+            background: #e2e8f0;
+            transform: translateY(-1px);
+        }
+
+        .filter-pill.active {
+            background: #0b5bd3;
+            color: white;
+        }
+
+        .reset-button {
+            background: #f8fafc;
+            color: #64748b;
+            border: 2px solid #e2e8f0;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .reset-button:hover {
+            background: #f1f5f9;
+            border-color: #cbd5e1;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (min-width: 768px) {
+            .calendar-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .calendar-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .calendar-grid {
+                grid-template-columns: repeat(6, 1fr);
+            }
+        }
+
+        .day-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(11, 91, 211, 0.08);
+            transition: all 0.3s;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .day-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(11, 91, 211, 0.15);
+            border-color: #0b5bd3;
+        }
+
+        .day-card.festivo {
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border-color: #93c5fd;
+        }
+
+        .day-header {
+            text-align: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid #f1f5f9;
+        }
+
+        .day-date {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #0b5bd3;
+            text-transform: capitalize;
+        }
+
+        .task-preview {
+            font-size: 0.9rem;
+            margin-bottom: 0.75rem;
+            padding: 0.75rem;
+            background: #f8fafc;
+            border-radius: 8px;
+            border-left: 3px solid #0b5bd3;
+        }
+
+        .task-preview:last-of-type {
+            margin-bottom: 1rem;
+        }
+
+        .task-time {
+            font-weight: 600;
+            color: #0b5bd3;
+        }
+
+        .task-title {
+            color: #1e293b;
+            margin: 0.25rem 0;
+        }
+
+        .task-category {
+            font-size: 0.8rem;
+            color: #64748b;
+        }
+
+        .open-day-btn {
+            width: 100%;
+            background: #0b5bd3;
+            color: white;
+            border: none;
+            padding: 0.75rem;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .open-day-btn:hover {
+            background: #0951b8;
+            transform: translateY(-1px);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            max-width: 800px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .modal-header {
+            padding: 2rem;
+            border-bottom: 2px solid #f1f5f9;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #0b5bd3;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #64748b;
+            padding: 0.5rem;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .close-btn:hover {
+            background: #f1f5f9;
+            color: #475569;
+        }
+
+        .modal-tabs {
+            display: flex;
+            border-bottom: 2px solid #f1f5f9;
+        }
+
+        .modal-tab {
+            flex: 1;
+            background: none;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            cursor: pointer;
+            color: #64748b;
+            transition: all 0.2s;
+        }
+
+        .modal-tab.active {
+            color: #0b5bd3;
+            border-bottom: 3px solid #0b5bd3;
+            font-weight: 600;
+        }
+
+        .tab-content {
+            padding: 2rem;
+        }
+
+        .task-item {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid #0b5bd3;
+        }
+
+        .task-item-header {
+            display: flex;
+            justify-content: between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .task-main-info {
+            flex: 1;
+        }
+
+        .task-item-time {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #0b5bd3;
+            margin-bottom: 0.5rem;
+        }
+
+        .task-item-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 0.25rem;
+        }
+
+        .task-item-category {
+            display: inline-block;
+            background: #0b5bd3;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .task-details {
+            margin-bottom: 1rem;
+        }
+
+        .task-details ul {
+            margin-left: 1.5rem;
+            color: #475569;
+        }
+
+        .task-checklist {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .checklist-item:last-child {
+            border-bottom: none;
+        }
+
+        .checklist-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .notes-textarea {
+            width: 100%;
+            min-height: 200px;
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 1rem;
+            resize: vertical;
+        }
+
+        .notes-textarea:focus {
+            outline: none;
+            border-color: #0b5bd3;
+        }
+
+        .print-button {
+            background: #059669;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            margin-right: 1rem;
+            transition: all 0.2s;
+        }
+
+        .print-button:hover {
+            background: #047857;
+        }
+
+        .mode-toggle {
+            background: #7c3aed;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .mode-toggle:hover {
+            background: #6d28d9;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        @media print {
+            .modal, .header, .controls, .print-button, .mode-toggle {
+                display: none !important;
+            }
+            .day-card {
+                break-inside: avoid;
+                margin-bottom: 1rem;
+                box-shadow: none;
+                border: 1px solid #ccc;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">CP</div>
+            <div class="header-title">Calendario de Inicio de Curso</div>
+            <div class="badge">1–12 · Sept 2025</div>
+        </div>
+    </header>
+
+    <div class="container">
+        <section class="hero">
+            <h1>Calendario de Inicio de Curso</h1>
+            <p class="hero-subtitle">CEIP Puerta de Martos</p>
+            <p class="hero-description">
+                Plan de trabajo del claustro · 1–12 de septiembre de 2025<br>
+                Busca por texto o filtra por categorías. Haz clic en cada día para ver el detalle completo.
+            </p>
+        </section>
+
+        <section class="controls">
+            <div class="search-container">
+                <input type="text" class="search-input" placeholder="Buscar reuniones, tareas, documentos..." id="searchInput">
+            </div>
+            
+            <div class="filters">
+                <button class="filter-pill" data-filter="reuniones">Reuniones</button>
+                <button class="filter-pill" data-filter="coordinacion">Coordinación</button>
+                <button class="filter-pill" data-filter="organizacion">Organización</button>
+                <button class="filter-pill" data-filter="docencia">Docencia</button>
+                <button class="filter-pill" data-filter="evaluacion">Evaluación</button>
+                <button class="filter-pill" data-filter="convivencia">Convivencia</button>
+                <button class="filter-pill" data-filter="orientacion">Orientación/NEAE</button>
+                <button class="filter-pill" data-filter="festivo">Festivo</button>
+                <button class="reset-button" id="resetFilters">Restablecer</button>
+            </div>
+
+            <div style="margin-top: 1rem;">
+                <button class="print-button" onclick="window.print()">📄 Imprimir calendario</button>
+                <button class="mode-toggle" id="modeToggle">🔒 Modo solo lectura</button>
+            </div>
+        </section>
+
+        <section class="calendar-grid" id="calendarGrid">
+            <!-- Las tarjetas de días se generarán con JavaScript -->
+        </section>
+    </div>
+
+    <!-- Modal para mostrar detalles del día -->
+    <div class="modal" id="dayModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalTitle">Detalles del día</h2>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            
+            <div class="modal-tabs">
+                <button class="modal-tab active" onclick="switchTab('plan')">Plan del día</button>
+                <button class="modal-tab" onclick="switchTab('notas')">Notas</button>
+            </div>
+            
+            <div class="tab-content" id="planTab">
+                <div id="tasksList">
+                    <!-- Se llenará con JavaScript -->
+                </div>
+            </div>
+            
+            <div class="tab-content hidden" id="notasTab">
+                <textarea class="notes-textarea" id="dayNotes" placeholder="Añade aquí las notas y observaciones del día..."></textarea>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Datos del calendario preconfigurados
+        const calendarData = {
+            1: {
+                date: 'lun, 01 sept',
+                tasks: [
+                    {
+                        time: '09:00',
+                        title: 'Recepción profesorado nueva incorporación',
+                        category: 'organizacion',
+                        location: 'Centro',
+                        details: ['Bienvenida al equipo docente', 'Presentación de nuevos miembros', 'Información general del centro'],
+                        checklist: ['Preparar documentación de bienvenida', 'Organizar espacio de recepción', 'Lista de asistencia']
+                    },
+                    {
+                        time: '11:00',
+                        title: 'Reunión informativa gran grupo',
+                        category: 'reuniones',
+                        location: 'Salón de actos',
+                        details: ['Temática del curso', 'Información sobre tutorías', 'Entrega de carpetas con calendario escolar', 'Materiales por curso', 'Plan de trabajo primera semana', 'Citación para el claustro'],
+                        checklist: ['Preparar carpetas informativas', 'Revisar temática del curso', 'Organizar material por cursos']
+                    }
+                ],
+                notes: ''
+            },
+            2: {
+                date: 'mar, 02 sept',
+                tasks: [
+                    {
+                        time: '10:00',
+                        title: 'Claustro de profesores PRESENCIAL',
+                        category: 'reuniones',
+                        location: 'Sala de profesores',
+                        details: ['Calendario escolar y días de libre ubicación', 'Asignación del profesorado a tutorías', 'Distribución de aulas y espacios', 'Entrega de listado de alumnado', 'Nombramiento de coordinadores'],
+                        checklist: ['Preparar orden del día', 'Revisar asignaciones de tutoría', 'Actualizar listados de alumnado']
+                    },
+                    {
+                        time: '11:30',
+                        title: 'ETCP ampliado al claustro',
+                        category: 'coordinacion',
+                        location: 'Sala de profesores',
+                        details: ['Competencias del ETCP', 'Designación del coordinador/a', 'Elaboración del Plan General Anual', 'Directrices para programaciones didácticas'],
+                        checklist: ['Revisar competencias ETCP', 'Preparar propuestas PGA', 'Establecer criterios programaciones']
+                    }
+                ],
+                notes: ''
+            },
+            3: {
+                date: 'mié, 03 sept',
+                tasks: [
+                    {
+                        time: '10:00',
+                        title: 'Equipos de ciclo',
+                        category: 'coordinacion',
+                        location: 'Aulas de ciclo',
+                        details: ['Constitución de Equipo de ciclo', 'Competencias del equipo y coordinador', 'Planificación actividades complementarias', 'Revisión programaciones didácticas', 'Establecer unidades didácticas y temporalización'],
+                        checklist: ['Constituir equipos formalmente', 'Revisar programaciones del curso anterior', 'Planificar actividades complementarias']
+                    },
+                    {
+                        time: '12:00',
+                        title: 'Reunión coordinadores de Programas educativos',
+                        category: 'coordinacion',
+                        location: 'Despacho dirección',
+                        details: ['Coordinación de trabajo entre programas', 'Planificación conjunta', 'Distribución de responsabilidades'],
+                        checklist: ['Revisar programas activos', 'Coordinar calendarios', 'Asignar responsabilidades']
+                    }
+                ],
+                notes: ''
+            },
+            4: {
+                date: 'jue, 04 sept',
+                tasks: [
+                    {
+                        time: '09:00',
+                        title: 'Trabajo personal',
+                        category: 'organizacion',
+                        location: 'Aulas',
+                        details: ['Aclimatación de las aulas', 'Recopilación del material del alumnado', 'Expurgo de material antiguo e inservible', 'Elaboración de materiales didácticos'],
+                        checklist: ['Revisar estado del aula', 'Inventariar material disponible', 'Preparar materiales necesarios']
+                    },
+                    {
+                        time: '11:00',
+                        title: 'Equipo de orientación',
+                        category: 'orientacion',
+                        location: 'Aula de orientación',
+                        details: ['Constitución del Equipo de Orientación', 'Estudio de casos de alumnado con NEAE', 'Revisión del censo ANEAE en Séneca', 'Revisión del POAT', 'Plan de Atención a la diversidad'],
+                        checklist: ['Actualizar censo NEAE', 'Revisar casos individuales', 'Preparar propuestas POAT']
+                    }
+                ],
+                notes: ''
+            },
+            5: {
+                date: 'vie, 05 sept',
+                tasks: [
+                    {
+                        time: '10:00',
+                        title: 'ETCP',
+                        category: 'coordinacion',
+                        location: 'Sala de profesores',
+                        details: ['Entrega de documentación e información', 'Presentación del Plan General de reuniones', 'Entrega de horarios profesorado', 'Organización de vigilancias de recreo'],
+                        checklist: ['Preparar horarios definitivos', 'Organizar turnos de vigilancia', 'Revisar documentación']
+                    },
+                    {
+                        time: '11:30',
+                        title: 'Equipos docentes',
+                        category: 'coordinacion',
+                        location: 'Aulas correspondientes',
+                        details: ['Constitución Equipo docente', 'Análisis de datos del curso anterior', 'Ubicación del tiempo de lectura', 'Coordinación de normas del Centro', 'Organización primeros días lectivos'],
+                        checklist: ['Revisar expedientes alumnado', 'Establecer horario de lectura', 'Coordinar normas de aula']
+                    }
+                ],
+                notes: ''
+            },
+            6: {
+                date: 'sáb, 06 sept',
+                tasks: [],
+                notes: 'Fin de semana - No hay actividades programadas'
+            },
+            7: {
+                date: 'dom, 07 sept',
+                tasks: [],
+                notes: 'Fin de semana - No hay actividades programadas'
+            },
+            8: {
+                date: 'lun, 08 sept',
+                festivo: true,
+                tasks: [
+                    {
+                        time: 'Todo el día',
+                        title: 'FESTIVO LOCAL',
+                        category: 'festivo',
+                        location: '-',
+                        details: ['Día festivo local', 'No hay actividades en el centro'],
+                        checklist: []
+                    }
+                ],
+                notes: 'Festivo local - Centro cerrado'
+            },
+            9: {
+                date: 'mar, 09 sept',
+                tasks: [
+                    {
+                        time: '09:00',
+                        title: 'Decoración de puertas y preparación de aulas',
+                        category: 'organizacion',
+                        location: 'Todo el centro',
+                        details: ['Decoración de bienvenida al nuevo curso', 'Preparación final de las aulas', 'Organización de materiales de bienvenida', 'Últimos preparativos'],
+                        checklist: ['Decorar puertas de aula', 'Preparar carteles de bienvenida', 'Organizar regalos/detalles']
+                    }
+                ],
+                notes: 'Día de preparación final antes del inicio de clases'
+            },
+            10: {
+                date: 'mié, 10 sept',
+                tasks: [
+                    {
+                        time: '11:30',
+                        title: 'Comienzo de clases - Primaria e Infantil 4 y 5 años',
+                        category: 'docencia',
+                        location: 'Aulas correspondientes',
+                        details: ['Actividades de socialización del grupo', 'Organización del aula', 'Entrega de horario de grupo', 'Entrega de listado de material', 'Presentación y reparto de material curricular'],
+                        checklist: ['Preparar actividades de bienvenida', 'Tener listos los horarios', 'Organizar material curricular']
+                    },
+                    {
+                        time: '12:00',
+                        title: 'Entrada infantil 3 años - Grupo 1',
+                        category: 'docencia',
+                        location: 'Aula infantil 3 años',
+                        details: ['Período de adaptación', 'Actividades específicas para 3 años', 'Duración: 12:00 - 12:45'],
+                        checklist: ['Preparar actividades adaptadas', 'Organizar espacios de juego', 'Coordinar con familias']
+                    },
+                    {
+                        time: '13:00',
+                        title: 'Entrada infantil 3 años - Grupo 2',
+                        category: 'docencia',
+                        location: 'Aula infantil 3 años',
+                        details: ['Período de adaptación', 'Actividades específicas para 3 años', 'Duración: 13:00 - 13:45'],
+                        checklist: ['Preparar actividades adaptadas', 'Organizar espacios de juego', 'Coordinar con familias']
+                    },
+                    {
+                        time: '12:10',
+                        title: 'Recreo',
+                        category: 'convivencia',
+                        location: 'Patio',
+                        details: ['Primer recreo del curso', 'Vigilancia especial primer día'],
+                        checklist: ['Organizar vigilancias', 'Supervisar adaptación alumnado']
+                    }
+                ],
+                notes: 'Primer día de clases - Horario especial hasta las 14:00h'
+            },
+            11: {
+                date: 'jue, 11 sept',
+                tasks: [
+                    {
+                        time: '09:00',
+                        title: 'Comienzo horario habitual (9:00-14:00)',
+                        category: 'docencia',
+                        location: 'Todo el centro',
+                        details: ['Horario con tutores y especialistas', 'Horario de refuerzo provisional', 'Comienzo de las evaluaciones iniciales', 'Comienzo de las guardias de recreo'],
+                        checklist: ['Implementar horarios definitivos', 'Iniciar evaluaciones iniciales', 'Organizar refuerzos provisionales']
+                    },
+                    {
+                        time: '10:00',
+                        title: 'Inicio evaluaciones iniciales',
+                        category: 'evaluacion',
+                        location: 'Todas las aulas',
+                        details: ['Aplicación de pruebas iniciales', 'Evaluación del nivel de partida del alumnado', 'Registro de resultados'],
+                        checklist: ['Preparar pruebas por niveles', 'Coordinar aplicación', 'Establecer criterios de registro']
+                    }
+                ],
+                notes: 'Inicio del horario normal y evaluaciones iniciales'
+            },
+            12: {
+                date: 'vie, 12 sept',
+                tasks: [
+                    {
+                        time: '09:00',
+                        title: 'Continuación evaluaciones iniciales',
+                        category: 'evaluacion',
+                        location: 'Todas las aulas',
+                        details: ['Finalización de pruebas iniciales', 'Análisis preliminar de resultados', 'Preparación para sesión de coordinación del 6 de octubre'],
+                        checklist: ['Completar todas las pruebas', 'Recopilar resultados', 'Preparar análisis inicial']
+                    },
+                    {
+                        time: '11:00',
+                        title: 'Coordinación entre tutores y especialistas',
+                        category: 'coordinacion',
+                        location: 'Sala de profesores',
+                        details: ['Intercambio de impresiones sobre primeros días', 'Ajustes necesarios en horarios', 'Coordinación de metodología'],
+                        checklist: ['Revisar funcionamiento horarios', 'Detectar necesidades de ajuste', 'Coordinar metodología']
+                    }
+                ],
+                notes: 'Finalización del período inicial - Preparación para el curso regular'
+            }
+        };
+
+        let currentFilter = '';
+        let editMode = false;
+        let currentDay = null;
+
+        // Generar el calendario
+        function generateCalendar() {
+            const grid = document.getElementById('calendarGrid');
+            grid.innerHTML = '';
+
+            for (let day = 1; day <= 12; day++) {
+                const dayData = calendarData[day];
+                const dayCard = createDayCard(day, dayData);
+                grid.appendChild(dayCard);
+            }
+        }
+
+        function createDayCard(day, dayData) {
+            const card = document.createElement('div');
+            card.className = `day-card ${dayData.festivo ? 'festivo' : ''}`;
+            
+            let tasksPreview = '';
+            const visibleTasks = dayData.tasks.slice(0, 3);
+            
+            visibleTasks.forEach(task => {
+                tasksPreview += `
+                    <div class="task-preview">
+                        <div class="task-time">${task.time}</div>
+                        <div class="task-title">${task.title}</div>
+                        <div class="task-category">${getCategoryName(task.category)} · ${task.location}</div>
+                    </div>
+                `;
+            });
+
+            if (dayData.tasks.length > 3) {
+                tasksPreview += `
+                    <div class="task-preview" style="text-align: center; font-style: italic; color: #64748b;">
+                        +${dayData.tasks.length - 3} tareas más...
+                    </div>
+                `;
+            }
+
+            if (dayData.tasks.length === 0) {
+                tasksPreview = `
+                    <div class="task-preview" style="text-align: center; font-style: italic; color: #64748b;">
+                        No hay tareas programadas
+                    </div>
+                `;
+            }
+
+            card.innerHTML = `
+                <div class="day-header">
+                    <div class="day-date">${dayData.date}</div>
+                </div>
+                ${tasksPreview}
+                <button class="open-day-btn" onclick="openDayModal(${day})">
+                    Abrir día
+                </button>
+            `;
+
+            return card;
+        }
+
+        function getCategoryName(category) {
+            const categories = {
+                'reuniones': 'Reuniones',
+                'coordinacion': 'Coordinación',
+                'organizacion': 'Organización',
+                'docencia': 'Docencia',
+                'evaluacion': 'Evaluación',
+                'convivencia': 'Convivencia',
+                'orientacion': 'Orientación/NEAE',
+                'festivo': 'Festivo'
+            };
+            return categories[category] || category;
+        }
+
+        function getCategoryColor(category) {
+            const colors = {
+                'reuniones': '#0b5bd3',
+                'coordinacion': '#7c3aed',
+                'organizacion': '#059669',
+                'docencia': '#dc2626',
+                'evaluacion': '#ea580c',
+                'convivencia': '#0891b2',
+                'orientacion': '#be185d',
+                'festivo': '#6b7280'
+            };
+            return colors[category] || '#0b5bd3';
+        }
+
+        // Modal functions
+        function openDayModal(day) {
+            currentDay = day;
+            const dayData = calendarData[day];
+            const modal = document.getElementById('dayModal');
+            const modalTitle = document.getElementById('modalTitle');
+            
+            modalTitle.textContent = `${dayData.date} - Detalles del día`;
+            
+            // Load tasks
+            loadTasks(dayData.tasks);
+            
+            // Load notes
+            document.getElementById('dayNotes').value = dayData.notes || '';
+            
+            // Show modal
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('dayModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+            
+            // Save notes when closing
+            if (currentDay) {
+                const notes = document.getElementById('dayNotes').value;
+                calendarData[currentDay].notes = notes;
+            }
+        }
+
+        function switchTab(tabName) {
+            // Remove active class from all tabs and contents
+            document.querySelectorAll('.modal-tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.add('hidden'));
+            
+            // Add active class to selected tab and content
+            event.target.classList.add('active');
+            document.getElementById(tabName + 'Tab').classList.remove('hidden');
+        }
+
+        function loadTasks(tasks) {
+            const tasksList = document.getElementById('tasksList');
+            tasksList.innerHTML = '';
+
+            if (tasks.length === 0) {
+                tasksList.innerHTML = `
+                    <div style="text-align: center; padding: 2rem; color: #64748b; font-style: italic;">
+                        No hay tareas programadas para este día
+                    </div>
+                `;
+                return;
+            }
+
+            tasks.forEach((task, index) => {
+                const taskElement = document.createElement('div');
+                taskElement.className = 'task-item';
+                taskElement.style.borderLeftColor = getCategoryColor(task.category);
+                
+                let checklistHTML = '';
+                if (task.checklist && task.checklist.length > 0) {
+                    checklistHTML = `
+                        <div class="task-checklist">
+                            <strong>Lista de verificación:</strong>
+                            ${task.checklist.map((item, checkIndex) => `
+                                <div class="checklist-item">
+                                    <input type="checkbox" id="check_${currentDay}_${index}_${checkIndex}" onchange="saveChecklistState()">
+                                    <label for="check_${currentDay}_${index}_${checkIndex}">${item}</label>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                }
+
+                let detailsHTML = '';
+                if (task.details && task.details.length > 0) {
+                    detailsHTML = `
+                        <div class="task-details">
+                            <strong>Detalles:</strong>
+                            <ul>
+                                ${task.details.map(detail => `<li>${detail}</li>`).join('')}
+                            </ul>
+                        </div>
+                    `;
+                }
+
+                taskElement.innerHTML = `
+                    <div class="task-item-header">
+                        <div class="task-main-info">
+                            <div class="task-item-time">${task.time}</div>
+                            <div class="task-item-title">${task.title}</div>
+                            <div class="task-item-category">${getCategoryName(task.category)}</div>
+                            ${task.location ? `<div style="color: #64748b; font-size: 0.9rem; margin-top: 0.5rem;">📍 ${task.location}</div>` : ''}
+                        </div>
+                    </div>
+                    ${detailsHTML}
+                    ${checklistHTML}
+                `;
+
+                tasksList.appendChild(taskElement);
+            });
+        }
+
+        function saveChecklistState() {
+            // Esta función podría expandirse para guardar el estado de las casillas
+            // Por ahora solo registra que se ha marcado algo
+            console.log('Checklist updated');
+        }
+
+        // Filter and search functions
+        function setupFilters() {
+            const searchInput = document.getElementById('searchInput');
+            const filterPills = document.querySelectorAll('.filter-pill');
+            const resetButton = document.getElementById('resetFilters');
+
+            searchInput.addEventListener('input', function() {
+                filterCalendar(this.value.toLowerCase(), currentFilter);
+            });
+
+            filterPills.forEach(pill => {
+                pill.addEventListener('click', function() {
+                    // Remove active class from all pills
+                    filterPills.forEach(p => p.classList.remove('active'));
+                    
+                    if (currentFilter === this.dataset.filter) {
+                        // If clicking the same filter, deactivate it
+                        currentFilter = '';
+                    } else {
+                        // Activate new filter
+                        currentFilter = this.dataset.filter;
+                        this.classList.add('active');
+                    }
+                    
+                    filterCalendar(searchInput.value.toLowerCase(), currentFilter);
+                });
+            });
+
+            resetButton.addEventListener('click', function() {
+                searchInput.value = '';
+                currentFilter = '';
+                filterPills.forEach(p => p.classList.remove('active'));
+                filterCalendar('', '');
+            });
+        }
+
+        function filterCalendar(searchTerm, category) {
+            const dayCards = document.querySelectorAll('.day-card');
+
+            dayCards.forEach((card, index) => {
+                const day = index + 1;
+                const dayData = calendarData[day];
+                let shouldShow = true;
+
+                // Check category filter
+                if (category) {
+                    const hasCategory = dayData.tasks.some(task => task.category === category);
+                    if (!hasCategory) {
+                        shouldShow = false;
+                    }
+                }
+
+                // Check search term
+                if (searchTerm && shouldShow) {
+                    const searchContent = [
+                        dayData.date,
+                        ...dayData.tasks.map(task => `${task.title} ${task.location} ${getCategoryName(task.category)}`),
+                        dayData.notes || ''
+                    ].join(' ').toLowerCase();
+
+                    if (!searchContent.includes(searchTerm)) {
+                        shouldShow = false;
+                    }
+                }
+
+                card.style.display = shouldShow ? 'block' : 'none';
+            });
+        }
+
+        // Mode toggle function
+        function setupModeToggle() {
+            const modeToggle = document.getElementById('modeToggle');
+            
+            modeToggle.addEventListener('click', function() {
+                editMode = !editMode;
+                
+                if (editMode) {
+                    this.textContent = '🔓 Modo edición';
+                    this.style.background = '#dc2626';
+                } else {
+                    this.textContent = '🔒 Modo solo lectura';
+                    this.style.background = '#7c3aed';
+                }
+                
+                // Here you could enable/disable editing functionality
+                // For now, it's just a visual toggle
+            });
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('dayModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // Initialize the calendar
+        function initializeCalendar() {
+            generateCalendar();
+            setupFilters();
+            setupModeToggle();
+        }
+
+        // Run initialization when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initializeCalendar);
+        } else {
+            // DOM is already loaded
+            initializeCalendar();
+        }
+    </script>
+</body>
+</html>
