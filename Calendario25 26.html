@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Calendario Claustro 2025/2026 – CEIP Puerta de Martos</title>
+  <style>
+    :root{
+      --brand-blue:#0B5ED7;
+      --brand-white:#ffffff;
+      --bg:#f7f9fc;
+      --ink:#0f172a; /* slate-900 */
+      --ink-2:#334155; /* slate-700 */
+      --muted:#e5e7eb; /* gray-200 */
+      --muted-2:#cbd5e1; /* slate-300 */
+      --shadow:0 10px 30px rgba(2,6,23,.10);
+      --radius:16px;
+      /* tipos de evento */
+      --inicio:#2e7d32; /* verde */
+      --vacaciones:#cfe8ff; /* azul suave de fondo */
+      --vacaciones-accent:#0B5ED7; /* borde/etiqueta */
+      --festivo:#d32f2f; /* rojo */
+      --libre:#f5d90a; /* amarillo */
+      --vuelta:#6a11cb; /* morado */
+      --local:#7c3aed; /* púrpura para locales (etiqueta) */
+      --focus:#94a3b8;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family:system-ui, Segoe UI, Roboto, Arial, sans-serif; color:var(--ink); background:var(--bg);
+    }
+    header{
+      background:linear-gradient(180deg, #0b5ed7 0%, #0a58ca 100%);
+      color:var(--brand-white);
+      padding:24px 16px; position:sticky; top:0; z-index:3; box-shadow:var(--shadow);
+    }
+    .header-wrap{display:flex; align-items:center; gap:16px; max-width:1100px; margin:0 auto;}
+    .logo{
+      width:48px; height:48px; border-radius:12px; background:rgba(255,255,255,.15);
+      display:grid; place-items:center; font-weight:700; letter-spacing:.5px; border:1px solid rgba(255,255,255,.25);
+    }
+    .title h1{margin:0; font-size:clamp(18px, 2.6vw, 28px);}
+    .title p{margin:2px 0 0; opacity:.9}
+
+    main{max-width:1100px; margin:18px auto; padding:0 12px;}
+
+    .toolbar{
+      background:#fff; border:1px solid var(--muted); border-radius:var(--radius); box-shadow:var(--shadow);
+      padding:12px; display:flex; flex-wrap:wrap; gap:12px; align-items:center; justify-content:space-between;
+    }
+    .left, .right{display:flex; flex-wrap:wrap; align-items:center; gap:10px}
+
+    .btn{
+      border:1px solid var(--muted-2); background:#fff; color:var(--ink); padding:8px 12px; border-radius:10px; cursor:pointer;
+    }
+    .btn[aria-pressed="true"]{border-color:var(--brand-blue); outline:2px solid rgba(11,94,215,.25)}
+    .btn.primary{background:var(--brand-blue); color:#fff; border-color:transparent}
+    .btn.icon{display:inline-flex; align-items:center; gap:8px}
+    .btn:focus{outline:3px solid var(--focus); outline-offset:2px}
+
+    .filters{
+      background:#fff; border:1px solid var(--muted); border-radius:var(--radius); box-shadow:var(--shadow);
+      padding:10px 12px; display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin-top:12px;
+    }
+    .chip{display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius:999px; border:1px solid var(--muted-2); background:#fff}
+    .chip input{accent-color:var(--brand-blue)}
+    .dot{width:12px; height:12px; border-radius:50%}
+
+    .legend{display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-left:auto}
+
+    .calendar-wrap{display:grid; grid-template-columns: 1.35fr .65fr; gap:14px; margin-top:14px}
+    @media (max-width: 900px){ .calendar-wrap{grid-template-columns:1fr} }
+
+    .calendar, .list{
+      background:#fff; border:1px solid var(--muted); border-radius:var(--radius); box-shadow:var(--shadow);
+    }
+
+    .cal-head{display:grid; grid-template-columns:repeat(7, 1fr); padding:10px 10px 0; border-bottom:1px solid var(--muted); color:var(--ink-2)}
+    .cal-head div{padding:8px; text-align:center; font-weight:600}
+
+    .grid{display:grid; grid-template-columns:repeat(7, 1fr); gap:8px; padding:10px; grid-auto-rows: var(--cell-h);} 
+
+    .day{
+      border:1px solid var(--muted); border-radius:12px; height:var(--cell-h); overflow:hidden; position:relative; padding:8px; cursor:pointer; background:#fff;
+      transition:transform .05s ease-in-out, box-shadow .1s ease-in-out;
+    }
+    .day:hover{transform:translateY(-1px); box-shadow:0 6px 18px rgba(2,6,23,.08)}
+    .day.muted{opacity:.45; background:#fbfdff}
+    .date-num{position:absolute; top:8px; right:10px; font-weight:700; color:var(--ink-2)}
+
+    .badges{position:absolute; left:8px; right:8px; bottom:8px; display:flex; flex-wrap:nowrap; gap:6px; overflow:hidden; white-space:nowrap;} 
+    .badge{font-size:12px; padding:4px 8px; border-radius:999px; border:1px solid var(--muted-2); background:#fff; display:inline-flex; gap:6px; align-items:center}
+    .badge .mini{width:8px; height:8px; border-radius:50%}
+
+    /* sombreado de periodos (vacaciones, naranja) */
+    .in-period{background:linear-gradient(135deg, #FFE8CC 0%, #FFDDB3 100%) !important; border-color:#F6C98B;}
+    .in-period .date-num{color:#a23f00}
+
+    /* sombreado por tipo de día */
+    .shade-festivo{background:linear-gradient(135deg, #FFE5E5 0%, #FFD6D6 100%) !important; border-color:#F2B4B4;}
+    .shade-libre{background:linear-gradient(135deg, #FFF6CC 0%, #FFEF99 100%) !important; border-color:#F4D469;}
+    .shade-iniciofin{background:linear-gradient(135deg, #F3E8FF 0%, #E9D5FF 100%) !important; border-color:#D8B4FE;}
+
+    /* panel lateral */
+    .panel{
+      background:#fff; border:1px solid var(--muted); border-radius:var(--radius); box-shadow:var(--shadow);
+      padding:14px; position:sticky; top:94px; max-height:calc(100vh - 120px); overflow:auto;
+    }
+    .panel h3{margin:0 0 8px}
+    .panel .event{border:1px solid var(--muted); border-left:6px solid var(--muted-2); border-radius:12px; padding:10px; margin:10px 0}
+    .event.inicio{border-left-color:var(--inicio)}
+    .event.vacaciones{border-left-color:var(--vacaciones-accent)}
+    .event.festivo{border-left-color:var(--festivo)}
+    .event.libre{border-left-color:var(--libre)}
+    .event.vuelta{border-left-color:var(--vuelta)}
+    .event.local{border-left-color:var(--local)}
+
+    /* lista */
+    .list{padding:10px; display:none}
+    .list table{width:100%; border-collapse:collapse}
+    .list th,.list td{padding:10px; border-bottom:1px solid var(--muted)}
+    .type{display:inline-flex; align-items:center; gap:6px}
+
+    .search{border:1px solid var(--muted-2); border-radius:8px; padding:8px 10px; min-width:260px}
+
+    .month-nav{display:flex; align-items:center; gap:8px}
+    .month-label{min-width:210px; text-align:center; font-weight:700}
+
+    .note{font-size:13px; color:var(--ink-2)}
+
+    /* Modal festivos locales */
+    .modal-backdrop{position:fixed; inset:0; background:rgba(2,6,23,.45); display:none; align-items:center; justify-content:center; z-index:50}
+    .modal{background:#fff; border:1px solid var(--muted); border-radius:16px; box-shadow:var(--shadow); width:min(560px, 94vw); padding:16px}
+    .modal h3{margin:0 0 8px}
+    .modal .row{display:grid; grid-template-columns:140px 1fr; gap:8px; align-items:center; margin:8px 0}
+    .modal .actions{display:flex; gap:8px; justify-content:flex-end; margin-top:12px}
+    .input, .modal input[type="text"], .modal input[type="date"]{width:100%; border:1px solid var(--muted-2); border-radius:8px; padding:8px}
+
+    /* impresión */
+    @media print{
+      header, .toolbar, .filters, .calendar, .panel, .modal-backdrop {display:none !important}
+      .printable{display:block}
+      .printable h2{margin:0 0 8px}
+      .printable table{width:100%; border-collapse:collapse}
+      .printable th,.printable td{border:1px solid #ddd; padding:6px}
+    }
+    /* tamaño fijo de las casillas */
+    :root{ --cell-h: 92px; }
+    @media (max-width: 600px){ :root{ --cell-h: 70px; } }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-wrap" role="banner">
+      <div class="logo" aria-label="Logotipo CEIP Puerta de Martos" title="CEIP Puerta de Martos">CEIP</div>
+      <div class="title">
+        <h1>Calendario Claustro 2025/2026 – CEIP Puerta de Martos</h1>
+        <p>Vista mensual + lista filtrable. Sin efemérides. Sin funciones técnicas avanzadas.</p>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="toolbar" role="region" aria-label="Controles principales">
+      <div class="left">
+        <button class="btn" id="btnCalendar" aria-pressed="true">Calendario</button>
+        <button class="btn" id="btnList" aria-pressed="false">Lista</button>
+        <input id="search" class="search" type="search" placeholder="Buscar (título o descripción)…" aria-label="Buscar en lista" />
+      </div>
+      <div class="right">
+        <div class="month-nav" aria-label="Navegación por meses">
+          <button class="btn icon" id="prevMonth" aria-label="Mes anterior">◀</button>
+          <div class="month-label" id="monthLabel" aria-live="polite">—</div>
+          <button class="btn icon" id="nextMonth" aria-label="Mes siguiente">▶</button>
+        </div>
+        <button class="btn" id="btnToday">Hoy</button>
+        <button class="btn" id="btnStart">Ir al 10/09/2025</button>
+        <button class="btn" id="btnLocales">Festivos locales</button>
+        <button class="btn" id="btnPrint">Imprimir</button>
+      </div>
+    </div>
+
+    <div class="filters" role="region" aria-label="Filtros y leyenda">
+      <label class="chip"><input type="checkbox" data-type="inicio_fin" checked> <span class="type"><span class="dot" style="background:var(--inicio)"></span>Inicio/Fin</span></label>
+      <label class="chip"><input type="checkbox" data-type="vacaciones" checked> <span class="type"><span class="dot" style="background:var(--vacaciones-accent)"></span>Vacaciones</span></label>
+      <label class="chip"><input type="checkbox" data-type="festivo" checked> <span class="type"><span class="dot" style="background:var(--festivo)"></span>Festivos</span></label>
+      <label class="chip"><input type="checkbox" data-type="libre_disposicion" checked> <span class="type"><span class="dot" style="background:var(--libre)"></span>Libre disposición</span></label>
+      <label class="chip"><input type="checkbox" data-type="vuelta_clase" checked> <span class="type"><span class="dot" style="background:var(--vuelta)"></span>Vuelta a clase</span></label>
+      <label class="chip"><input type="checkbox" data-type="locales" checked> <span class="type"><span class="dot" style="background:var(--local)"></span>Locales</span></label>
+      <span class="legend note" aria-hidden="true">Consejo: haz clic en un día con puntos para ver detalles.</span>
+    </div>
+
+    <div class="calendar-wrap">
+      <section class="calendar" aria-label="Calendario mensual">
+        <div class="cal-head" aria-hidden="true">
+          <div>Lun</div><div>Mar</div><div>Mié</div><div>Jue</div><div>Vie</div><div>Sáb</div><div>Dom</div>
+        </div>
+        <div class="grid" id="grid"></div>
+      </section>
+
+      <aside class="panel" id="panel" aria-label="Detalles del día seleccionado">
+        <h3 id="panelDate">Selecciona un día…</h3>
+        <div id="panelList" class="panel-list">
+          <p class="note">Consejo: usa los filtros para mostrar/ocultar tipos de eventos. Los periodos de vacaciones se sombrean en el calendario.</p>
+        </div>
+      </aside>
+    </div>
+
+    <section class="list" id="listView" aria-label="Lista de fechas">
+      <table>
+        <thead>
+          <tr><th style="width:150px">Fecha</th><th style="width:170px">Tipo</th><th>Descripción</th></tr>
+        </thead>
+        <tbody id="listBody"></tbody>
+      </table>
+    </section>
+
+    <section class="printable" style="display:none">
+      <h2>Calendario Claustro 2025/2026 – Listado</h2>
+      <table id="printTable"></table>
+    </section>
+  </main>
+
+  <!-- Modal Festivos Locales -->
+  <div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal">
+      <h3 id="modalTitle">Añadir festivos locales (2)</h3>
+      <p class="note">Se guardan en este navegador. Puedes restablecerlos cuando quieras.</p>
+      <div class="row"><label for="loc1date">Festivo local 1 – Fecha</label><input id="loc1date" type="date"></div>
+      <div class="row"><label for="loc1name">Festivo local 1 – Nombre</label><input id="loc1name" type="text" placeholder="Ej.: Feria de San..." /></div>
+      <hr style="border:none; border-top:1px solid var(--muted); margin:8px 0">
+      <div class="row"><label for="loc2date">Festivo local 2 – Fecha</label><input id="loc2date" type="date"></div>
+      <div class="row"><label for="loc2name">Festivo local 2 – Nombre</label><input id="loc2name" type="text" placeholder="Ej.: Romería de..." /></div>
+      <div class="actions">
+        <button class="btn" id="resetLocales">Restablecer</button>
+        <button class="btn primary" id="saveLocales">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Utilidades de fecha
+    const toDate = (iso) => new Date(iso + 'T00:00:00');
+    const fmt = (d) => d.toLocaleDateString('es-ES', { day:'2-digit', month:'2-digit', year:'numeric' });
+    const fmtShort = (d) => d.toLocaleDateString('es-ES', { day:'2-digit', month:'short' });
+    const monthLabel = (y, m) => new Date(y, m, 1).toLocaleDateString('es-ES', { month:'long', year:'numeric' });
+    const sameDay = (a,b) => a.getFullYear()===b.getFullYear() && a.getMonth()===b.getMonth() && a.getDate()===b.getDate();
+    const inRange = (date, fromISO, toISO) => {
+      const d = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+      const f = toDate(fromISO);
+      const t = toDate(toISO);
+      return d >= f && d <= t;
+    };
+
+    // Estado de UI
+    let state = {
+      year: 2025,
+      month: 8, // 0=enero … 8=septiembre; abrimos en septiembre 2025
+      filters: {
+        inicio_fin: true,
+        vacaciones: true,
+        festivo: true,
+        libre_disposicion: true,
+        vuelta_clase: true,
+        locales: true,
+      },
+      search: ''
+    };
+
+    // Datos base (exactamente según lo validado)
+    const baseEventos = [
+      // Inicio / Fin curso
+      { id:'inicio-curso', fecha:'2025-09-10', titulo:'Inicio de curso', tipo:'inicio_fin', descripcion:'Comienzo de clases Infantil y Primaria.' },
+      { id:'fin-curso',    fecha:'2026-06-23', titulo:'Fin de curso',   tipo:'inicio_fin', descripcion:'Último día lectivo del curso.' },
+
+      // Vacaciones (periodos)
+      { id:'xmas', tipo:'vacaciones', titulo:'Vacaciones de Navidad', descripcion:'Del 19/12/2025 al 07/01/2026.', rango:{ desde:'2025-12-19', hasta:'2026-01-07' } },
+      { id:'xmas-vuelta', fecha:'2026-01-08', titulo:'Vuelta a clase', tipo:'vuelta_clase', descripcion:'Se reanudan las clases tras Navidad.' },
+
+      { id:'ss', tipo:'vacaciones', titulo:'Vacaciones de Semana Santa', descripcion:'Del 30/03/2026 al 06/04/2026.', rango:{ desde:'2026-03-30', hasta:'2026-04-06' } },
+      { id:'ss-vuelta', fecha:'2026-04-07', titulo:'Vuelta a clase', tipo:'vuelta_clase', descripcion:'Se reanudan las clases tras Semana Santa.' },
+
+      // Festivos oficiales (incluye 28F por indicación del centro)
+      { id:'f-1310', fecha:'2025-10-13', titulo:'Fiesta Nacional (traslado)', tipo:'festivo', descripcion:'Lunes 13 de octubre.' },
+      { id:'f-0812', fecha:'2025-12-08', titulo:'Inmaculada Concepción', tipo:'festivo', descripcion:'Lunes 8 de diciembre.' },
+      { id:'f-0105', fecha:'2026-05-01', titulo:'Fiesta del Trabajo', tipo:'festivo', descripcion:'Viernes 1 de mayo.' },
+      { id:'local-0809', fecha:'2025-09-08', titulo:'Festivo local (Torredonjimeno)', tipo:'festivo', descripcion:'Festivo local del municipio de Torredonjimeno.', local:true },
+      { id:'f-2802', fecha:'2026-02-28', titulo:'Día de Andalucía', tipo:'festivo', descripcion:'Sábado 28 de febrero.' },
+
+      // Libre disposición
+      { id:'ld-0311', fecha:'2025-11-03', titulo:'Libre disposición', tipo:'libre_disposicion', descripcion:'No lectivo (acordado por Consejo Escolar).' },
+      { id:'ld-2212', fecha:'2025-12-22', titulo:'Libre disposición', tipo:'libre_disposicion', descripcion:'No lectivo (acordado por Consejo Escolar).' },
+      { id:'ld-2702', fecha:'2026-02-27', titulo:'Libre disposición', tipo:'libre_disposicion', descripcion:'Día de la Comunidad Educativa (no lectivo).' },
+      { id:'ld-0604', fecha:'2026-04-06', titulo:'Libre disposición', tipo:'libre_disposicion', descripcion:'No lectivo (coincide con Semana Santa).'},
+      { id:'ld-0405', fecha:'2026-05-04', titulo:'Libre disposición', tipo:'libre_disposicion', descripcion:'No lectivo (acordado por Consejo Escolar).'},
+    ];
+
+    // Carga festivos locales desde localStorage
+    function loadLocales(){
+      const loc1 = JSON.parse(localStorage.getItem('festivo_local_1')||'null');
+      const loc2 = JSON.parse(localStorage.getItem('festivo_local_2')||'null');
+      const list = [];
+      if(loc1 && loc1.fecha && loc1.nombre){ list.push({ id:'local-1', fecha:loc1.fecha, titulo:loc1.nombre, tipo:'festivo', descripcion:'Festivo local', local:true }); }
+      if(loc2 && loc2.fecha && loc2.nombre){ list.push({ id:'local-2', fecha:loc2.fecha, titulo:loc2.nombre, tipo:'festivo', descripcion:'Festivo local', local:true }); }
+      return list;
+    }
+
+    function allEventos(){
+      return [...baseEventos, ...loadLocales()];
+    }
+
+    // Mapeo estilos por tipo
+    const TYPE_META = {
+      inicio_fin: { label:'Inicio/Fin', color:'var(--inicio)' },
+      vacaciones: { label:'Vacaciones', color:'var(--vacaciones-accent)' },
+      festivo: { label:'Festivo', color:'var(--festivo)' },
+      libre_disposicion: { label:'Libre disposición', color:'var(--libre)' },
+      vuelta_clase: { label:'Vuelta a clase', color:'var(--vuelta)' },
+    };
+
+    function eventMatchesFilters(ev){
+      if(ev.local){
+        if(!state.filters.locales) return false;
+      }
+      if(!state.filters[ev.tipo]) return false;
+      return true;
+    }
+
+    function getEventsForDate(date){
+      const events = allEventos();
+      const results = [];
+      for(const ev of events){
+        if(ev.rango){
+          if(state.filters.vacaciones && inRange(date, ev.rango.desde, ev.rango.hasta)){
+            results.push({ ...ev, _isPeriod:true });
+          }
+        } else if(ev.fecha){
+          if(sameDay(toDate(ev.fecha), date)){
+            if(eventMatchesFilters(ev)) results.push(ev);
+          }
+        }
+      }
+      return results;
+    }
+
+    function dayInAnyPeriod(date){
+      const events = allEventos();
+      for(const ev of events){
+        if(ev.rango && state.filters.vacaciones && inRange(date, ev.rango.desde, ev.rango.hasta)) return true;
+      }
+      return false;
+    }
+
+    // Render calendario
+    const grid = document.getElementById('grid');
+    const monthLbl = document.getElementById('monthLabel');
+    const panelDate = document.getElementById('panelDate');
+    const panelList = document.getElementById('panelList');
+
+    function renderCalendar(){
+      grid.innerHTML='';
+      monthLbl.textContent = monthLabel(state.year, state.month);
+
+      const first = new Date(state.year, state.month, 1);
+      const last = new Date(state.year, state.month+1, 0);
+      // En España la semana empieza en lunes. getDay(): 0=domingo..6=sábado
+      const startOffset = (first.getDay() + 6) % 7; // 0 si lunes, 6 si domingo
+      const totalCells = startOffset + last.getDate();
+      const rows = Math.ceil(totalCells/7);
+      const cells = rows*7;
+
+      let day = 1;
+      const today = new Date();
+
+      for(let i=0;i<cells;i++){
+        const cell = document.createElement('div');
+        cell.className = 'day';
+        if(i < startOffset || day > last.getDate()){
+          cell.classList.add('muted');
+          grid.appendChild(cell);
+          continue;
+        }
+        const dateObj = new Date(state.year, state.month, day);
+        const dateNum = document.createElement('div');
+        dateNum.className='date-num';
+        dateNum.textContent = String(day);
+        cell.appendChild(dateNum);
+
+        // eventos del día (sin periodos) y sombreado por prioridad
+        const evs = getEventsForDate(dateObj).filter(e => !e._isPeriod);
+        const hasFestivo = evs.some(e => e.tipo === 'festivo');
+        const hasLibre = evs.some(e => e.tipo === 'libre_disposicion');
+        const hasInicioFin = evs.some(e => e.tipo === 'inicio_fin');
+
+        if (hasFestivo) {
+          cell.classList.add('shade-festivo');
+        } else if (hasLibre) {
+          cell.classList.add('shade-libre');
+        } else if (hasInicioFin) {
+          cell.classList.add('shade-iniciofin');
+        } else if (dayInAnyPeriod(dateObj)) {
+          cell.classList.add('in-period');
+        }
+
+        // badges/dots para eventos puntuales
+        if(evs.length){
+          const badges = document.createElement('div');
+          badges.className='badges';
+          for(const ev of evs.slice(0,3)){ // mostramos hasta 3
+            const b = document.createElement('span');
+            b.className='badge';
+            const dd = document.createElement('span'); dd.className='mini'; dd.style.background = TYPE_META[ev.tipo]?.color || '#999';
+            const txt = document.createElement('span');
+            txt.textContent = TYPE_META[ev.tipo]?.label || ev.tipo;
+            if(ev.local) { // marcar locales
+              const tag = document.createElement('span');
+              tag.textContent='Local'; tag.style.fontSize='11px'; tag.style.opacity=.8; tag.style.marginLeft='4px';
+              b.append(dd, txt, tag);
+            } else {
+              b.append(dd, txt);
+            }
+            badges.appendChild(b);
+          }
+          if(evs.length>3){
+            const more = document.createElement('span'); more.className='badge'; more.textContent = '+'+(evs.length-3);
+            badges.appendChild(more);
+          }
+          cell.appendChild(badges);
+        }
+
+        // manejo de clic
+        cell.tabIndex = 0;
+        cell.setAttribute('role','button');
+        cell.setAttribute('aria-label', `Ver eventos del ${fmt(dateObj)}`);
+        cell.addEventListener('click', ()=> openPanel(dateObj));
+        cell.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' '){ e.preventDefault(); openPanel(dateObj); }});
+
+        grid.appendChild(cell);
+        day++;
+      }
+    }
+
+    function openPanel(date){
+      panelDate.textContent = date.toLocaleDateString('es-ES', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+      panelList.innerHTML = '';
+      const evs = getEventsForDate(date);
+      if(!evs.length){
+        const p = document.createElement('p'); p.textContent='Sin eventos para este día.'; p.className='note';
+        // si está en periodo, al menos informa
+        if(dayInAnyPeriod(date)){
+          const pe = document.createElement('div'); pe.className='event vacaciones';
+          pe.innerHTML = '<strong>Dentro de periodo vacacional</strong><br>Este día queda dentro de un periodo de vacaciones.';
+          panelList.append(pe);
+        }
+        panelList.append(p);
+        return;
+      }
+      for(const ev of evs){
+        const box = document.createElement('div');
+        const t = TYPE_META[ev.tipo]?.label || ev.tipo;
+        box.className = 'event ' + (
+          ev.tipo==='inicio_fin' ? 'inicio' :
+          ev.tipo==='vacaciones' ? 'vacaciones' :
+          ev.tipo==='festivo' ? 'festivo' :
+          ev.tipo==='libre_disposicion' ? 'libre' :
+          ev.tipo==='vuelta_clase' ? 'vuelta' : ''
+        ) + (ev.local ? ' local' : '');
+        if(ev._isPeriod){
+          box.innerHTML = `<strong>${ev.titulo}</strong> <span class="note">(${t})</span><br>${ev.descripcion}`;
+        } else {
+          box.innerHTML = `<strong>${ev.titulo}</strong> <span class="note">(${t}${ev.local ? ' · Local' : ''})</span><br>${ev.descripcion}`;
+        }
+        panelList.appendChild(box);
+      }
+    }
+
+    // Lista (tabla)
+    const listView = document.getElementById('listView');
+    const listBody = document.getElementById('listBody');
+
+    function asFlatRows(){
+      const rows = [];
+      for(const ev of allEventos()){
+        if(ev.rango){
+          if(!state.filters.vacaciones) continue; // si ocultas vacaciones, no las listamos
+          rows.push({ fecha: ev.rango.desde + ' → ' + ev.rango.hasta, sort: ev.rango.desde, tipo: 'vacaciones', local: !!ev.local, titulo: ev.titulo, descripcion: ev.descripcion });
+        } else {
+          if(!eventMatchesFilters(ev)) continue;
+          rows.push({ fecha: ev.fecha, sort: ev.fecha, tipo: ev.tipo, local: !!ev.local, titulo: ev.titulo, descripcion: ev.descripcion });
+        }
+      }
+      // ordenar por fecha (periodos por su desde)
+      return rows.sort((a,b)=> a.sort.localeCompare(b.sort));
+    }
+
+    function renderList(){
+      listBody.innerHTML = '';
+      const q = state.search.trim().toLowerCase();
+      for(const r of asFlatRows()){
+        if(q){
+          const hay = (r.titulo + ' ' + r.descripcion).toLowerCase().includes(q);
+          if(!hay) continue;
+        }
+        const tr = document.createElement('tr');
+        const d = document.createElement('td'); d.textContent = r.fecha.includes('→') ? r.fecha : fmt(toDate(r.fecha));
+        const t = document.createElement('td'); t.innerHTML = `<span class="type"><span class="dot" style="background:${TYPE_META[r.tipo]?.color || '#999'}"></span>${TYPE_META[r.tipo]?.label || r.tipo}${r.local ? ' · Local' : ''}</span>`;
+        const e = document.createElement('td'); e.innerHTML = `<strong>${r.titulo}</strong><br><span class="note">${r.descripcion}</span>`;
+        tr.append(d,t,e); listBody.append(tr);
+      }
+    }
+
+    // Imprimir (prepara una tabla simple)
+    function renderPrint(){
+      const tbl = document.getElementById('printTable');
+      tbl.innerHTML = '';
+      const head = document.createElement('tr'); head.innerHTML = '<th>Fecha</th><th>Tipo</th><th>Título</th><th>Descripción</th>';
+      tbl.appendChild(head);
+      for(const r of asFlatRows()){
+        const tr = document.createElement('tr');
+        const fecha = r.fecha.includes('→') ? r.fecha : fmt(toDate(r.fecha));
+        tr.innerHTML = `<td>${fecha}</td><td>${TYPE_META[r.tipo]?.label || r.tipo}${r.local ? ' · Local' : ''}</td><td>${r.titulo}</td><td>${r.descripcion}</td>`;
+        tbl.appendChild(tr);
+      }
+    }
+
+    // Controles
+    const prevBtn = document.getElementById('prevMonth');
+    const nextBtn = document.getElementById('nextMonth');
+    const btnToday = document.getElementById('btnToday');
+    const btnStart = document.getElementById('btnStart');
+    const btnCalendar = document.getElementById('btnCalendar');
+    const btnList = document.getElementById('btnList');
+    const search = document.getElementById('search');
+
+    prevBtn.addEventListener('click', ()=>{ if(state.month===0){ state.month=11; state.year--; } else state.month--; renderCalendar(); });
+    nextBtn.addEventListener('click', ()=>{ if(state.month===11){ state.month=0; state.year++; } else state.month++; renderCalendar(); });
+
+    btnToday.addEventListener('click', ()=>{ const t = new Date(); state.year=t.getFullYear(); state.month=t.getMonth(); renderCalendar(); });
+    btnStart.addEventListener('click', ()=>{ state.year=2025; state.month=8; renderCalendar(); });
+
+    btnCalendar.addEventListener('click', ()=>{
+      btnCalendar.setAttribute('aria-pressed','true');
+      btnList.setAttribute('aria-pressed','false');
+      document.querySelector('.calendar').style.display='block';
+      document.querySelector('.calendar-wrap .panel').style.display='block';
+      listView.style.display='none';
+    });
+    btnList.addEventListener('click', ()=>{
+      btnCalendar.setAttribute('aria-pressed','false');
+      btnList.setAttribute('aria-pressed','true');
+      document.querySelector('.calendar').style.display='none';
+      document.querySelector('.calendar-wrap .panel').style.display='none';
+      listView.style.display='block';
+      renderList();
+    });
+
+    search.addEventListener('input', ()=>{ state.search = search.value; renderList(); });
+
+    // Filtros
+    document.querySelectorAll('.filters input[type="checkbox"]').forEach(chk=>{
+      chk.addEventListener('change', ()=>{
+        const key = chk.getAttribute('data-type');
+        state.filters[key] = chk.checked;
+        renderCalendar();
+        renderList();
+      });
+    });
+
+    // Modal Festivos Locales
+    const modal = document.getElementById('modalBackdrop');
+    const btnLocales = document.getElementById('btnLocales');
+    const saveLocales = document.getElementById('saveLocales');
+    const resetLocales = document.getElementById('resetLocales');
+    const loc1date = document.getElementById('loc1date');
+    const loc1name = document.getElementById('loc1name');
+    const loc2date = document.getElementById('loc2date');
+    const loc2name = document.getElementById('loc2name');
+
+    function openModal(){
+      // precargar si existen
+      const l1 = JSON.parse(localStorage.getItem('festivo_local_1')||'null');
+      const l2 = JSON.parse(localStorage.getItem('festivo_local_2')||'null');
+      loc1date.value = l1?.fecha || '';
+      loc1name.value = l1?.nombre || '';
+      loc2date.value = l2?.fecha || '';
+      loc2name.value = l2?.nombre || '';
+      modal.style.display='flex';
+    }
+    function closeModal(){ modal.style.display='none';}
+
+    btnLocales.addEventListener('click', openModal);
+    modal.addEventListener('click', (e)=>{ if(e.target===modal) closeModal(); });
+    saveLocales.addEventListener('click', ()=>{
+      const l1 = { fecha: loc1date.value || '', nombre: (loc1name.value||'').trim() };
+      const l2 = { fecha: loc2date.value || '', nombre: (loc2name.value||'').trim() };
+      if(l1.fecha && l1.nombre) localStorage.setItem('festivo_local_1', JSON.stringify(l1)); else localStorage.removeItem('festivo_local_1');
+      if(l2.fecha && l2.nombre) localStorage.setItem('festivo_local_2', JSON.stringify(l2)); else localStorage.removeItem('festivo_local_2');
+      closeModal();
+      renderCalendar();
+      renderList();
+    });
+    resetLocales.addEventListener('click', ()=>{
+      localStorage.removeItem('festivo_local_1');
+      localStorage.removeItem('festivo_local_2');
+      loc1date.value = loc1name.value = loc2date.value = loc2name.value = '';
+      renderCalendar();
+      renderList();
+    });
+
+    // Imprimir
+    document.getElementById('btnPrint').addEventListener('click', ()=>{ renderPrint(); window.print(); });
+
+    // Inicio
+    renderCalendar();
+    renderList();
+  </script>
+</body>
+</html>
