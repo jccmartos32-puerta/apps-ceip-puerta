@@ -1,0 +1,1748 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📚 Materiales Escolares - CEIP Puerta de Martos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary-color: #4F46E5;
+            --secondary-color: #F59E0B;
+            --success-color: #10B981;
+            --warning-color: #EF4444;
+            --background-light: #F8FAFC;
+            --background-white: #FFFFFF;
+            --text-dark: #1F2937;
+            --text-gray: #6B7280;
+            --border-color: #E5E7EB;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        body.dark-mode {
+            --background-light: #111827;
+            --background-white: #1F2937;
+            --text-dark: #F9FAFB;
+            --text-gray: #D1D5DB;
+            --border-color: #374151;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--background-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), #7C3AED);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: var(--shadow);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.25rem;
+            font-weight: bold;
+        }
+        
+        .header-actions {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            background: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid white;
+        }
+        
+        .btn-small {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.875rem;
+        }
+        
+        /* Navigation */
+        .nav {
+            background: var(--background-white);
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .nav-content {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .nav-item {
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .nav-item:hover, .nav-item.active {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        /* Main Content */
+        .main {
+            padding: 2rem 0;
+        }
+        
+        .view {
+            display: none;
+        }
+        
+        .view.active {
+            display: block;
+        }
+        
+        /* Auth Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+        
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background: var(--background-white);
+            padding: 2rem;
+            border-radius: 1rem;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: var(--shadow);
+        }
+        
+        .modal-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.25rem;
+            font-weight: 500;
+            color: var(--text-gray);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid var(--border-color);
+            border-radius: 0.5rem;
+            background: var(--background-white);
+            color: var(--text-dark);
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        
+        /* Course Cards */
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .course-card {
+            background: var(--background-white);
+            padding: 1.5rem;
+            border-radius: 1rem;
+            box-shadow: var(--shadow);
+            transition: all 0.3s;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+        
+        .course-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-color);
+        }
+        
+        .course-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .course-icon {
+            font-size: 2rem;
+        }
+        
+        .course-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .course-subtitle {
+            color: var(--text-gray);
+        }
+        
+        .course-stats {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .stat {
+            background: var(--background-light);
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+        
+        /* Material List */
+        .material-header {
+            background: var(--background-white);
+            padding: 1.5rem;
+            border-radius: 1rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+        }
+        
+        .material-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .materials-container {
+            background: var(--background-white);
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+        
+        .material-category {
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .category-header {
+            background: linear-gradient(90deg, var(--primary-color), #7C3AED);
+            color: white;
+            padding: 1rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .category-content {
+            padding: 1rem;
+        }
+        
+        .material-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem;
+            border: 2px solid var(--border-color);
+            border-radius: 0.5rem;
+            margin-bottom: 0.5rem;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .material-item:hover {
+            border-color: var(--primary-color);
+        }
+        
+        .material-item.completed {
+            background: rgba(16, 185, 129, 0.1);
+            border-color: var(--success-color);
+        }
+        
+        .material-item.pending {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: var(--warning-color);
+        }
+        
+        .material-item.reused {
+            background: rgba(245, 158, 11, 0.1);
+            border-color: var(--secondary-color);
+        }
+        
+        .material-checkbox {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--border-color);
+            border-radius: 4px;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .material-checkbox:checked {
+            background: var(--success-color);
+            border-color: var(--success-color);
+        }
+        
+        .material-checkbox:checked::after {
+            content: '✓';
+            position: absolute;
+            top: -2px;
+            left: 2px;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .material-info {
+            flex: 1;
+        }
+        
+        .material-name {
+            font-weight: 500;
+        }
+        
+        .material-quantity {
+            color: var(--text-gray);
+            font-size: 0.875rem;
+        }
+        
+        .material-status {
+            display: flex;
+            gap: 0.25rem;
+        }
+        
+        .status-btn {
+            padding: 0.25rem 0.5rem;
+            border: none;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .status-pending {
+            background: var(--warning-color);
+            color: white;
+        }
+        
+        .status-completed {
+            background: var(--success-color);
+            color: white;
+        }
+        
+        .status-reused {
+            background: var(--secondary-color);
+            color: white;
+        }
+        
+        /* Progress Bar */
+        .progress-container {
+            background: var(--background-white);
+            padding: 1.5rem;
+            border-radius: 1rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+        }
+        
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .progress-bar {
+            background: var(--border-color);
+            height: 10px;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(90deg, var(--success-color), #34D399);
+            height: 100%;
+            transition: width 0.3s;
+        }
+        
+        /* FAQ */
+        .faq-item {
+            background: var(--background-white);
+            margin-bottom: 1rem;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+        
+        .faq-question {
+            padding: 1rem;
+            cursor: pointer;
+            background: linear-gradient(90deg, var(--primary-color), #7C3AED);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .faq-answer {
+            padding: 1rem;
+            display: none;
+        }
+        
+        .faq-item.active .faq-answer {
+            display: block;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1rem;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .nav-content {
+                justify-content: center;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .material-actions {
+                flex-direction: column;
+            }
+            
+            .material-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+            
+            .material-status {
+                align-self: flex-end;
+            }
+        }
+        
+        /* Accessibility */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+        
+        .high-contrast {
+            filter: contrast(2);
+        }
+        
+        .large-text {
+            font-size: 1.2em;
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    📚 <span>Materiales Escolares - CEIP Puerta de Martos</span>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-small" onclick="toggleDarkMode()">🌙 Modo Oscuro</button>
+                    <button class="btn btn-small" onclick="toggleAccessibility()">♿ Accesibilidad</button>
+                    <button class="btn" onclick="showAuth()" id="authBtn">👤 Iniciar Sesión</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="container">
+            <div class="nav-content">
+                <div class="nav-item active" onclick="showView('home')">🏠 Inicio</div>
+                <div class="nav-item" onclick="showView('materials')">📝 Listados</div>
+                <div class="nav-item" onclick="showView('my-list')" id="myListNav" style="display: none;">✅ Mi Lista</div>
+                <div class="nav-item" onclick="showView('admin')" id="adminNav" style="display: none;">⚙️ Admin</div>
+                <div class="nav-item" onclick="showView('faq')">❓ FAQ</div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="container">
+            <!-- Home View -->
+            <div class="view active" id="home">
+                <div class="fade-in">
+                    <h1>¡Bienvenidos al Sistema de Materiales Escolares! 🎒</h1>
+                    <p>Gestiona fácilmente los materiales necesarios para cada curso de Educación Primaria.</p>
+                    
+                    <div class="courses-grid">
+                        <div class="course-card" onclick="selectCourse('1')">
+                            <div class="course-header">
+                                <div class="course-icon">🎨</div>
+                                <div>
+                                    <div class="course-title">1º de Primaria</div>
+                                    <div class="course-subtitle">Curso 2023/2024</div>
+                                </div>
+                            </div>
+                            <div class="course-stats">
+                                <div class="stat">📝 31 materiales</div>
+                                <div class="stat">🎯 Básicos</div>
+                            </div>
+                        </div>
+                        
+                        <div class="course-card" onclick="selectCourse('2')">
+                            <div class="course-header">
+                                <div class="course-icon">✏️</div>
+                                <div>
+                                    <div class="course-title">2º de Primaria</div>
+                                    <div class="course-subtitle">Curso 2025/2026</div>
+                                </div>
+                            </div>
+                            <div class="course-stats">
+                                <div class="stat">📝 24 materiales</div>
+                                <div class="stat">🎯 Intermedio</div>
+                            </div>
+                        </div>
+                        
+                        <div class="course-card" onclick="selectCourse('3')">
+                            <div class="course-header">
+                                <div class="course-icon">📐</div>
+                                <div>
+                                    <div class="course-title">3º de Primaria</div>
+                                    <div class="course-subtitle">Curso 2025/2026</div>
+                                </div>
+                            </div>
+                            <div class="course-stats">
+                                <div class="stat">📝 25 materiales</div>
+                                <div class="stat">🎯 Avanzado</div>
+                            </div>
+                        </div>
+                        
+                        <div class="course-card" onclick="selectCourse('4')">
+                            <div class="course-header">
+                                <div class="course-icon">📏</div>
+                                <div>
+                                    <div class="course-title">4º de Primaria</div>
+                                    <div class="course-subtitle">Curso 2025/2026</div>
+                                </div>
+                            </div>
+                            <div class="course-stats">
+                                <div class="stat">📝 27 materiales</div>
+                                <div class="stat">🎯 Avanzado</div>
+                            </div>
+                        </div>
+                        
+                        <div class="course-card" onclick="selectCourse('5')">
+                            <div class="course-header">
+                                <div class="course-icon">📊</div>
+                                <div>
+                                    <div class="course-title">5º de Primaria</div>
+                                    <div class="course-subtitle">Curso 2025/2026</div>
+                                </div>
+                            </div>
+                            <div class="course-stats">
+                                <div class="stat">📝 21 materiales</div>
+                                <div class="stat">🎯 Superior</div>
+                            </div>
+                        </div>
+                        
+                        <div class="course-card" onclick="selectCourse('6')">
+                            <div class="course-header">
+                                <div class="course-icon">🎓</div>
+                                <div>
+                                    <div class="course-title">6º de Primaria</div>
+                                    <div class="course-subtitle">Curso 2025/2026</div>
+                                </div>
+                            </div>
+                            <div class="course-stats">
+                                <div class="stat">📝 21 materiales</div>
+                                <div class="stat">🎯 Superior</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Materials View -->
+            <div class="view" id="materials">
+                <div class="material-header fade-in">
+                    <h2 id="courseTitle">Selecciona un curso</h2>
+                    <p>Lista oficial de materiales necesarios</p>
+                </div>
+                <div id="materialsContent">
+                    <p>Selecciona un curso desde la página de inicio para ver los materiales.</p>
+                </div>
+            </div>
+
+            <!-- My List View -->
+            <div class="view" id="my-list">
+                <div class="progress-container fade-in">
+                    <div class="progress-header">
+                        <h2>Mi Lista de Materiales</h2>
+                        <div>
+                            <span id="completedCount">0</span> / <span id="totalCount">0</span> completados
+                        </div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill" style="width: 0%;"></div>
+                    </div>
+                    <div class="material-actions">
+                        <button class="btn" onclick="downloadPDF()">📄 Descargar PDF</button>
+                        <button class="btn" onclick="shareWhatsApp()">📱 Compartir WhatsApp</button>
+                        <button class="btn" onclick="resetProgress()">🔄 Reiniciar</button>
+                    </div>
+                </div>
+                <div id="myListContent">
+                    <p>Inicia sesión y selecciona un curso para crear tu lista personalizada.</p>
+                </div>
+            </div>
+
+            <!-- Admin View -->
+            <div class="view" id="admin">
+                <div class="material-header fade-in">
+                    <h2>Panel de Administración 👨‍🏫</h2>
+                    <p>Gestión de materiales y notificaciones</p>
+                    <div class="material-actions">
+                        <button class="btn" onclick="sendNotification()">📢 Enviar Notificación</button>
+                        <button class="btn" onclick="exportData()">📊 Exportar Datos</button>
+                        <button class="btn" onclick="viewAnalytics()">📈 Ver Analytics</button>
+                    </div>
+                </div>
+                <div class="courses-grid">
+                    <div class="course-card">
+                        <h3>📈 Estadísticas Generales</h3>
+                        <div class="course-stats">
+                            <div class="stat">👨‍👩‍👧‍👦 125 familias registradas</div>
+                            <div class="stat">✅ 78% materiales completados</div>
+                            <div class="stat">⚠️ 15 materiales más consultados</div>
+                        </div>
+                    </div>
+                    <div class="course-card">
+                        <h3>🔔 Notificaciones Recientes</h3>
+                        <p>Recordatorio de inicio de curso enviado a 125 familias</p>
+                        <p>Lista actualizada de 3º de Primaria</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FAQ View -->
+            <div class="view" id="faq">
+                <div class="material-header fade-in">
+                    <h2>Preguntas Frecuentes ❓</h2>
+                    <p>Resuelve todas tus dudas sobre los materiales escolares</p>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        ¿Puedo reutilizar materiales del curso anterior? <span>+</span>
+                    </div>
+                    <div class="faq-answer">
+                        Sí, según las notas oficiales, se puede reutilizar material de cursos anteriores siempre que esté en buenas condiciones.
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        ¿Es obligatorio comprar la marca específica LAMELA para las libretas? <span>+</span>
+                    </div>
+                    <div class="faq-answer">
+                        La marca LAMELA se especifica para mantener uniformidad, pero puedes consultar con el centro sobre alternativas equivalentes.
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        ¿Qué significa "acordar por los padres" en algunos materiales? <span>+</span>
+                    </div>
+                    <div class="faq-answer">
+                        Significa que los padres deben coordinarse para que cada niño traiga un color diferente de plastilina o pintura, evitando duplicados.
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        ¿Dónde puedo conseguir los diccionarios requeridos? <span>+</span>
+                    </div>
+                    <div class="faq-answer">
+                        Los diccionarios se pueden adquirir en librerías locales o grandes superficies. Recomendamos versiones escolares adaptadas a la edad.
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        ¿Cómo debo etiquetar el material? <span>+</span>
+                    </div>
+                    <div class="faq-answer">
+                        Todo el material debe presentarse con el nombre y apellidos del estudiante. Los libros además deben estar forrados.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Auth Modal -->
+    <div class="modal" id="authModal">
+        <div class="modal-content fade-in">
+            <div class="modal-header">
+                <h3>👤 Iniciar Sesión</h3>
+            </div>
+            <form onsubmit="login(event)">
+                <div class="form-group">
+                    <label for="userType">Tipo de usuario:</label>
+                    <select class="form-control" id="userType" required>
+                        <option value="">Selecciona...</option>
+                        <option value="family">👨‍👩‍👧‍👦 Familia/Estudiante</option>
+                        <option value="teacher">👨‍🏫 Docente/Admin</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" class="form-control" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Contraseña:</label>
+                    <input type="password" class="form-control" id="password" required>
+                </div>
+                <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+                    <button type="button" class="btn btn-secondary" onclick="hideAuth()">Cancelar</button>
+                    <button type="submit" class="btn">Entrar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // App State
+        let appState = {
+            user: null,
+            selectedCourse: null,
+            materials: {},
+            darkMode: false,
+            accessibility: false
+        };
+
+        // Material Data based on the official document
+        const courseMaterials = {
+            '1': {
+                title: '1º de Educación Primaria',
+                year: '2023/2024',
+                categories: {
+                    'Materiales Básicos': [
+                        { name: 'Lápiz del nº 2', quantity: 3, icon: '✏️' },
+                        { name: 'Goma de borrar blanda', quantity: 3, icon: '🧽' },
+                        { name: 'Sacapuntas con depósito', quantity: 1, icon: '🔪' },
+                        { name: 'Lápiz bicolor', quantity: 2, icon: '✏️' },
+                        { name: 'Libreta de espiral 5 mm LAMELA', quantity: 4, icon: '📓' },
+                        { name: 'Estuche', quantity: 1, icon: '📦' },
+                    ],
+                    'Material Artístico': [
+                        { name: 'Caja de ceras duras de 12 colores', quantity: 1, icon: '🖍️' },
+                        { name: 'Caja de rotuladores de 12 colores', quantity: 1, icon: '🖊️' },
+                        { name: 'Caja de lápices de 12 colores', quantity: 1, icon: '🎨' },
+                        { name: 'Plastilina (color a acordar)', quantity: 1, icon: '🎭' },
+                        { name: 'Bote pintura de dedos (color a acordar)', quantity: 1, icon: '🎨' },
+                        { name: 'Estuche de 12 acuarelas con pincel', quantity: 1, icon: '🎨' },
+                    ],
+                    'Material de Trabajo': [
+                        { name: 'Barra de pegamento grande', quantity: 2, icon: '📎' },
+                        { name: 'Tijeras de punta redonda', quantity: 1, icon: '✂️' },
+                        { name: 'Carpeta grande broche', quantity: 1, icon: '📁' },
+                        { name: 'Regla de 20 cm flexible', quantity: 1, icon: '📏' },
+                        { name: 'Bandeja grande rectangular de plástico', quantity: 1, icon: '📦' },
+                        { name: 'Paquete de 100 folios', quantity: 1, icon: '📄' },
+                        { name: 'Bloc de manualidades surtidos', quantity: 1, icon: '🎨' },
+                    ],
+                    'Material Educativo': [
+                        { name: 'Libro de lectura LETRILANDIA 2', quantity: 1, icon: '📚' },
+                        { name: 'Foto Carné en color', quantity: 1, icon: '📷' },
+                        { name: 'Caja grande de plástico para material', quantity: 1, icon: '📦' },
+                        { name: 'Agenda (si no la tiene del AMPA)', quantity: 1, icon: '📅' },
+                        { name: 'Encuadernadores metálicos Fástener', quantity: 3, icon: '📎' },
+                        { name: 'Rotuladores para pizarra Vileda', quantity: 2, icon: '🖊️' },
+                        { name: 'Bolsa tamaño mediano con cierre zip', quantity: 1, icon: '👜' },
+                    ],
+                    'Kit de Limpieza': [
+                        { name: 'Rollo de papel de cocina', quantity: 1, icon: '🧻' },
+                        { name: 'Caja de pañuelos desechables', quantity: 1, icon: '🤧' },
+                        { name: 'Paquete de toallitas', quantity: 1, icon: '🧽' },
+                    ],
+                    'Educación Física': [
+                        { name: 'Calzado deportivo', quantity: 1, icon: '👟' },
+                        { name: 'Camiseta o pantalón corto/chándal', quantity: 1, icon: '👕' },
+                        { name: 'Neceser con toalla y colonia', quantity: 1, icon: '🧴' },
+                    ]
+                }
+            },
+            '2': {
+                title: '2º de Educación Primaria',
+                year: '2025/2026',
+                categories: {
+                    'Materiales Básicos': [
+                        { name: 'Lápiz del nº 2', quantity: 5, icon: '✏️' },
+                        { name: 'Goma de borrar blanda', quantity: 5, icon: '🧽' },
+                        { name: 'Sacapuntas con depósito', quantity: 2, icon: '🔪' },
+                        { name: 'Lápiz bicolor', quantity: 2, icon: '✏️' },
+                        { name: 'Libreta de espiral 4 mm LAMELA', quantity: 3, icon: '📓' },
+                        { name: 'Estuche con 3 compartimentos', quantity: 1, icon: '📦' },
+                    ],
+                    'Material Artístico': [
+                        { name: 'Plastilina (color libre)', quantity: 1, icon: '🎭' },
+                        { name: 'Caja de acuarelas', quantity: 1, icon: '🎨' },
+                        { name: 'Caja de ceras duras de 18 colores', quantity: 2, icon: '🖍️' },
+                        { name: 'Caja de rotuladores de punta fina', quantity: 1, icon: '🖊️' },
+                    ],
+                    'Material de Trabajo': [
+                        { name: 'Barra de pegamento grande', quantity: 2, icon: '📎' },
+                        { name: 'Tijeras de punta redonda', quantity: 1, icon: '✂️' },
+                        { name: 'Carpetas grandes con gomas', quantity: 2, icon: '📁' },
+                        { name: 'Regla de 20 cm flexible', quantity: 1, icon: '📏' },
+                        { name: 'Pizarra tipo vileda', quantity: 1, icon: '📋' },
+                        { name: 'Rotuladores pizarra vileda', quantity: 2, icon: '🖊️' },
+                        { name: 'Bloc de manualidades surtidos', quantity: 1, icon: '🎨' },
+                        { name: 'Carpeta de broche grande', quantity: 1, icon: '📁' },
+                    ],
+                    'Material Educativo': [
+                        { name: 'Agenda (si no la facilita AMPA)', quantity: 1, icon: '📅' },
+                    ],
+                    'Kit de Limpieza': [
+                        { name: 'Rollo de papel de cocina y toallitas', quantity: 1, icon: '🧻' },
+                        { name: 'Caja de pañuelos desechables', quantity: 1, icon: '🤧' },
+                        { name: 'Paquete de toallitas de limpieza', quantity: 1, icon: '🧽' },
+                    ],
+                    'Educación Física': [
+                        { name: 'Calzado deportivo', quantity: 1, icon: '👟' },
+                        { name: 'Camiseta o pantalón corto/chándal', quantity: 1, icon: '👕' },
+                        { name: 'Neceser con toalla y colonia', quantity: 1, icon: '🧴' },
+                    ]
+                }
+            },
+            '3': {
+                title: '3º de Educación Primaria',
+                year: '2025/2026',
+                categories: {
+                    'Materiales Básicos': [
+                        { name: 'Lápiz del nº 2', quantity: 3, icon: '✏️' },
+                        { name: 'Goma de borrar blanda', quantity: 3, icon: '🧽' },
+                        { name: 'Sacapuntas con depósito', quantity: 1, icon: '🔪' },
+                        { name: 'Estuche con cremallera triple', quantity: 1, icon: '📦' },
+                        { name: 'Libretas tamaño folio nº 46 con márgenes LAMELA', quantity: 7, icon: '📓' },
+                    ],
+                    'Material Educativo': [
+                        { name: 'Diccionario de Lengua Española', quantity: 1, icon: '📖' },
+                        { name: 'Diccionario de Inglés', quantity: 1, icon: '📖' },
+                        { name: 'Carpeta de fundas de plástico', quantity: 1, icon: '📁' },
+                        { name: 'Paquete de folios A4 de 500', quantity: 1, icon: '📄' },
+                        { name: 'Agenda escolar (si no la facilita AMPA)', quantity: 1, icon: '📅' },
+                    ],
+                    'Material Artístico': [
+                        { name: 'Caja de ceras duras de 24 colores', quantity: 1, icon: '🖍️' },
+                        { name: 'Caja de 18 rotuladores', quantity: 1, icon: '🖊️' },
+                        { name: 'Bloc de dibujo con margen', quantity: 1, icon: '🎨' },
+                        { name: 'Pincel', quantity: 1, icon: '🖌️' },
+                        { name: 'Bloc de cartulinas surtidas', quantity: 1, icon: '🎨' },
+                    ],
+                    'Material de Trabajo': [
+                        { name: 'Barra de pegamento', quantity: 2, icon: '📎' },
+                        { name: 'Tijeras de punta redonda', quantity: 1, icon: '✂️' },
+                        { name: 'Juego de reglas y compás', quantity: 1, icon: '📐' },
+                        { name: 'Bolígrafos azul y rojo (borrable)', quantity: 1, icon: '🖊️' },
+                        { name: 'Caja de plástico de almacenaje', quantity: 1, icon: '📦' },
+                        { name: 'Carpeta de plástico con gomas', quantity: 1, icon: '📁' },
+                    ],
+                    'Kit de Limpieza': [
+                        { name: 'Caja de pañuelos desechables', quantity: 1, icon: '🤧' },
+                        { name: 'Paquete de toallitas de limpieza', quantity: 1, icon: '🧽' },
+                    ],
+                    'Educación Física': [
+                        { name: 'Calzado deportivo', quantity: 1, icon: '👟' },
+                        { name: 'Camiseta o pantalón corto/chándal', quantity: 1, icon: '👕' },
+                        { name: 'Bolsa de aseo completa', quantity: 1, icon: '🧴' },
+                    ]
+                }
+            },
+            '4': {
+                title: '4º de Educación Primaria',
+                year: '2025/2026',
+                categories: {
+                    'Materiales Básicos': [
+                        { name: 'Lápiz del nº 2', quantity: 2, icon: '✏️' },
+                        { name: 'Goma de borrar blanda', quantity: 2, icon: '🧽' },
+                        { name: 'Sacapuntas con depósito', quantity: 1, icon: '🔪' },
+                        { name: 'Estuche con cremallera triple', quantity: 1, icon: '📦' },
+                        { name: 'Libretas tamaño folio nº 46 con márgenes LAMELA', quantity: 7, icon: '📓' },
+                    ],
+                    'Material Educativo': [
+                        { name: 'Diccionario de Lengua Española', quantity: 1, icon: '📖' },
+                        { name: 'Diccionario de Inglés', quantity: 1, icon: '📖' },
+                        { name: 'Carpeta de fundas de plástico', quantity: 1, icon: '📁' },
+                        { name: 'Paquete de folios A4 de 500', quantity: 1, icon: '📄' },
+                        { name: 'Agenda escolar (si no la facilita AMPA)', quantity: 1, icon: '📅' },
+                        { name: 'Folder tipo acordeón sin fundas', quantity: 1, icon: '📁' },
+                    ],
+                    'Material Artístico': [
+                        { name: 'Caja de ceras duras de 24 colores', quantity: 1, icon: '🖍️' },
+                        { name: 'Caja de 12 rotuladores', quantity: 1, icon: '🖊️' },
+                        { name: 'Caja de 12 lápices de colores', quantity: 1, icon: '🎨' },
+                        { name: 'Bloc de dibujo con margen', quantity: 1, icon: '🎨' },
+                        { name: 'Pincel de punta fina', quantity: 1, icon: '🖌️' },
+                        { name: 'Bloc de cartulinas surtidas', quantity: 1, icon: '🎨' },
+                    ],
+                    'Material de Trabajo': [
+                        { name: 'Barra de pegamento', quantity: 2, icon: '📎' },
+                        { name: 'Tijeras de punta redonda', quantity: 1, icon: '✂️' },
+                        { name: 'Juego de reglas y compás', quantity: 1, icon: '📐' },
+                        { name: 'Bolígrafos azul y rojo (borrable)', quantity: 1, icon: '🖊️' },
+                        { name: 'Caja de plástico de almacenaje', quantity: 1, icon: '📦' },
+                        { name: 'Carpeta de plástico con gomas', quantity: 1, icon: '📁' },
+                    ],
+                    'Kit de Limpieza': [
+                        { name: 'Caja de pañuelos desechables', quantity: 1, icon: '🤧' },
+                        { name: 'Paquete de toallitas de limpieza', quantity: 1, icon: '🧽' },
+                    ],
+                    'Educación Física': [
+                        { name: 'Calzado deportivo', quantity: 1, icon: '👟' },
+                        { name: 'Camiseta o pantalón corto/chándal', quantity: 1, icon: '👕' },
+                        { name: 'Bolsa de aseo completa', quantity: 1, icon: '🧴' },
+                    ]
+                }
+            },
+            '5': {
+                title: '5º de Educación Primaria',
+                year: '2025/2026',
+                categories: {
+                    'Materiales Básicos': [
+                        { name: 'Lápiz del nº 2', quantity: 1, icon: '✏️' },
+                        { name: 'Goma de borrar blanda', quantity: 1, icon: '🧽' },
+                        { name: 'Sacapuntas con depósito', quantity: 1, icon: '🔪' },
+                        { name: 'Estuche con cremallera', quantity: 1, icon: '📦' },
+                        { name: 'Libretas tamaño folio nº 46 con márgenes', quantity: 6, icon: '📓' },
+                    ],
+                    'Material Educativo': [
+                        { name: 'Diccionario de Lengua Española', quantity: 1, icon: '📖' },
+                        { name: 'Diccionario de Inglés', quantity: 1, icon: '📖' },
+                        { name: 'Carpetas de fundas de plástico', quantity: 1, icon: '📁' },
+                        { name: 'Paquete de folios de 100 tamaño A4', quantity: 1, icon: '📄' },
+                    ],
+                    'Material Artístico': [
+                        { name: 'Caja de ceras duras de 24 colores', quantity: 1, icon: '🖍️' },
+                        { name: 'Caja de rotuladores', quantity: 1, icon: '🖊️' },
+                        { name: 'Bloc de dibujo con margen', quantity: 1, icon: '🎨' },
+                    ],
+                    'Material de Trabajo': [
+                        { name: 'Barra de pegamento', quantity: 1, icon: '📎' },
+                        { name: 'Tijeras de punta redonda', quantity: 1, icon: '✂️' },
+                        { name: 'Regla de 20 cm, escuadra, cartabón y transportador', quantity: 1, icon: '📐' },
+                        { name: 'Bolígrafos azul y rojo (borrable)', quantity: 1, icon: '🖊️' },
+                        { name: 'Compás', quantity: 1, icon: '📐' },
+                    ],
+                    'Kit de Limpieza': [
+                        { name: 'Caja de pañuelos desechables', quantity: 1, icon: '🤧' },
+                    ],
+                    'Educación Física': [
+                        { name: 'Calzado deportivo', quantity: 1, icon: '👟' },
+                        { name: 'Camiseta o pantalón corto/chándal', quantity: 1, icon: '👕' },
+                        { name: 'Bolsa de aseo completa', quantity: 1, icon: '🧴' },
+                    ]
+                }
+            },
+            '6': {
+                title: '6º de Educación Primaria',
+                year: '2025/2026',
+                categories: {
+                    'Materiales Básicos': [
+                        { name: 'Lápiz del nº 2', quantity: 1, icon: '✏️' },
+                        { name: 'Goma de borrar blanda', quantity: 1, icon: '🧽' },
+                        { name: 'Sacapuntas con depósito', quantity: 1, icon: '🔪' },
+                        { name: 'Estuche con cremallera', quantity: 1, icon: '📦' },
+                        { name: 'Libretas tamaño folio nº 46 con márgenes', quantity: 6, icon: '📓' },
+                    ],
+                    'Material Educativo': [
+                        { name: 'Diccionario de Lengua Española', quantity: 1, icon: '📖' },
+                        { name: 'Diccionario de Inglés', quantity: 1, icon: '📖' },
+                        { name: 'Carpetas de fundas de plástico', quantity: 1, icon: '📁' },
+                        { name: 'Paquete de folios de 100 tamaño A4', quantity: 1, icon: '📄' },
+                    ],
+                    'Material Artístico': [
+                        { name: 'Caja de ceras duras de 24 colores', quantity: 1, icon: '🖍️' },
+                        { name: 'Caja de rotuladores', quantity: 1, icon: '🖊️' },
+                        { name: 'Bloc de dibujo con margen', quantity: 1, icon: '🎨' },
+                    ],
+                    'Material de Trabajo': [
+                        { name: 'Barra de pegamento', quantity: 1, icon: '📎' },
+                        { name: 'Tijeras de punta redonda', quantity: 1, icon: '✂️' },
+                        { name: 'Regla de 20 cm, escuadra, cartabón y transportador', quantity: 1, icon: '📐' },
+                        { name: 'Bolígrafos azul y rojo (borrable)', quantity: 1, icon: '🖊️' },
+                        { name: 'Compás', quantity: 1, icon: '📐' },
+                    ],
+                    'Kit de Limpieza': [
+                        { name: 'Caja de pañuelos desechables', quantity: 1, icon: '🤧' },
+                    ],
+                    'Educación Física': [
+                        { name: 'Calzado deportivo', quantity: 1, icon: '👟' },
+                        { name: 'Camiseta o pantalón corto/chándal', quantity: 1, icon: '👕' },
+                        { name: 'Bolsa de aseo completa', quantity: 1, icon: '🧴' },
+                    ]
+                }
+            }
+        };
+
+        // Functions
+        function showView(viewId) {
+            // Hide all views
+            document.querySelectorAll('.view').forEach(view => {
+                view.classList.remove('active');
+            });
+            
+            // Remove active from nav items
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Show selected view
+            document.getElementById(viewId).classList.add('active');
+            
+            // Add active to clicked nav item
+            event.target.classList.add('active');
+        }
+
+        function showAuth() {
+            document.getElementById('authModal').classList.add('active');
+        }
+
+        function hideAuth() {
+            document.getElementById('authModal').classList.remove('active');
+        }
+
+        function login(event) {
+            event.preventDefault();
+            const userType = document.getElementById('userType').value;
+            const email = document.getElementById('email').value;
+            
+            appState.user = {
+                type: userType,
+                email: email,
+                name: email.split('@')[0]
+            };
+            
+            // Update UI for logged in user
+            document.getElementById('authBtn').textContent = `👋 ${appState.user.name}`;
+            document.getElementById('authBtn').onclick = logout;
+            
+            // Show appropriate navigation items
+            if (userType === 'family') {
+                document.getElementById('myListNav').style.display = 'block';
+            } else if (userType === 'teacher') {
+                document.getElementById('adminNav').style.display = 'block';
+            }
+            
+            hideAuth();
+            
+            // Show success message
+            alert('¡Bienvenido! 🎉');
+        }
+
+        function logout() {
+            appState.user = null;
+            document.getElementById('authBtn').textContent = '👤 Iniciar Sesión';
+            document.getElementById('authBtn').onclick = showAuth;
+            document.getElementById('myListNav').style.display = 'none';
+            document.getElementById('adminNav').style.display = 'none';
+            showView('home');
+        }
+
+        function selectCourse(courseId) {
+            appState.selectedCourse = courseId;
+            const courseData = courseMaterials[courseId];
+            
+            // Update materials view
+            document.getElementById('courseTitle').textContent = courseData.title;
+            
+            let materialsHTML = '<div class="materials-container fade-in">';
+            
+            Object.keys(courseData.categories).forEach(category => {
+                materialsHTML += `
+                    <div class="material-category">
+                        <div class="category-header" onclick="toggleCategory(this)">
+                            <span>${category}</span>
+                            <span>−</span>
+                        </div>
+                        <div class="category-content">
+                `;
+                
+                courseData.categories[category].forEach((material, index) => {
+                    const materialId = `${courseId}-${category}-${index}`;
+                    const status = appState.materials[materialId] || 'pending';
+                    
+                    materialsHTML += `
+                        <div class="material-item ${status}" data-id="${materialId}">
+                            <input type="checkbox" class="material-checkbox" ${status === 'completed' ? 'checked' : ''} 
+                                   onchange="toggleMaterial('${materialId}')">
+                            <div class="material-info">
+                                <div class="material-name">${material.icon} ${material.name}</div>
+                                <div class="material-quantity">Cantidad: ${material.quantity}</div>
+                            </div>
+                            <div class="material-status">
+                                <button class="status-btn status-pending ${status === 'pending' ? 'active' : ''}" 
+                                        onclick="setMaterialStatus('${materialId}', 'pending')">⏳ Pendiente</button>
+                                <button class="status-btn status-completed ${status === 'completed' ? 'active' : ''}" 
+                                        onclick="setMaterialStatus('${materialId}', 'completed')">✅ Comprado</button>
+                                <button class="status-btn status-reused ${status === 'reused' ? 'active' : ''}" 
+                                        onclick="setMaterialStatus('${materialId}', 'reused')">♻️ Reutilizado</button>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                materialsHTML += '</div></div>';
+            });
+            
+            materialsHTML += '</div>';
+            
+            document.getElementById('materialsContent').innerHTML = materialsHTML;
+            
+            // Update my list if user is logged in
+            if (appState.user) {
+                updateMyList();
+            }
+            
+            // Show materials view
+            showView('materials');
+        }
+
+        function toggleCategory(element) {
+            const content = element.nextElementSibling;
+            const isVisible = content.style.display !== 'none';
+            
+            content.style.display = isVisible ? 'none' : 'block';
+            element.querySelector('span:last-child').textContent = isVisible ? '+' : '−';
+        }
+
+        function toggleMaterial(materialId) {
+            const currentStatus = appState.materials[materialId] || 'pending';
+            const newStatus = currentStatus === 'completed' ? 'pending' : 'completed';
+            setMaterialStatus(materialId, newStatus);
+        }
+
+        function setMaterialStatus(materialId, status) {
+            appState.materials[materialId] = status;
+            
+            // Update UI
+            const materialItem = document.querySelector(`[data-id="${materialId}"]`);
+            if (materialItem) {
+                materialItem.className = `material-item ${status}`;
+                
+                const checkbox = materialItem.querySelector('.material-checkbox');
+                checkbox.checked = status === 'completed';
+                
+                // Update status buttons
+                materialItem.querySelectorAll('.status-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                materialItem.querySelector(`.status-${status}`).classList.add('active');
+            }
+            
+            updateProgress();
+        }
+
+        function updateMyList() {
+            if (!appState.selectedCourse) return;
+            
+            const courseData = courseMaterials[appState.selectedCourse];
+            let myListHTML = '<div class="materials-container fade-in">';
+            
+            Object.keys(courseData.categories).forEach(category => {
+                myListHTML += `
+                    <div class="material-category">
+                        <div class="category-header" onclick="toggleCategory(this)">
+                            <span>${category}</span>
+                            <span>−</span>
+                        </div>
+                        <div class="category-content">
+                `;
+                
+                courseData.categories[category].forEach((material, index) => {
+                    const materialId = `${appState.selectedCourse}-${category}-${index}`;
+                    const status = appState.materials[materialId] || 'pending';
+                    
+                    myListHTML += `
+                        <div class="material-item ${status}" data-id="${materialId}">
+                            <input type="checkbox" class="material-checkbox" ${status === 'completed' ? 'checked' : ''} 
+                                   onchange="toggleMaterial('${materialId}')">
+                            <div class="material-info">
+                                <div class="material-name">${material.icon} ${material.name}</div>
+                                <div class="material-quantity">Cantidad: ${material.quantity}</div>
+                            </div>
+                            <div class="material-status">
+                                <button class="status-btn status-pending ${status === 'pending' ? 'active' : ''}" 
+                                        onclick="setMaterialStatus('${materialId}', 'pending')">⏳ Pendiente</button>
+                                <button class="status-btn status-completed ${status === 'completed' ? 'active' : ''}" 
+                                        onclick="setMaterialStatus('${materialId}', 'completed')">✅ Comprado</button>
+                                <button class="status-btn status-reused ${status === 'reused' ? 'active' : ''}" 
+                                        onclick="setMaterialStatus('${materialId}', 'reused')">♻️ Reutilizado</button>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                myListHTML += '</div></div>';
+            });
+            
+            myListHTML += '</div>';
+            
+            document.getElementById('myListContent').innerHTML = myListHTML;
+            updateProgress();
+        }
+
+        function updateProgress() {
+            if (!appState.selectedCourse) return;
+            
+            const courseData = courseMaterials[appState.selectedCourse];
+            let totalItems = 0;
+            let completedItems = 0;
+            
+            Object.values(courseData.categories).forEach(materials => {
+                materials.forEach((material, index) => {
+                    totalItems++;
+                    const category = Object.keys(courseData.categories).find(key => 
+                        courseData.categories[key].includes(material)
+                    );
+                    const materialId = `${appState.selectedCourse}-${category}-${index}`;
+                    const status = appState.materials[materialId] || 'pending';
+                    
+                    if (status === 'completed' || status === 'reused') {
+                        completedItems++;
+                    }
+                });
+            });
+            
+            const progress = totalItems > 0 ? (completedItems / totalItems) * 100 : 0;
+            
+            document.getElementById('completedCount').textContent = completedItems;
+            document.getElementById('totalCount').textContent = totalItems;
+            document.getElementById('progressFill').style.width = `${progress}%`;
+        }
+
+        function downloadPDF() {
+            if (!appState.selectedCourse) {
+                alert('Selecciona un curso primero');
+                return;
+            }
+            
+            // Simulate PDF generation
+            const courseData = courseMaterials[appState.selectedCourse];
+            alert(`📄 Generando PDF para ${courseData.title}...\n\n¡Tu lista de materiales se descargará en breve!`);
+        }
+
+        function shareWhatsApp() {
+            if (!appState.selectedCourse) {
+                alert('Selecciona un curso primero');
+                return;
+            }
+            
+            const courseData = courseMaterials[appState.selectedCourse];
+            let message = `📚 Lista de Materiales - ${courseData.title}\n\n`;
+            
+            Object.keys(courseData.categories).forEach(category => {
+                message += `${category}:\n`;
+                courseData.categories[category].forEach(material => {
+                    message += `• ${material.name} (${material.quantity})\n`;
+                });
+                message += '\n';
+            });
+            
+            message += 'Generado desde la app del CEIP Puerta de Martos 🏫';
+            
+            const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+        }
+
+        function resetProgress() {
+            if (confirm('¿Estás seguro de que quieres reiniciar todo el progreso?')) {
+                appState.materials = {};
+                updateMyList();
+                updateProgress();
+                if (appState.selectedCourse) {
+                    selectCourse(appState.selectedCourse);
+                }
+            }
+        }
+
+        function toggleDarkMode() {
+            appState.darkMode = !appState.darkMode;
+            document.body.classList.toggle('dark-mode', appState.darkMode);
+            
+            const btn = event.target;
+            btn.textContent = appState.darkMode ? '☀️ Modo Claro' : '🌙 Modo Oscuro';
+        }
+
+        function toggleAccessibility() {
+            appState.accessibility = !appState.accessibility;
+            document.body.classList.toggle('high-contrast', appState.accessibility);
+            document.body.classList.toggle('large-text', appState.accessibility);
+            
+            const btn = event.target;
+            btn.textContent = appState.accessibility ? '♿ Normal' : '♿ Accesibilidad';
+            
+            if (appState.accessibility) {
+                // Enable screen reader announcements
+                const announcement = document.createElement('div');
+                announcement.setAttribute('aria-live', 'polite');
+                announcement.className = 'sr-only';
+                announcement.textContent = 'Modo de accesibilidad activado. Texto más grande y mayor contraste habilitados.';
+                document.body.appendChild(announcement);
+                
+                setTimeout(() => announcement.remove(), 3000);
+            }
+        }
+
+        function toggleFAQ(element) {
+            const faqItem = element.closest('.faq-item');
+            const isActive = faqItem.classList.contains('active');
+            
+            // Close all FAQ items
+            document.querySelectorAll('.faq-item').forEach(item => {
+                item.classList.remove('active');
+                item.querySelector('span').textContent = '+';
+            });
+            
+            // Open clicked item if it wasn't active
+            if (!isActive) {
+                faqItem.classList.add('active');
+                element.querySelector('span').textContent = '−';
+            }
+        }
+
+        function sendNotification() {
+            const message = prompt('Escribe el mensaje de notificación para las familias:');
+            if (message) {
+                alert(`📢 Notificación enviada a 125 familias:\n\n"${message}"\n\n✅ Enviado correctamente`);
+            }
+        }
+
+        function exportData() {
+            // Simulate data export
+            const data = {
+                totalFamilies: 125,
+                coursesData: Object.keys(courseMaterials).map(courseId => ({
+                    course: courseMaterials[courseId].title,
+                    totalMaterials: Object.values(courseMaterials[courseId].categories)
+                        .reduce((total, materials) => total + materials.length, 0),
+                    completionRate: Math.floor(Math.random() * 40 + 60) + '%'
+                })),
+                exportDate: new Date().toLocaleDateString('es-ES')
+            };
+            
+            console.log('Exported data:', data);
+            alert('📊 Datos exportados correctamente!\n\nRevisa la consola del navegador para ver los datos.');
+        }
+
+        function viewAnalytics() {
+            const analyticsData = `
+📈 ANALYTICS DASHBOARD
+
+👨‍👩‍👧‍👦 Familias Registradas: 125
+📚 Cursos Activos: 6
+✅ Promedio de Completitud: 78%
+
+📊 MATERIALES MÁS CONSULTADOS:
+1. Lápices del nº 2 - 98 consultas
+2. Libretas LAMELA - 85 consultas  
+3. Estuches - 76 consultas
+4. Diccionarios - 64 consultas
+5. Material de Ed. Física - 58 consultas
+
+⚠️ MATERIALES CON MÁS DUDAS:
+• Plastilina (color a acordar)
+• Rotuladores pizarra Vileda
+• Agenda AMPA
+• Bolígrafos borrables
+
+📅 ACTIVIDAD RECIENTE:
+• 15 nuevas familias registradas esta semana
+• 89 listas actualizadas hoy
+• 12 consultas al FAQ
+            `;
+            
+            alert(analyticsData);
+        }
+
+        function speakText(text) {
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'es-ES';
+                utterance.rate = 0.8;
+                speechSynthesis.speak(utterance);
+            }
+        }
+
+        // Add reading functionality for accessibility
+        function addReadingButtons() {
+            document.querySelectorAll('.material-name').forEach(element => {
+                if (!element.querySelector('.read-btn')) {
+                    const readBtn = document.createElement('button');
+                    readBtn.innerHTML = '🔊';
+                    readBtn.className = 'btn btn-small read-btn';
+                    readBtn.style.marginLeft = '10px';
+                    readBtn.title = 'Leer en voz alta';
+                    readBtn.onclick = (e) => {
+                        e.stopPropagation();
+                        speakText(element.textContent.replace('🔊', ''));
+                    };
+                    element.appendChild(readBtn);
+                }
+            });
+        }
+
+        // Initialize app
+        function initApp() {
+            // Add smooth scrolling
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
+
+            // Add keyboard navigation
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    hideAuth();
+                }
+                
+                if (e.key === 'Enter' && e.target.classList.contains('course-card')) {
+                    e.target.click();
+                }
+            });
+
+            // Add touch gestures for mobile
+            let touchStartY = 0;
+            document.addEventListener('touchstart', function(e) {
+                touchStartY = e.touches[0].clientY;
+            });
+
+            document.addEventListener('touchend', function(e) {
+                const touchEndY = e.changedTouches[0].clientY;
+                const diff = touchStartY - touchEndY;
+                
+                // Swipe up to go to next view (simple implementation)
+                if (Math.abs(diff) > 50) {
+                    // Could implement view switching here
+                }
+            });
+
+            // Load saved state from session storage simulation
+            const savedUser = sessionStorage.getItem('schoolApp_user');
+            if (savedUser) {
+                try {
+                    appState.user = JSON.parse(savedUser);
+                    document.getElementById('authBtn').textContent = `👋 ${appState.user.name}`;
+                    document.getElementById('authBtn').onclick = logout;
+                    
+                    if (appState.user.type === 'family') {
+                        document.getElementById('myListNav').style.display = 'block';
+                    } else if (appState.user.type === 'teacher') {
+                        document.getElementById('adminNav').style.display = 'block';
+                    }
+                } catch (e) {
+                    console.log('Error loading saved user state');
+                }
+            }
+
+            // Load saved materials state
+            const savedMaterials = sessionStorage.getItem('schoolApp_materials');
+            if (savedMaterials) {
+                try {
+                    appState.materials = JSON.parse(savedMaterials);
+                } catch (e) {
+                    console.log('Error loading saved materials state');
+                }
+            }
+
+            // Save state on page unload
+            window.addEventListener('beforeunload', function() {
+                if (appState.user) {
+                    sessionStorage.setItem('schoolApp_user', JSON.stringify(appState.user));
+                }
+                sessionStorage.setItem('schoolApp_materials', JSON.stringify(appState.materials));
+            });
+
+            // Add loading animation
+            document.body.style.opacity = '0';
+            setTimeout(() => {
+                document.body.style.transition = 'opacity 0.5s';
+                document.body.style.opacity = '1';
+            }, 100);
+
+            // Add intersection observer for animations
+            if ('IntersectionObserver' in window) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('fade-in');
+                        }
+                    });
+                });
+
+                document.querySelectorAll('.course-card, .material-category').forEach(el => {
+                    observer.observe(el);
+                });
+            }
+        }
+
+        // Run when DOM is loaded
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initApp);
+        } else {
+            initApp();
+        }
+
+        // Add service worker for offline functionality (basic)
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                // Note: In a real app, you'd register an actual service worker file
+                console.log('Service Worker support detected - offline functionality could be implemented');
+            });
+        }
+
+        // Add print styles when downloading PDF
+        function addPrintStyles() {
+            const printStyles = `
+                @media print {
+                    body * { visibility: hidden; }
+                    .materials-container, .materials-container * { visibility: visible; }
+                    .materials-container { position: absolute; top: 0; left: 0; width: 100%; }
+                    .material-status, .category-header { display: none !important; }
+                    .material-item { border: 1px solid #ccc; margin-bottom: 5px; }
+                }
+            `;
+            
+            const styleSheet = document.createElement('style');
+            styleSheet.textContent = printStyles;
+            document.head.appendChild(styleSheet);
+        }
+
+        // Initialize print styles
+        addPrintStyles();
+
+        // Add notification system
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            notification.innerHTML = `
+                <div style="
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: var(--primary-color);
+                    color: white;
+                    padding: 1rem;
+                    border-radius: 0.5rem;
+                    box-shadow: var(--shadow);
+                    z-index: 1001;
+                    max-width: 300px;
+                ">
+                    ${message}
+                    <button onclick="this.parentElement.remove()" style="
+                        background: none;
+                        border: none;
+                        color: white;
+                        font-size: 1.2rem;
+                        float: right;
+                        margin-left: 10px;
+                        cursor: pointer;
+                    ">×</button>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.remove();
+                }
+            }, 5000);
+        }
+
+        // Enhanced material status tracking
+        function trackMaterialInteraction(materialId, action) {
+            // In a real app, this would send analytics data
+            console.log(`Material interaction: ${materialId} - ${action}`);
+            
+            if (action === 'completed') {
+                showNotification('✅ Material marcado como comprado', 'success');
+            } else if (action === 'reused') {
+                showNotification('♻️ Material marcado como reutilizado', 'success');
+            }
+        }
+
+        // Add calendar integration placeholder
+        function addToCalendar() {
+            const startDate = new Date('2025-09-15'); // Example start date
+            const endDate = new Date(startDate.getTime() + (24 * 60 * 60 * 1000)); // Next day
+            
+            const calendarEvent = {
+                title: 'Entrega de Materiales Escolares',
+                start: startDate.toISOString().slice(0, 19),
+                end: endDate.toISOString().slice(0, 19),
+                description: 'Recordatorio para entregar los materiales escolares en el CEIP Puerta de Martos'
+            };
+            
+            // Create Google Calendar URL
+            const googleCalendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(calendarEvent.title)}&dates=${calendarEvent.start.replace(/[-:]/g, '')}/${calendarEvent.end.replace(/[-:]/g, '')}&details=${encodeURIComponent(calendarEvent.description)}`;
+            
+            if (confirm('¿Quieres añadir un recordatorio a tu calendario de Google?')) {
+                window.open(googleCalendarUrl, '_blank');
+            }
+        }
+
+        // Enhanced search functionality
+        function searchMaterials(query) {
+            if (!query || query.length < 2) return;
+            
+            const results = [];
+            Object.keys(courseMaterials).forEach(courseId => {
+                const courseData = courseMaterials[courseId];
+                Object.keys(courseData.categories).forEach(category => {
+                    courseData.categories[category].forEach(material => {
+                        if (material.name.toLowerCase().includes(query.toLowerCase())) {
+                            results.push({
+                                course: courseData.title,
+                                category: category,
+                                material: material
+                            });
+                        }
+                    });
+                });
+            });
+            
+            return results;
+        }
+
+        // Add search bar to header (would be implemented in a full version)
+        function addSearchFunctionality() {
+            // This would add a search input to the header
+            // and implement real-time search across all materials
+            console.log('Search functionality placeholder - would implement material search across all courses');
+        }
+
+        // PWA manifest placeholder
+        const pwaManifest = {
+            "name": "Materiales Escolares CEIP",
+            "short_name": "Materiales CEIP",
+            "description": "Gestión de materiales escolares para el CEIP Puerta de Martos",
+            "start_url": "/",
+            "display": "standalone",
+            "theme_color": "#4F46E5",
+            "background_color": "#F8FAFC",
+            "icons": [
+                {
+                    "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgdmlld0JveD0iMCAwIDE5MiAxOTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxOTIiIGhlaWdodD0iMTkyIiByeD0iMjQiIGZpbGw9IiM0RjQ2RTUiLz4KPHN2ZyB4PSI0OCIgeT0iNDgiIHdpZHRoPSI5NiIgaGVpZ2h0PSI5NiIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjRkZGRkZGIj4KPHN2ZyBmaWxsPSIjRkZGRkZGIiBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHdpZHRoPSIyNCI+CjxwYXRoIGQ9Ik0xOSAzSDVjLTEuMSAwLTIgLjktMiAydjE0YzAgMS4xLjkgMiAyIDJoMTRjMS4xIDAgMi0uOSAyLTJWNWMwLTEuMS0uOS0yLTItMnptLTUgMTRIN3YtMmg3djJ6bTMtNEg3di0yaDEwdjJ6bTAtNEg3VjdoMTB2MnoiLz4KPC9zdmc+Cjwvc3ZnPgo8L3N2Zz4K",
+                    "sizes": "192x192",
+                    "type": "image/svg+xml"
+                }
+            ]
+        };
+
+        console.log('📚 Aplicación de Materiales Escolares cargada correctamente');
+        console.log('🎯 Funcionalidades disponibles: Gestión de listas, modo oscuro, accesibilidad, exportación, y más');
+
+    </script>
+</body>
+</html>
