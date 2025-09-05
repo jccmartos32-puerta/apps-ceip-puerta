@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Constructor de Prompts Pedagógicos (Experto)</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom Stylesheet -->
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        .step-card { background-color: white; border-radius: 0.75rem; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); margin-bottom: 1.5rem; transition: all 0.3s ease-in-out; }
+        .prompt-textarea { background-color: #1e293b; color: #e2e8f0; border-radius: 0.75rem; padding: 1.5rem; font-family: 'monospace'; line-height: 1.6; min-height: 150px; white-space: pre-wrap; word-wrap: break-word; width: 100%; border: 1px solid #374151; }
+        .prompt-textarea:focus { outline: 2px solid #4f46e5; }
+        .ai-result-display { background-color: white; border: 1px solid #e2e8f0; border-radius: 0.75rem; padding: 1.5rem; margin-top: 1rem; min-height: 150px; }
+        .ai-result-display h1, .ai-result-display h2, .ai-result-display h3 { font-weight: bold; margin-top: 1rem; margin-bottom: 0.5rem; }
+        .ai-result-display ul { list-style-type: disc; padding-left: 1.5rem; }
+        .ai-result-display ol { list-style-type: decimal; padding-left: 1.5rem; }
+        .recipe-card { cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; padding: 1rem; }
+        .recipe-card:hover { transform: translateY(-4px); box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1); }
+        .toast { visibility: hidden; min-width: 250px; background-color: #1e293b; color: #fff; text-align: center; border-radius: 8px; padding: 16px; position: fixed; z-index: 50; left: 50%; transform: translateX(-50%); bottom: 30px; opacity: 0; transition: all 0.3s ease-in-out; }
+        .toast.show { visibility: visible; opacity: 1; bottom: 50px; }
+        .loader { width: 48px; height: 48px; border: 5px solid #e5e7eb; border-bottom-color: #4f46e5; border-radius: 50%; display: inline-block; box-sizing: border-box; animation: rotation 1s linear infinite; }
+        @keyframes rotation { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        #file-upload-btn { cursor: pointer; }
+        #file-preview-container { margin-top: 1rem; }
+        #file-preview-container img { max-width: 100px; max-height: 100px; border-radius: 0.5rem; }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <div class="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
+        
+        <header class="text-center mb-10">
+            <h1 class="text-4xl sm:text-5xl font-bold text-indigo-600">Asistente de Prompts para el CEIP Puerta de Martos</h1>
+            <p class="mt-4 text-lg text-gray-600">Una herramienta para ayudarte a potenciar tu labor docente en el día a día.</p>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Columna de construcción -->
+            <div>
+                <h2 class="text-2xl font-bold mb-4 text-gray-700">1. Dame los ingredientes</h2>
+                
+                <div class="step-card">
+                    <label for="ai-role" class="block text-lg font-semibold text-gray-700 mb-2"><i class="fas fa-user-tie mr-2 text-indigo-500"></i>Rol de la IA</label>
+                    <input type="text" id="ai-role" class="w-full p-2 border border-gray-300 rounded-md" placeholder="Ej: Experto en didáctica de las matemáticas, Cuentacuentos...">
+                </div>
+
+                <div class="step-card">
+                    <label for="objective" class="block text-lg font-semibold text-gray-700 mb-2"><i class="fas fa-bullseye mr-2 text-indigo-500"></i>Objetivo principal</label>
+                    <input type="text" id="objective" class="w-full p-2 border border-gray-300 rounded-md" placeholder="Ej: Crear un cuento, Diseñar una actividad de plástica...">
+                </div>
+
+                <div class="step-card">
+                    <label for="audience" class="block text-lg font-semibold text-gray-700 mb-2"><i class="fas fa-users mr-2 text-indigo-500"></i>Audiencia</label>
+                    <input type="text" id="audience" class="w-full p-2 border border-gray-300 rounded-md" placeholder="Ej: Alumnos de 3º de Primaria, Familias...">
+                </div>
+
+                <div class="step-card">
+                    <label for="context" class="block text-lg font-semibold text-gray-700 mb-2"><i class="fas fa-file-alt mr-2 text-indigo-500"></i>Contexto y Detalles</label>
+                    <textarea id="context" rows="4" class="w-full p-2 border border-gray-300 rounded-md" placeholder="Ej: El tema son los animales vertebrados. Usa ejemplos cercanos para niños de 8 años..."></textarea>
+                    
+                    <input type="file" id="file-upload" class="hidden" accept=".png, .jpg, .jpeg, .txt, .pdf, .docx">
+                    <label for="file-upload" id="file-upload-btn" class="mt-4 inline-block bg-gray-200 text-gray-700 font-semibold py-2 px-4 rounded-lg hover:bg-gray-300 transition-colors duration-200">
+                        <i class="fas fa-paperclip mr-2"></i>Adjuntar Archivo
+                    </label>
+                    <div id="file-preview-container"></div>
+                </div>
+
+                <div class="step-card">
+                    <label for="format" class="block text-lg font-semibold text-gray-700 mb-2"><i class="fas fa-palette mr-2 text-indigo-500"></i>Formato y Tono</label>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <input type="text" id="format" class="w-full p-2 border border-gray-300 rounded-md" placeholder="Formato: tabla, lista, guion...">
+                        <input type="text" id="tone" class="w-full p-2 border border-gray-300 rounded-md" placeholder="Tono: formal, cercano, divertido...">
+                    </div>
+                </div>
+                 <div class="flex gap-4">
+                    <button id="clear-button" class="flex-1 bg-gray-500 text-white font-bold py-3 px-4 rounded-lg hover:bg-gray-600 transition-colors duration-200 flex items-center justify-center">
+                        <i class="fas fa-eraser mr-2"></i>
+                        <span>Limpiar</span>
+                    </button>
+                    <button id="optimize-button" class="flex-1 bg-green-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-green-700 transition-colors duration-200 disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center justify-center">
+                        <i class="fas fa-magic mr-2"></i>
+                        <span id="optimize-button-text">Optimizar mi Prompt</span>
+                    </button>
+                 </div>
+            </div>
+
+            <!-- Columna de resultado y recetas -->
+            <div>
+                <div>
+                    <h2 class="text-2xl font-bold mb-4 text-gray-700">2. Prompt Experto (Editable)</h2>
+                    <div id="prompt-output-container">
+                        <textarea id="prompt-output" class="prompt-textarea" placeholder="Aquí aparecerá mi versión optimizada de tu prompt..."></textarea>
+                    </div>
+                </div>
+                 <div class="mt-4 flex gap-4">
+                    <button id="copy-prompt-button" class="flex-1 bg-gray-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-gray-700 transition-colors duration-200 disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center justify-center">
+                        <i class="fas fa-copy mr-2"></i>
+                        <span>Copiar Prompt</span>
+                    </button>
+                    <button id="generate-button" class="flex-1 bg-indigo-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-indigo-700 transition-colors duration-200 disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center justify-center">
+                        <i class="fas fa-bolt mr-2"></i>
+                        <span id="generate-button-text">Obtener Resultado</span>
+                    </button>
+                 </div>
+                
+                <div class="mt-8">
+                     <h2 class="text-2xl font-bold mb-4 text-gray-700">3. Resultado Final</h2>
+                     <div id="ai-result-container" class="ai-result-display">
+                        <p class="text-gray-500">El resultado de la IA aparecerá aquí...</p>
+                     </div>
+                     <div id="result-actions" class="mt-4 flex gap-4" style="display: none;">
+                        <button id="copy-result-button" class="flex-1 bg-gray-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-gray-700 transition-colors duration-200 flex items-center justify-center">
+                            <i class="fas fa-copy mr-2"></i>
+                            <span>Copiar</span>
+                        </button>
+                        <button id="download-result-button" class="flex-1 bg-gray-800 text-white font-bold py-2 px-4 rounded-lg hover:bg-black transition-colors duration-200 flex items-center justify-center">
+                            <i class="fas fa-download mr-2"></i>
+                            <span>Descargar</span>
+                        </button>
+                     </div>
+                </div>
+
+                <div class="mt-12">
+                    <h2 class="text-2xl font-bold mb-4 text-gray-700">O empieza con una "Receta"</h2>
+                    
+                    <div class="mb-6 bg-indigo-50 border-l-4 border-indigo-400 p-4 rounded-r-lg">
+                        <div class="flex items-center">
+                            <div class="py-1"><i class="fas fa-file-csv text-indigo-500 text-2xl mr-4"></i></div>
+                            <div>
+                                <p class="text-sm text-indigo-700">
+                                    ¿Buscas más inspiración? 
+                                    <a href="https://docs.google.com/spreadsheets/d/1TbSF8sNcglTkdZDUjeGpQG5kzVJRxatXxk4FvUJ-mDE/edit?usp=sharing" target="_blank" rel="noopener noreferrer" class="font-bold underline hover:text-indigo-800">Consulta el catálogo de prompts completo</a>.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="step-card recipe-card" onclick="applyRecipe('lecturaComprensiva')"><p class="font-semibold"><i class="fas fa-book-reader mr-2 text-green-500"></i>Crear lectura comprensiva</p></div>
+                        <div class="step-card recipe-card" onclick="applyRecipe('csi')"><p class="font-semibold"><i class="fas fa-puzzle-piece mr-2 text-green-500"></i>Gamificación (Misterio)</p></div>
+                        <div class="step-card recipe-card" onclick="applyRecipe('rubric')"><p class="font-semibold"><i class="fas fa-tasks mr-2 text-green-500"></i>Crear una Rúbrica</p></div>
+                        <div class="step-card recipe-card" onclick="applyRecipe('debate')"><p class="font-semibold"><i class="fas fa-comments mr-2 text-green-500"></i>Generar un Debate</p></div>
+                        <div class="step-card recipe-card" onclick="applyRecipe('correoFamilias')"><p class="font-semibold"><i class="fas fa-envelope-open-text mr-2 text-green-500"></i>Correo a Familias</p></div>
+                        <div class="step-card recipe-card" onclick="applyRecipe('crearCancion')"><p class="font-semibold"><i class="fas fa-music mr-2 text-purple-500"></i>Crear una Canción</p></div>
+                        <div class="step-card recipe-card" onclick="applyRecipe('problemasMatematicos')"><p class="font-semibold"><i class="fas fa-calculator mr-2 text-orange-500"></i>Problemas matemáticos</p></div>
+                        <div class="step-card recipe-card" onclick="applyRecipe('revisarRedaccion')"><p class="font-semibold"><i class="fas fa-pen-fancy mr-2 text-orange-500"></i>Revisar mi Redacción</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer class="text-center mt-16 pt-8 border-t border-gray-200">
+            <p class="text-sm text-gray-600 font-semibold mb-2">Personalizado para el claustro del CEIP Puerta de Martos.</p>
+            <p class="text-xs text-gray-400 mt-2">
+                <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer" class="hover:underline">
+                    Licencia Creative Commons Atribución-NoComercial-CompartirIgual 4.0 Internacional
+                </a>
+            </p>
+        </footer>
+
+    </div>
+
+    <div id="toast" class="toast">¡Error al contactar con la IA!</div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const inputs = {
+                role: document.getElementById('ai-role'),
+                objective: document.getElementById('objective'),
+                audience: document.getElementById('audience'),
+                context: document.getElementById('context'),
+                format: document.getElementById('format'),
+                tone: document.getElementById('tone'),
+            };
+            const optimizeButton = document.getElementById('optimize-button');
+            const optimizeButtonText = document.getElementById('optimize-button-text');
+            const promptOutput = document.getElementById('prompt-output');
+            const copyPromptButton = document.getElementById('copy-prompt-button');
+            const generateButton = document.getElementById('generate-button');
+            const generateButtonText = document.getElementById('generate-button-text');
+            const aiResultContainer = document.getElementById('ai-result-container');
+            const resultActions = document.getElementById('result-actions');
+            const copyResultButton = document.getElementById('copy-result-button');
+            const downloadResultButton = document.getElementById('download-result-button');
+            const toast = document.getElementById('toast');
+            const fileUpload = document.getElementById('file-upload');
+            const filePreviewContainer = document.getElementById('file-preview-container');
+            const clearButton = document.getElementById('clear-button');
+
+            let attachedFile = null;
+
+            const recipes = {
+                lecturaComprensiva: { role: 'Pedagogo experto en diseño de materiales de comprensión lectora', objective: 'Crear un texto adaptado con preguntas de comprensión lectora', audience: 'Alumnos de [CURSO DE PRIMARIA]', context: 'El texto debe tratar sobre [TEMA]. Debe tener una longitud aproximada de [NÚMERO] palabras. A continuación del texto, elabora [NÚMERO] preguntas de comprensión: [NÚMERO] literales, [NÚMERO] inferenciales y [NÚMERO] valorativas.', format: 'Texto seguido de una lista numerada de preguntas', tone: 'Educativo, claro y adaptado a la edad' },
+                csi: { role: 'Maestro narrador de historias y diseñador de juegos educativos', objective: 'Crear una narrativa de misterio para una actividad de gamificación', audience: 'Alumnos de [CURSO DE PRIMARIA]', context: 'El tema es [TEMA A TRATAR]. La historia debe presentar un enigma central de misterio. Debe incluir [NÚMERO] personajes sospechosos y una pista clave oculta que los alumnos solo pueden resolver aplicando sus conocimientos sobre el tema.', format: 'Texto narrativo con secciones claras para el enigma, los sospechosos y las pistas.', tone: 'Misterioso, intrigante y educativo' },
+                rubric: { role: 'Pedagogo experto en evaluación por competencias', objective: 'Diseñar una rúbrica de evaluación detallada', audience: 'Docentes y alumnos', context: 'Evaluar un [TIPO DE TRABAJO, ej: proyecto de investigación] sobre [TEMA]. La rúbrica debe tener [NÚMERO] criterios de evaluación (ej: rigor científico, creatividad, trabajo en equipo, claridad) y [NÚMERO] niveles de desempeño (ej: excelente, bueno, en desarrollo, necesita mejorar).', format: 'Una tabla con criterios en las filas y niveles de desempeño en las columnas.', tone: 'Claro, conciso y objetivo' },
+                debate: { role: 'Experto en retórica y argumentación', objective: 'Preparar un debate estructurado para clase', audience: 'Alumnos de [CURSO DE PRIMARIA]', context: 'El tema del debate es: "[TEMA CONTROVERTIDO]". Genera 5 argumentos sólidos a favor de la moción y 5 argumentos sólidos en contra. Para cada uno de los 10 argumentos, proporciona una posible pregunta de refutación que el equipo contrario podría usar.', format: 'Una lista estructurada: MOCIÓN, ARGUMENTOS A FAVOR (con refutaciones), ARGUMENTOS EN CONTRA (con refutaciones).', tone: 'Equilibrado, crítico y provocador de pensamiento' },
+                correoFamilias: { role: 'Jefe de estudios y tutor con experiencia en comunicación escolar', objective: 'Redactar un correo electrónico formal pero cercano para las familias', audience: 'Padres y madres de alumnos de [CURSO DE PRIMARIA]', context: 'Informar sobre [ASUNTO DEL CORREO, ej: próxima excursión, reunión de padres]. Incluir todos los detalles importantes: fecha, hora, lugar, objetivo, coste, etc.', format: 'Correo electrónico estructurado con saludo, cuerpo del mensaje y despedida.', tone: 'Formal, claro, conciso y positivo' },
+                crearCancion: { role: 'Compositor y músico experto en canciones infantiles', objective: 'Crear una canción educativa y pegadiza', audience: 'Alumnos de [CURSO DE PRIMARIA]', context: 'La canción debe tratar sobre [TEMA]. Tiene que tener un estribillo que se repita [NÚMERO] veces y [NÚMERO] estrofas. La letra debe ser sencilla y fácil de memorizar.', format: 'Letra de la canción con estrofas y estribillo claramente marcados.', tone: 'Alegre, rítmico y divertido' },
+                problemasMatematicos: { role: 'Profesor de matemáticas experto en la creación de problemas contextualizados', objective: 'Crear una serie de problemas matemáticos adaptados', audience: 'Alumnos de [CURSO DE PRIMARIA]', context: 'Quiero [NÚMERO] problemas sobre [TEMA, ej: compras en el supermercado]. Los problemas deben implicar [OPERACIONES, ej: sumas, restas con llevadas]. La dificultad debe ser progresiva.', format: 'Lista numerada de problemas con un espacio para la solución.', tone: 'Claro y relacionado con situaciones cotidianas' },
+                revisarRedaccion: { role: 'Profesor de Lengua y Literatura experto en corrección de textos', objective: 'Revisar un texto y proporcionar feedback para mejorar', audience: 'Un/a alumno/a que quiere mejorar su escritura', context: 'Revisa el siguiente texto. No me des la versión corregida directamente. En su lugar, señálame los errores de ortografía, gramática y estilo que encuentres y explícame brevemente por qué son errores para que pueda aprender. Texto: [PEGA AQUÍ TU TEXTO]', format: 'Lista de errores con su explicación correspondiente.', tone: 'Educativo, claro y constructivo' }
+            };
+
+            function clearAllInputs() {
+                Object.values(inputs).forEach(input => input.value = '');
+                promptOutput.value = '';
+                promptOutput.placeholder = 'Aquí aparecerá mi versión optimizada de tu prompt...';
+                aiResultContainer.innerHTML = '<p class="text-gray-500">El resultado de la IA aparecerá aquí...</p>';
+                resultActions.style.display = 'none';
+                clearFile();
+            }
+
+            if (window.pdfjsLib) {
+                pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js`;
+            }
+
+            function checkFormState() {
+                const hasContent = Object.values(inputs).some(input => input.value.trim() !== '') || attachedFile;
+                optimizeButton.disabled = !hasContent;
+                const hasOptimizedPrompt = promptOutput.value.trim() !== '';
+                generateButton.disabled = !hasOptimizedPrompt;
+                copyPromptButton.disabled = !hasOptimizedPrompt;
+            }
+
+            window.applyRecipe = function(recipeName) {
+                const recipe = recipes[recipeName];
+                if (!recipe) return;
+                Object.keys(inputs).forEach(key => inputs[key].value = recipe[key] || '');
+                clearFile();
+                checkFormState();
+            }
+
+            window.clearFile = function() {
+                attachedFile = null;
+                fileUpload.value = '';
+                filePreviewContainer.innerHTML = '';
+                checkFormState();
+            }
+
+            async function handleFileChange(event) {
+                const file = event.target.files[0];
+                if (!file) {
+                    clearFile();
+                    return;
+                }
+                filePreviewContainer.innerHTML = `<div class="flex items-center gap-2 p-2 bg-gray-100 rounded-lg"><div class="loader !w-6 !h-6 !border-4"></div> <span>Procesando archivo...</span></div>`;
+                try {
+                    const fileType = file.type;
+                    const fileName = file.name;
+                    const fileExtension = fileName.split('.').pop().toLowerCase();
+                    if (fileType.startsWith('image/')) {
+                        const data = await readFileAsDataURL(file);
+                        attachedFile = { name: fileName, type: fileType, data: data.split(',')[1] };
+                        displayImagePreview(data, fileName);
+                    } else if (fileType === 'text/plain') {
+                        const data = await readFileAsText(file);
+                        attachedFile = { name: fileName, type: fileType, data };
+                        displayTextFilePreview(fileName);
+                    } else if (fileExtension === 'pdf') {
+                        const data = await readPdfFile(file);
+                        attachedFile = { name: fileName, type: 'application/pdf', data };
+                        displayDocPreview(fileName, 'fa-file-pdf', 'text-red-500');
+                    } else if (fileExtension === 'docx') {
+                        const data = await readDocxFile(file);
+                        attachedFile = { name: fileName, type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', data };
+                        displayDocPreview(fileName, 'fa-file-word', 'text-blue-500');
+                    } else {
+                        throw new Error('Tipo de archivo no soportado.');
+                    }
+                } catch (error) {
+                    alert(`Error al procesar el archivo: ${error.message}`);
+                    clearFile();
+                } finally {
+                    checkFormState();
+                }
+            }
+
+            function readFileAsDataURL(file) { return new Promise((resolve, reject) => { const reader = new FileReader(); reader.onload = () => resolve(reader.result); reader.onerror = reject; reader.readAsDataURL(file); }); }
+            function readFileAsText(file) { return new Promise((resolve, reject) => { const reader = new FileReader(); reader.onload = () => resolve(reader.result); reader.onerror = reject; reader.readAsText(file); }); }
+            function readPdfFile(file) { return new Promise((resolve, reject) => { const reader = new FileReader(); reader.onload = async (event) => { try { const pdf = await pdfjsLib.getDocument({ data: event.target.result }).promise; let textContent = ''; for (let i = 1; i <= pdf.numPages; i++) { const page = await pdf.getPage(i); const text = await page.getTextContent(); textContent += text.items.map(s => s.str).join(' '); } resolve(textContent); } catch (error) { reject(error); } }; reader.onerror = reject; reader.readAsArrayBuffer(file); }); }
+            function readDocxFile(file) { return new Promise((resolve, reject) => { const reader = new FileReader(); reader.onload = async (event) => { try { const result = await mammoth.extractRawText({ arrayBuffer: event.target.result }); resolve(result.value); } catch (error) { reject(error); } }; reader.onerror = reject; reader.readAsArrayBuffer(file); }); }
+
+            function displayImagePreview(dataUrl, fileName) { filePreviewContainer.innerHTML = `<div class="flex items-center gap-4 p-2 bg-gray-100 rounded-lg"><img src="${dataUrl}" alt="Vista previa"><span class="text-sm font-medium text-gray-700">${fileName}</span><button onclick="clearFile()" class="ml-auto text-red-500 hover:text-red-700"><i class="fas fa-times-circle"></i></button></div>`; }
+            function displayTextFilePreview(fileName) { displayDocPreview(fileName, 'fa-file-alt', 'text-gray-500'); }
+            function displayDocPreview(fileName, iconClass, colorClass) { filePreviewContainer.innerHTML = `<div class="flex items-center gap-4 p-2 bg-gray-100 rounded-lg"><i class="fas ${iconClass} text-2xl ${colorClass}"></i><span class="text-sm font-medium text-gray-700">${fileName}</span><button onclick="clearFile()" class="ml-auto text-red-500 hover:text-red-700"><i class="fas fa-times-circle"></i></button></div>`; }
+
+            async function optimizeUserPrompt() {
+                optimizeButton.disabled = true;
+                optimizeButtonText.innerText = 'Optimizando...';
+                promptOutput.value = '';
+                promptOutput.placeholder = 'Optimizando tu idea en un prompt de alta calidad...';
+                generateButton.disabled = true;
+                
+                let userInputsText = `
+                - Rol para la IA: ${inputs.role.value || 'No especificado'}
+                - Objetivo principal: ${inputs.objective.value || 'No especificado'}
+                - Audiencia: ${inputs.audience.value || 'No especificado'}
+                - Contexto y Detalles: ${inputs.context.value || 'No especificado'}
+                - Formato de salida: ${inputs.format.value || 'No especificado'}
+                - Tono: ${inputs.tone.value || 'No especificado'}
+                `;
+                if (attachedFile) {
+                    userInputsText += `- Archivo adjunto: Se ha adjuntado un archivo llamado '${attachedFile.name}'. El prompt debe incluir instrucciones para que la IA lo analice.`;
+                }
+
+                const metaPrompt = `Actúa como un experto mundial en "prompt engineering" para modelos de lenguaje avanzados. Un usuario te ha proporcionado los siguientes "ingredientes" para un prompt. Tu misión es transformar estos ingredientes en un prompt de máxima calidad, robusto, detallado y listo para ser usado. El prompt que crees debe ser directo y no incluir explicaciones sobre sí mismo (no uses frases como "Aquí tienes tu prompt optimizado"). Simplemente genera el texto del prompt final. Aquí están los ingredientes del usuario:\n\n${userInputsText}`;
+
+                try {
+                    const responseText = await callGeminiAPI(metaPrompt);
+                    promptOutput.value = responseText;
+                    checkFormState();
+                } catch (error) {
+                    promptOutput.placeholder = "Error al optimizar el prompt. Por favor, inténtalo de nuevo.";
+                } finally {
+                    optimizeButton.disabled = false;
+                    optimizeButtonText.innerText = 'Optimizar mi Prompt';
+                }
+            }
+
+            async function executeFinalPrompt() {
+                const finalPrompt = promptOutput.value;
+                if (!finalPrompt) return;
+
+                generateButton.disabled = true;
+                generateButtonText.innerText = 'Generando...';
+                aiResultContainer.innerHTML = '<div class="flex justify-center items-center h-full"><div class="loader"></div></div>';
+                resultActions.style.display = 'none';
+                
+                try {
+                    const responseText = await callGeminiAPI(finalPrompt, attachedFile);
+                    aiResultContainer.innerHTML = marked.parse(responseText);
+                    resultActions.style.display = 'flex';
+                } catch (error) {
+                    aiResultContainer.innerHTML = `<p class="text-red-500">Ha ocurrido un error al generar el resultado. Por favor, inténtalo de nuevo.</p>`;
+                } finally {
+                    generateButton.disabled = false;
+                    generateButtonText.innerText = 'Obtener Resultado';
+                }
+            }
+            
+            async function callGeminiAPI(prompt, file = null) {
+                const apiKey = ""; // Canvas will provide the key
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+                
+                const parts = [{ text: prompt }];
+
+                if (file) {
+                    if (file.type.startsWith('image/')) {
+                        parts.push({ inlineData: { mimeType: file.type, data: file.data } });
+                    } else {
+                        parts[0].text += `\n\n[CONTENIDO DEL DOCUMENTO ADJUNTO]\n${file.data}`;
+                    }
+                }
+
+                const payload = { contents: [{ role: "user", parts }] };
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    console.error("API Error Response:", await response.text());
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const result = await response.json();
+                
+                if (result.candidates && result.candidates[0].content.parts[0].text) {
+                    return result.candidates[0].content.parts[0].text;
+                } else {
+                    console.error("Invalid API response structure:", result);
+                    throw new Error("La IA no ha devuelto una respuesta válida.");
+                }
+            }
+
+            function copyPrompt() {
+                const textToCopy = promptOutput.value;
+                const tempTextArea = document.createElement('textarea');
+                tempTextArea.value = textToCopy;
+                document.body.appendChild(tempTextArea);
+                tempTextArea.select();
+                try {
+                    document.execCommand('copy');
+                    toast.innerText = '¡Prompt optimizado copiado!';
+                    toast.className = 'toast show';
+                    setTimeout(() => { toast.className = 'toast'; }, 3000);
+                } catch (err) {
+                    console.error('Error al copiar el prompt: ', err);
+                } finally {
+                    document.body.removeChild(tempTextArea);
+                }
+            }
+
+            function copyResult() {
+                const textToCopy = aiResultContainer.innerText;
+                const tempTextArea = document.createElement('textarea');
+                tempTextArea.value = textToCopy;
+                document.body.appendChild(tempTextArea);
+                tempTextArea.select();
+                try {
+                    document.execCommand('copy');
+                    toast.innerText = '¡Resultado copiado!';
+                    toast.className = 'toast show';
+                    setTimeout(() => { toast.className = 'toast'; }, 3000);
+                } catch (err) {
+                    console.error('Error al copiar: ', err);
+                    toast.innerText = 'Error al copiar el texto.';
+                    toast.className = 'toast show';
+                    setTimeout(() => { toast.className = 'toast'; }, 3000);
+                } finally {
+                    document.body.removeChild(tempTextArea);
+                }
+            }
+
+            function downloadResult() {
+                const textToDownload = aiResultContainer.innerText;
+                const blob = new Blob([textToDownload], { type: 'text/plain;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'resultado-ia.txt';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }
+
+            // Event Listeners
+            Object.values(inputs).forEach(input => input.addEventListener('input', checkFormState));
+            fileUpload.addEventListener('change', handleFileChange);
+            optimizeButton.addEventListener('click', optimizeUserPrompt);
+            generateButton.addEventListener('click', executeFinalPrompt);
+            promptOutput.addEventListener('input', checkFormState);
+            copyPromptButton.addEventListener('click', copyPrompt);
+            copyResultButton.addEventListener('click', copyResult);
+            downloadResultButton.addEventListener('click', downloadResult);
+            clearButton.addEventListener('click', clearAllInputs);
+            
+            // Initial State
+            checkFormState();
+        });
+    </script>
+</body>
+</html>
+
+
