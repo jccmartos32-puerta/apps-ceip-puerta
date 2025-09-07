@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CEIP Puerta de Martos - Servicios Escolares</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            padding: 30px;
+        }
+
+        .course-tabs-container {
+            margin-bottom: 30px;
+        }
+
+        .course-tabs-label {
+            font-size: 1.2em;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #333;
+            text-align: center;
+        }
+
+        .course-tabs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .course-tab {
+            padding: 15px 10px;
+            border: none;
+            border-radius: 15px;
+            font-size: 0.9em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: white;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .course-tab:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .course-tab.active {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Colores específicos para cada curso */
+        .course-tab[data-course="Tres Años"] {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+        }
+
+        .course-tab[data-course="Cuatro Años"] {
+            background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
+        }
+
+        .course-tab[data-course="Cinco Años"] {
+            background: linear-gradient(135deg, #fad0c4 0%, #ffd1ff 100%);
+        }
+
+        .course-tab[data-course="1º de Educ. Prima."] {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ffa726 100%);
+        }
+
+        .course-tab[data-course="2º de Educ. Prima."] {
+            background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+        }
+
+        .course-tab[data-course="3º de Educ. Prima."] {
+            background: linear-gradient(135deg, #45b7d1 0%, #96c93d 100%);
+        }
+
+        .course-tab[data-course="4º de Educ. Prima."] {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .course-tab[data-course="5º de Educ. Prima."] {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .course-tab[data-course="6º de Educ. Prima."] {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        }
+
+        .services-container {
+            display: none;
+        }
+
+        .services-container.active {
+            display: block;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .service-section {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .service-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .service-icon {
+            font-size: 2.5em;
+        }
+
+        .service-info h3 {
+            color: #333;
+            font-size: 1.4em;
+            margin-bottom: 5px;
+        }
+
+        .service-count {
+            color: #28a745;
+            font-size: 1.1em;
+            font-weight: 600;
+        }
+
+        .student-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 12px;
+        }
+
+        .student-card {
+            background: white;
+            padding: 12px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease;
+        }
+
+        .student-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .student-name {
+            font-weight: 600;
+            color: #333;
+            font-size: 0.9em;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .no-data-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+
+        .welcome-message {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+
+        .welcome-message .icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+            opacity: 0.6;
+        }
+
+        .welcome-message h3 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .welcome-message p {
+            font-size: 1.1em;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .header {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .main-content {
+                padding: 20px;
+            }
+
+            .course-tabs {
+                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+                gap: 8px;
+            }
+
+            .course-tab {
+                padding: 12px 8px;
+                font-size: 0.8em;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .student-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .service-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.5em;
+            }
+
+            .header p {
+                font-size: 1em;
+            }
+
+            .course-tabs {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .course-tab {
+                padding: 10px 6px;
+                font-size: 0.75em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏫 CEIP Puerta de Martos</h1>
+            <p>Consulta de Servicios Escolares</p>
+        </div>
+
+        <div class="main-content">
+            <div class="course-tabs-container">
+                <div class="course-tabs-label">Selecciona el curso académico:</div>
+                <div class="course-tabs">
+                    <button class="course-tab" data-course="Tres Años" onclick="showCourse('Tres Años')">
+                        3 Años
+                    </button>
+                    <button class="course-tab" data-course="Cuatro Años" onclick="showCourse('Cuatro Años')">
+                        4 Años
+                    </button>
+                    <button class="course-tab" data-course="Cinco Años" onclick="showCourse('Cinco Años')">
+                        5 Años
+                    </button>
+                    <button class="course-tab" data-course="1º de Educ. Prima." onclick="showCourse('1º de Educ. Prima.')">
+                        1º Primaria
+                    </button>
+                    <button class="course-tab" data-course="2º de Educ. Prima." onclick="showCourse('2º de Educ. Prima.')">
+                        2º Primaria
+                    </button>
+                    <button class="course-tab" data-course="3º de Educ. Prima." onclick="showCourse('3º de Educ. Prima.')">
+                        3º Primaria
+                    </button>
+                    <button class="course-tab" data-course="4º de Educ. Prima." onclick="showCourse('4º de Educ. Prima.')">
+                        4º Primaria
+                    </button>
+                    <button class="course-tab" data-course="5º de Educ. Prima." onclick="showCourse('5º de Educ. Prima.')">
+                        5º Primaria
+                    </button>
+                    <button class="course-tab" data-course="6º de Educ. Prima." onclick="showCourse('6º de Educ. Prima.')">
+                        6º Primaria
+                    </button>
+                </div>
+            </div>
+
+            <div id="welcome-container" class="welcome-message">
+                <div class="icon">🎓</div>
+                <h3>Bienvenido al Sistema de Consulta</h3>
+                <p>Selecciona un curso para ver los alumnos del comedor escolar y aula matinal</p>
+            </div>
+
+            <div id="services-container" class="services-container">
+                <div class="services-grid">
+                    <div class="service-section">
+                        <div class="service-header">
+                            <div class="service-icon">🍽️</div>
+                            <div class="service-info">
+                                <h3>Comedor Escolar</h3>
+                                <div class="service-count" id="comedor-count">0 alumnos</div>
+                            </div>
+                        </div>
+                        <div id="comedor-students" class="student-grid">
+                        </div>
+                    </div>
+
+                    <div class="service-section">
+                        <div class="service-header">
+                            <div class="service-icon">🌅</div>
+                            <div class="service-info">
+                                <h3>Aula Matinal</h3>
+                                <div class="service-count" id="aula-matinal-count">0 alumnos</div>
+                            </div>
+                        </div>
+                        <div id="aula-matinal-students" class="student-grid">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const data = {
+            "comedor": {
+                "1º de Educ. Prima.": {
+                    "S": [
+                        "Pérez Sánchez, Macarena",
+                        "Cobo Ocaña, Ángela"
+                    ]
+                },
+                "2º de Educ. Prima.": {
+                    "S": [
+                        "García Jiménez, María",
+                        "Ureña Serrano, Inés",
+                        "Torres Rueda, Antonio Manuel",
+                        "Pérez Sánchez, Francisco Javier"
+                    ]
+                },
+                "3º de Educ. Prima.": {
+                    "S": [
+                        "Mena Sánchez, Iker",
+                        "Trigo Ubago, Nicolás",
+                        "Blanca Trigo, Gemma",
+                        "Tello Rodríguez, Paula",
+                        "Campos Perea, Triana",
+                        "Moya Hornos, Itzíar",
+                        "Ureña Martínez, Bruno",
+                        "García Ortega, Juan Miguel",
+                        "Barrera Ortega, Marcos",
+                        "Merino Trigo, Luis",
+                        "Castro Pereña, Pablo",
+                        "Trigo Aguayo, Victoria"
+                    ]
+                },
+                "4º de Educ. Prima.": {
+                    "S": [
+                        "Molina Damas, Carolina",
+                        "Luque Hermoso, Antonio",
+                        "Luque Hermoso, Marcos",
+                        "Velasco Robles, Gabriel",
+                        "Horno Blanca, Carmen",
+                        "Real Tirado, Daniel"
+                    ]
+                },
+                "5º de Educ. Prima.": {
+                    "S": [
+                        "Cámara Párraga, Juan Manuel",
+                        "Tello Rodríguez, Elena",
+                        "Moya Hornos, Asier",
+                        "Ureña Serrano, Rubén",
+                        "Caño Álvarez, Julia",
+                        "Blanca Trigo, Helena",
+                        "Fagone López, Diego"
+                    ]
+                },
+                "6º de Educ. Prima.": {
+                    "S": [
+                        "Pérez De la Torre, Daniel",
+                        "Uclés García, Victoria",
+                        "López Sánchez, Lola",
+                        "Barrera Ortega, Esperanza",
+                        "Castro Pereña, María"
+                    ]
+                },
+                "Cinco Años": {
+                    "S": [
+                        "Cózar De la Torre, Andrés",
+                        "Jiménez García, Valeria",
+                        "Cobo Ocaña, Sergio",
+                        "Campos Perea, Luisa",
+                        "Higueruelo Gutiérrez, Antonio",
+                        "Barrera Ortega, Ginés"
+                    ]
+                },
+                "Cuatro Años": {
+                    "S": [
+                        "Alcántara Sánchez, Triana",
+                        "Molina Damas, Marcela",
+                        "García Ortega, Noel",
+                        "Caño Álvarez, Mario",
+                        "Higueruelo Gutiérrez, Manuel"
+                    ]
+                }
+            },
+            "aula_matinal": {
+                "Tres Años": {
+                    "S": [
+                        "López Anguita, Vera"
+                    ]
+                },
+                "Cuatro Años": {
+                    "S": [
+                        "Ureña Sastre, Martina",
+                        "Molina Damas, Marcela",
+                        "García Ortega, Noel",
+                        "Caño Álvarez, Mario"
+                    ]
+                },
+                "Cinco Años": {
+                    "S": [
+                        "Campos Perea, Luisa"
+                    ]
+                },
+                "6º de Educ. Prima.": {
+                    "S": [
+                        "López Sánchez, Lola",
+                        "Robles Escobedo, Carla",
+                        "Castro Pereña, María"
+                    ]
+                },
+                "5º de Educ. Prima.": {
+                    "S": [
+                        "Arenas Caravaca, Aarón",
+                        "Ureña Serrano, Rubén",
+                        "Blanca Trigo, Helena",
+                        "Tello Rodríguez, Elena",
+                        "Moya Hornos, Asier",
+                        "Cámara Párraga, Juan Manuel",
+                        "Ureña Pamos, Elena",
+                        "Caño Álvarez, Julia"
+                    ]
+                },
+                "4º de Educ. Prima.": {
+                    "S": [
+                        "Molina Damas, Carolina",
+                        "Horno Blanca, Carmen",
+                        "Vallejo Bueno, Javier",
+                        "Luque Hermoso, Antonio",
+                        "Luque Hermoso, Marcos",
+                        "Velasco Robles, Gabriel",
+                        "Real Tirado, Daniel"
+                    ]
+                },
+                "3º de Educ. Prima.": {
+                    "S": [
+                        "Ureña Sastre, Jimena",
+                        "Campos Perea, Triana",
+                        "Blanca Trigo, Gemma",
+                        "Cañada Fuentes, Naira",
+                        "Tello Rodríguez, Paula",
+                        "Moya Hornos, Itzíar",
+                        "Rodríguez García, Paula",
+                        "Trigo Aguayo, Victoria",
+                        "García Ortega, Juan Miguel",
+                        "López Domínguez, Triana",
+                        "López Domínguez, Oliver",
+                        "Susi Aguayo, Aránzazu",
+                        "Castro Pereña, Pablo"
+                    ]
+                },
+                "2º de Educ. Prima.": {
+                    "S": [
+                        "Pérez Sánchez, Francisco Javier",
+                        "Ureña Serrano, Inés",
+                        "Torres Rueda, Antonio Manuel"
+                    ]
+                },
+                "1º de Educ. Prima.": {
+                    "S": [
+                        "Pérez Sánchez, Macarena",
+                        "Arenas Caravaca, Marcos",
+                        "López Anguita, Sofía"
+                    ]
+                }
+            }
+        };
+
+        function showCourse(courseName) {
+            // Update active tab
+            document.querySelectorAll('.course-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelector(`[data-course="${courseName}"]`).classList.add('active');
+
+            // Hide welcome message and show services
+            document.getElementById('welcome-container').style.display = 'none';
+            document.getElementById('services-container').classList.add('active');
+
+            // Update comedor section
+            const comedorData = data.comedor[courseName];
+            const comedorStudents = comedorData && comedorData.S ? comedorData.S : [];
+            updateServiceSection('comedor', comedorStudents);
+
+            // Update aula matinal section
+            const aulaMatinalData = data.aula_matinal[courseName];
+            const aulaMatinalStudents = aulaMatinalData && aulaMatinalData.S ? aulaMatinalData.S : [];
+            updateServiceSection('aula-matinal', aulaMatinalStudents);
+        }
+
+        function updateServiceSection(serviceType, students) {
+            const countElement = document.getElementById(`${serviceType}-count`);
+            const studentsContainer = document.getElementById(`${serviceType}-students`);
+
+            countElement.textContent = `${students.length} alumno${students.length !== 1 ? 's' : ''}`;
+
+            if (students.length === 0) {
+                studentsContainer.innerHTML = `
+                    <div class="no-data" style="grid-column: 1 / -1;">
+                        <div class="no-data-icon">📋</div>
+                        <p>No hay alumnos registrados en este servicio</p>
+                    </div>
+                `;
+            } else {
+                studentsContainer.innerHTML = students.map(student => `
+                    <div class="student-card">
+                        <div class="student-name">${student}</div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', function() {
+            // Show welcome message initially
+            document.getElementById('welcome-container').style.display = 'block';
+            document.getElementById('services-container').classList.remove('active');
+        });
+    </script>
+</body>
+</html>
+
